@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form >
+	<fieldset
+        name="basic"
+        label="COM_AXISUBS_PLAN_BASIC_TITLE"
+        class="form-subheading form-align "
+    >
+        <field name="name" type="Text" label="COM_AXISUBS_PLAN_NAME" id="plantitle" description="COM_AXISUBS_PLAN_NAME_DESC"/>
+        <field name="enabled" type="Published" label="COM_AXISUBS_PLAN_ENABLED" description="COM_AXISUBS_PLAN_ENABLED_DESC" class="btn btn-group" />
+        <field name="slug" type="Text" label="COM_AXISUBS_PLAN_SLUG" id="slug" description="COM_AXISUBS_PLAN_SLUG_DESC"/>
+        <field name="description" type="Textarea" label="COM_AXISUBS_PLAN_DESCRIPTION" description="COM_AXISUBS_PLAN_DESCRIPTION_DESC"/>
+    </fieldset>    
+    <fieldset
+        name="period"
+        label="COM_AXISUBS_PLAN_PERIOD_TITLE"
+        class="form-subheading"
+    >    
+        <field name="period" type="Period" label="COM_AXISUBS_PLAN_PRIOD"  description="COM_AXISUBS_PLAN_PRIOD_DESC"
+            append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
+        <field name="charge_model" type="List" label="COM_AXISUBS_PLAN_CHARGING_MODEL" description="COM_AXISUBS_PLAN_CHARGING_MODEL_DESC">
+            <option value="flatfee">COM_AXISUBS_PLAN_CHARGING_MODEL_FLAT_FEE</option>
+            <option value="perunit">COM_AXISUBS_PLAN_CHARGING_MODEL_PER_UNIT</option>
+        </field>
+        <field name="price" type="Price" label="COM_AXISUBS_PLAN_PRICE" description="COM_AXISUBS_PLAN_PRICE_DESC"/>
+        <field name="setup_cost" type="Price" label="COM_AXISUBS_PLAN_SETUP_COST" description="COM_AXISUBS_PLAN_SETUP_DESC"/>
+        <field name="only_once" type="radio" class="btn-group" label="COM_AXISUBS_PLAN_ONLY_ONCE" description="COM_AXISUBS_PLAN_ONLY_ONCE_DESC" default="0" >
+            <option value="0">JYES</option>
+            <option value="1">JNO</option>
+        </field>
+        <field name="access" type="AccessLevel" label="COM_AXISUBS_PLAN_ACCESS" description="COM_AXISUBS_PLAN_ACCESS_DESC"/>
+        <field name="payment_plugins" 
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getAllPaymentMethods"
+            multiple="multiple"
+            label="COM_AXISUBS_PLAN_PAYMENT_PLUGINS"
+            description="COM_AXISUBS_PLAN_PAYMENT_PLUGINS_DESC"/>
+    </fieldset>
+    <fieldset
+        name="trail"
+        label="COM_AXISUBS_PLAN_TRAIL_TITLE"
+        class="form-subheading"
+    > 
+        <field name="trial_period" type="Period" label="COM_AXISUBS_TRIAL_PERIOD" description="COM_AXISUBS_TRIAL_PERIOD_DESC"
+            append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
+        <field name="trial_start_condition" type="list" label="COM_AXISUBS_TRIAL_STARTS_CONDITION" description="COM_AXISUBS_TRIAL_STARTS_CONDITION_DESC" default="signup">
+            <option value="authourize">COM_AXISUBS_TRIAL_STARTS_CONDITION_CARD_VALIDATION</option>
+            <option value="sale">COM_AXISUBS_TRIAL_STARTS_CONDITION_PAYMENT</option>
+            <option value="signup">COM_AXISUBS_TRIAL_STARTS_CONDITION_SIGN_UP</option>
+        </field>
+    </fieldset>
+    <fieldset
+        name="advanced"
+        label="COM_AXISUBS_PLAN_ADVANCED"
+        class="form-subheading"
+    >
+        <field name="ordertext" type="Textarea" label="COM_AXISUBS_PLAN_THANKYOU_MESSAGE" description="COM_AXISUBS_PLAN_THANKYOU_MESSAGE_DESC"/>
+        <field name="orderurl" type="Text" label="COM_AXISUBS_PLAN_THANKYOU_URL" description="COM_AXISUBS_PLAN_THANKYOU_URL_DESC"/>
+        <field name="canceltext" type="Textarea" label="COM_AXISUBS_PLAN_CANCEL_MESSAGE" description="COM_AXISUBS_PLAN_CANCEL_MESSAGE_DESC"/>
+        <field name="cancelurl" type="Text" label="COM_AXISUBS_PLAN_CANCEL_URL" description="COM_AXISUBS_PLAN_CANCEL_URL_DESC"/>
+        <field name="renew_url" type="Text" label="COM_AXISUBS_PLAN_RENEWAL_URL" description="COM_AXISUBS_PLAN_RENEWAL_URL_DESC"/>
+        <field name="content_url" type="Text" label="COM_AXISUBS_PLAN_CONTENT_URL" description="COM_AXISUBS_PLAN_CONTENT_URL_DESC"/>
+    </fieldset>
+</form>

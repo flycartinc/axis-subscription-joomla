@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	type="browse"
+	show_header="0"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AXISUBS_CONFIGURE_TAX"
+>
+	<headerset>
+		<header name="axisubs_tax_id" type="RowSelect" tdwidth="16px" />
+		<header name="tax_name" type="Searchable" label="COM_AXISUBS_TAX_NAME" />
+		<header name="tax_type" type="Text" label="COM_AXISUBS_TAX_TYPE" />
+        <header name="enabled" type="Text" label="COM_AXISUBS_ENABLED" />
+        <header name="default" type="Label" label="COM_AXISUBS_DEFAULT_TAX" />
+	</headerset>
+	<fieldset name="items">
+		<field name="axisubs_subscription_id" type="SelectRow"/>
+		<field name="tax_name" type="Text" label="COM_AXISUBS_PLAN_NAME"
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Taxes&amp;id=[ITEM:ID]" />
+        <field name="tax_type" type="TaxType" />
+        <field name="enabled" type="Published" />
+        <field name="default_tax" type="DefaultTax" />
+	</fieldset>
+</form>

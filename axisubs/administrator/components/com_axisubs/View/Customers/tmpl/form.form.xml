@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset
+        name="basic"
+        label="COM_AXISUBS_USER_BASIC_TITLE"
+        class=""
+    >
+        <field name="new_or_existing_customer" type="NewExistingCustomer" 
+                label="COM_AXISUBS_CUSTOMER_DUMMY" class=" btn-group "
+                onchange="switchUserFields()" onclick="switchUserFields()"
+                >
+                <option value="new">New</option>
+                <option value="existing">Existing</option>
+        </field>
+        <field
+            name="user_id"
+            type="User"
+            label="COM_AXISUBS_SUBSCRIPTION_USER"
+            class="existing"
+        />
+		<field name="first_name" type="Text" label="COM_AXISUBS_CUSTOMER_FIRST_NAME"
+                data-field-group="new" />
+        <field name="last_name" type="Text" label="COM_AXISUBS_CUSTOMER_LAST_NAME"
+                data-field-group="new" />
+
+		<field
+        name="company"
+        type="Text"
+        label="COM_AXISUBS_USERS_FIELD_COMPANY"
+        class="new"
+		/>
+		<field
+        name="email"
+        type="email"
+        label="COM_AXISUBS_USERS_FIELD_EMAIL"
+        class="new"
+		/>
+		<field
+        name="phone"
+        type="Text"
+        label="COM_AXISUBS_USERS_FIELD_PHONE"
+        
+		/>
+		
+
+        <field
+            name="address1"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ADDRESS1"
+        />
+
+        <field
+            name="address2"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ADDRESS2"
+        />
+
+        <field
+            name="city"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_CITY"
+        />
+
+        <field
+            name="zip"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ZIP"
+        />
+    
+        <field
+            name="country"
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getCountries"
+            label="COM_AXISUBS_USERS_FIELD_COUNTRY"
+        />
+
+        <field
+            name="state"
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getStates"
+            label="COM_AXISUBS_USERS_FIELD_STATE"
+        />
+
+        <field
+            name="company"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_COMPANY"
+        />
+
+        <field
+            name="vat_number"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_VATNUMBER"
+        />
+
+        <field
+            name="notes"
+            type="TextArea"
+            label="COM_AXISUBS_USER_NOTES_TITLE"
+            rows="10"
+            cols="40"
+        />
+        <field name="axisubs_customer_id" type="Hidden" label="COM_AXISUBS_CUSTOMER_DUMMY"/>
+    </fieldset>
+</form>

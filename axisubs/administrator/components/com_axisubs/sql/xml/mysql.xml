@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+    <!-- Metadata -->
+    <meta>
+        <!-- Supported driver types -->
+        <drivers>
+            <driver>mysql</driver>
+            <driver>mysqli</driver>
+            <driver>pdomysql</driver>
+        </drivers>
+    </meta>
+
+    <!-- SQL commands to run on installation and update -->
+    <sql>
+    <action table="#__axisubs_configurations" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+          CREATE TABLE IF NOT EXISTS `#__axisubs_configurations` (
+            `config_meta_key` varchar(255) NOT NULL,
+            `config_meta_value` text,
+            `config_meta_default` text NOT NULL,
+            PRIMARY KEY (`config_meta_key`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_currencies" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_currencies` (
+            `axisubs_currency_id` int(11) NOT NULL AUTO_INCREMENT,
+            `currency_title` varchar(32) NOT NULL,
+            `currency_code` varchar(3) NOT NULL,
+            `currency_position` varchar(12) NOT NULL,
+            `currency_symbol` varchar(255) NOT NULL,
+            `currency_num_decimals` int(4) NOT NULL,
+            `currency_decimal` varchar(12) NOT NULL,
+            `currency_thousands` char(1) NOT NULL,
+            `currency_value` float(15,8) NOT NULL,
+            `enabled` int(11) NOT NULL,
+            `ordering` int(11) NOT NULL,
+            `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `created_by` bigint(20) unsigned NOT NULL DEFAULT '0',
+            `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `modified_by` bigint(20) unsigned NOT NULL DEFAULT '0',
+            `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `locked_by` bigint(20) unsigned NOT NULL DEFAULT '0',
+            PRIMARY KEY (`axisubs_currency_id`),
+            UNIQUE KEY `currency_code` (`currency_code`)
+          ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_customers" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_customers` (
+              `axisubs_customer_id` int(11) NOT NULL AUTO_INCREMENT,
+              `user_id` int(11) NOT NULL,
+              `first_name` varchar(255) NOT NULL,
+              `last_name` varchar(255) NOT NULL,
+              `email` varchar(255) NOT NULL,
+              `phone` varchar(255) NOT NULL,
+              `company` varchar(255) NOT NULL,
+              `vat_number` varchar(255) NOT NULL,
+              `address1` varchar(255) DEFAULT NULL,
+              `address2` varchar(255) DEFAULT NULL,
+              `city` varchar(255) DEFAULT NULL,
+              `state` varchar(255) DEFAULT NULL,
+              `zip` varchar(255) DEFAULT NULL,
+              `country` char(2) NOT NULL DEFAULT 'XX',
+              `auto_collection` int(11) NOT NULL,
+              `allow_direct_debit` int(11) NOT NULL,
+              `created_on` datetime NOT NULL,
+              `created_from_ip` varchar(255) NOT NULL,
+              `params` text NOT NULL,
+              `notes` text NOT NULL,
+              PRIMARY KEY (`axisubs_customer_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_emailtemplatecontents" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_emailtemplatecontents` (
+              `axisubs_emailtemplatecontent_id` int(11) NOT NULL AUTO_INCREMENT,
+              `emailtemplate_id` int(11) NOT NULL,
+              `language_id` int(11) NOT NULL DEFAULT '0',
+              `field` varchar(500) NOT NULL DEFAULT '',
+              `content` text,
+              PRIMARY KEY (`axisubs_emailtemplatecontent_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_emailtemplates" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_emailtemplates` (
+              `axisubs_emailtemplate_id` int(11) NOT NULL AUTO_INCREMENT,
+              `type` varchar(255) NOT NULL DEFAULT '',
+              `event` varchar(255) NOT NULL DEFAULT '',
+              `recipients` varchar(1000) DEFAULT NULL,
+              `cc` varchar(1000) NOT NULL,
+              `bcc` varchar(1000) NOT NULL,
+              `subscription_status` varchar(10) DEFAULT NULL,
+              `paymentmethod` varchar(2005) DEFAULT NULL,
+              `enabled` int(11) NOT NULL DEFAULT '0',
+              `ordering` int(11) NOT NULL DEFAULT '0',
+              `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+              `created_by` int(11) NOT NULL DEFAULT '0',
+              `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+              `modified_by` int(11) NOT NULL DEFAULT '0',
+              `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+              `locked_by` int(11) NOT NULL DEFAULT '0',
+              `params` text NOT NULL,
+              PRIMARY KEY (`axisubs_emailtemplate_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_history" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_history` (
+            `axisubs_history_id` int(11) NOT NULL,
+            `entity` varchar(255) NOT NULL,
+            `type` varchar(255) NOT NULL,
+            `message` text NOT NULL,
+            `created_on` datetime NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_logs" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_logs` (
+              `axisubs_log_id` int(11) NOT NULL AUTO_INCREMENT,
+              `log_time` datetime NOT NULL,
+              `event` varchar(255) NOT NULL,
+              `message` text NOT NULL,
+              PRIMARY KEY (`axisubs_log_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_plans" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_plans` (
+            `axisubs_plan_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            `name` varchar(255) NOT NULL,
+            `slug` varchar(255) NOT NULL,
+            `image` varchar(1024) NOT NULL,
+            `description` text,
+            `period` int(10) unsigned NOT NULL DEFAULT '365',
+            `trial_period` int(10) unsigned NOT NULL DEFAULT '365',
+            `trial_start_condition` varchar(15) NOT NULL,
+            `taxprofile_id` int(10) unsigned NOT NULL,
+            `charge_model` varchar(20) NOT NULL,
+            `price` float NOT NULL DEFAULT '0',
+            `setup_cost` float DEFAULT '0',
+            `ordertext` text,
+            `orderurl` varchar(255) DEFAULT NULL,
+            `canceltext` text,
+            `cancelurl` varchar(255) DEFAULT NULL,
+            `recurring` int(3) NOT NULL DEFAULT '0',
+            `forever` int(3) NOT NULL DEFAULT '0',
+            `access` int(11) NOT NULL DEFAULT '1',
+            `fixed_date` datetime DEFAULT NULL,
+            `payment_plugins` varchar(2096) NOT NULL DEFAULT '',
+            `renew_url` varchar(2048) DEFAULT '',
+            `content_url` varchar(2048) DEFAULT '',
+            `params` text,
+            `enabled` tinyint(1) NOT NULL DEFAULT '1',
+            `ordering` bigint(20) unsigned NOT NULL,
+            `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `created_by` int(11) NOT NULL DEFAULT '0',
+            `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `modified_by` int(11) NOT NULL DEFAULT '0',
+            `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `locked_by` int(11) NOT NULL DEFAULT '0',
+            PRIMARY KEY (`axisubs_plan_id`),
+            UNIQUE KEY `slug` (`slug`)
+          ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_plan_prices" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[  
+            CREATE TABLE IF NOT EXISTS `#__axisubs_plan_prices` (
+              `axisubs_plan_price_id` int(11) NOT NULL AUTO_INCREMENT,
+              `axisubs_plan_id` int(11) NOT NULL,
+              `axisubs_currency_id` int(11) NOT NULL,
+              `price` float NOT NULL,
+              PRIMARY KEY (`axisubs_plan_price_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_subscriptioninfos" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_subscriptioninfos` (
+            `axisubs_subscriptioninfo_id` int(11) NOT NULL AUTO_INCREMENT,
+            `subscription_id` int(11) NOT NULL,
+            `user_id` int(11) NOT NULL,
+            `billing_first_name` varchar(255) NOT NULL,
+            `billing_last_name` varchar(255) NOT NULL,
+            `billing_email` varchar(255) NOT NULL,
+            `billing_phone` varchar(255) NOT NULL,
+            `billing_company` varchar(255) NOT NULL,
+            `vat_number` varchar(255) NOT NULL,
+            `billing_address1` varchar(255) DEFAULT NULL,
+            `billing_address2` varchar(255) DEFAULT NULL,
+            `billing_city` varchar(255) DEFAULT NULL,
+            `billing_state` varchar(255) DEFAULT NULL,
+            `billing_zip` varchar(255) DEFAULT NULL,
+            `billing_country` char(2) NOT NULL DEFAULT 'XX',
+            `created_on` datetime NOT NULL,
+            `created_from_ip` varchar(255) NOT NULL,
+            `params` text NOT NULL,
+            `notes` text NOT NULL,
+            PRIMARY KEY (`axisubs_subscriptioninfo_id`)
+          ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_subscriptions" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_subscriptions` (
+            `axisubs_subscription_id` int(11) NOT NULL AUTO_INCREMENT,
+            `user_id` int(11) NOT NULL,
+            `plan_id` int(11) NOT NULL,
+            `plan_quantity` int(11) NOT NULL,
+            `status` varchar(255) NOT NULL,
+            `start_date` datetime NOT NULL,
+            `trial_start` datetime NOT NULL,
+            `trial_end` datetime NOT NULL,
+            `current_term_start` datetime NOT NULL,
+            `current_term_end` datetime NOT NULL,
+            `skip_trial` int(11) NOT NULL,
+            `remaining_billing_cycles` int(11) NOT NULL,
+            `po_number` varchar(255) NOT NULL,
+            `started_at` datetime NOT NULL,
+            `activated_at` datetime NOT NULL,
+            `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+            `cancel_reason` text NOT NULL,
+            `affiliate_token` varchar(255) NOT NULL,
+            `created_from_ip` varchar(100) NOT NULL,
+            `has_scheduled_changes` int(11) NOT NULL,
+            `due_invoices_count` int(11) NOT NULL,
+            `due_since` datetime NOT NULL,
+            `total_dues` decimal(15,5) NOT NULL,
+            `invoice_notes` text NOT NULL,
+            `ip` varchar(255) DEFAULT NULL,
+            `ip_country` varchar(255) DEFAULT NULL,
+            `currency_code` varchar(10) NOT NULL,
+            `currency_value` float NOT NULL,
+            `language` varchar(10) NOT NULL,
+            `total` float NOT NULL,
+            `subtotal` float NOT NULL,
+            `plan_price` float NOT NULL,
+            `setup_fee` float NOT NULL,
+            `subtotal_ex_tax` float NOT NULL,
+            `tax` float NOT NULL,
+            `shipping` float NOT NULL,
+            `shipping_tax` float NOT NULL,
+            `discount` float NOT NULL,
+            `discount_tax` float NOT NULL,
+            `surcharge` float NOT NULL,
+            `fees` float NOT NULL,
+            `params` text,
+            PRIMARY KEY (`axisubs_subscription_id`)
+          ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_taxes" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_taxes` (
+            `axisubs_tax_id` int(11) NOT NULL AUTO_INCREMENT,
+            `tax_name` varchar(100) NOT NULL,
+            `tax_type` varchar(100) NOT NULL,
+            `tax_settings` text NOT NULL,
+            `enabled` int(10) NOT NULL,
+            PRIMARY KEY (`axisubs_tax_id`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_taxratelocations" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+          CREATE TABLE IF NOT EXISTS `#__axisubs_taxratelocations` (
+          `axisubs_taxratelocation_id` bigint(20) NOT NULL AUTO_INCREMENT,
+          `location_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `tax_rate_id` bigint(20) NOT NULL,
+          `location_type` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+          PRIMARY KEY (`axisubs_taxratelocation_id`),
+          KEY `tax_rate_id` (`tax_rate_id`),
+          KEY `location_type` (`location_type`),
+          KEY `location_type_code` (`location_type`,`location_code`(90))
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_taxrates" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[            
+          CREATE TABLE IF NOT EXISTS `#__axisubs_taxrates` (
+            `axisubs_taxrate_id` bigint(20) NOT NULL AUTO_INCREMENT,
+            `tax_rate_country` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate_state` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate_priority` bigint(20) NOT NULL,
+            `tax_rate_compound` int(1) NOT NULL DEFAULT '0',
+            `tax_rate_shipping` int(1) NOT NULL DEFAULT '1',
+            `tax_rate_order` bigint(20) NOT NULL,
+            `tax_rate_class` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            PRIMARY KEY (`axisubs_taxrate_id`),
+            KEY `tax_rate_country` (`tax_rate_country`(191)),
+            KEY `tax_rate_state` (`tax_rate_state`(191)),
+            KEY `tax_rate_class` (`tax_rate_class`(191)),
+            KEY `tax_rate_priority` (`tax_rate_priority`)
+          ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_transactions" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_transactions` (
+              `axisubs_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+              `hash` varchar(255) NOT NULL,
+              `subscription_id` int(11) NOT NULL,
+              `user_id` int(11) NOT NULL,
+              `transaction_status` varchar(20) NOT NULL,
+              `payment_processor` varchar(255) NOT NULL,
+              `processor_status` varchar(255) NOT NULL,
+              `transaction_ref_id` varchar(255) NOT NULL,
+              `transaction_amount` float NOT NULL,
+              `transaction_currency` varchar(10) NOT NULL,
+              `prepayment` text NOT NULL,
+              `postpayment` text NOT NULL,
+              `authorize` text NOT NULL,
+              `params` text NOT NULL,
+              `created_on` datetime NOT NULL,
+              `modified_on` datetime NOT NULL,
+              PRIMARY KEY (`axisubs_transaction_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+        ]]></query>
+    </action>    
+    </sql>
+</schema>

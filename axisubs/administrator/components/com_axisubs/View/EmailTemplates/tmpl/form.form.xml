@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset
+        name="basic1"
+        label="COM_AXISUBS_CUSTOMER_DUMMY"
+        class="col-md-4"
+    >
+        <field name="event" 
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getTriggersList"
+            label="COM_AXISUBS_EMAILTEMPLATES_EVENT_LABEL"
+            class="input-xxlarge"
+            />
+        <field name="enabled" type="BooleanToggle" label="COM_AXISUBS_EMAILTEMPLATES_ENABLED_LABEL"/>
+        
+    </fieldset>
+    <fieldset
+        name="basic2"
+        label="COM_AXISUBS_CUSTOMER_DUMMY"
+        class="col-md-4"
+    >
+        <field name="recipients" type="Textarea" 
+            rows="4"
+            cols="80"
+            label="COM_AXISUBS_EMAILTEMPLATES_RECIPIENTS_LABEL" 
+            description="COM_AXISUBS_EMAILTEMPLATES_RECIPIENTS_LABEL" >
+        </field>
+
+        <field name="cc" type="Textarea" 
+            rows="1"
+            cols="80"
+            label="COM_AXISUBS_EMAILTEMPLATES_CC_LABEL" 
+            description="COM_AXISUBS_EMAILTEMPLATES_CC_DESC" >
+        </field>
+        <field name="bcc" type="Textarea" 
+            rows="1"
+            cols="80"
+            label="COM_AXISUBS_EMAILTEMPLATES_BCC_LABEL" 
+            description="COM_AXISUBS_EMAILTEMPLATES_BCC_DESC" >
+        </field>
+    </fieldset>
+
+    <fieldset
+        name="basic3"
+        label="COM_AXISUBS_CUSTOMER_DUMMY"
+        class="col-md-2"
+    >
+         <field name="recipientshortcodes" 
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="recipientShortCodeOptions"
+            label="COM_AXISUBS_EMAILTEMPLATES_EVENT_LABEL"
+            />
+        <field name="axisubs_emailtemplate_id" type="Hidden" label="COM_AXISUBS_CUSTOMER_DUMMY"/>
+    </fieldset>
+</form>

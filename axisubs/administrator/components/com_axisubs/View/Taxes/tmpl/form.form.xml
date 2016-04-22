@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset
+        name="basic"
+        label="COM_AXISUBS_TAXES_BASIC"
+        class="span6" >
+        <field name="tax_name" type="Text" label="COM_AXISUBS_TAX_NAME"/>
+        <field name="enabled" type="Published" label="COM_AXISUBS_ENABLED"/>
+        <field name="tax_type" type="TaxType" label="COM_AXISUBS_TAX_TYPE" />
+    </fieldset>
+</form>

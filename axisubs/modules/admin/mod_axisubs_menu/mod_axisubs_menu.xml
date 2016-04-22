@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="administrator" method="upgrade" position ="menu">
+	 <name>mod_axisubs_menu</name>
+    <creationDate>March 2016</creationDate>
+    <author>Sasi varna kumar</author>
+    <authorEmail>support@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>Copyright (c)2015-2020 Flycart Technologies</copyright>
+    <license>GNU GPL v3 or later</license>
+    <version>0.8</version>
+    <description>Module to display Axisubs Admin Menu</description>
+	<files>
+		<filename module="mod_axisubs_menu">mod_axisubs_menu.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+    <config> </config> 
+</extension>

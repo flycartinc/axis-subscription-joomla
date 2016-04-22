@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * @package   Axisubs - Subscription Management System
+ * @copyright Copyright (c)2016-2020 Sasi varna kumar / Flycart Technologies
+ * @license   GNU General Public License version 3, or later
+ -->
+ <form type="browse" show_header="1" show_filters="1"
+	show_pagination="1" norows_placeholder="COM_J2STORE_COMMON_NORECORDS">
+	
+	<headerset>							
+		<header name="name" type="fieldsearchable" 	sortable="true" label="J2STORE_APP_NAME"/>		
+	</headerset>	
+	
+</form>

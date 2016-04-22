@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+  type="browse"
+  show_header="1"
+  show_filters="1"
+  show_pagination="1"
+  norows_placeholder="COM_AXISUBS_NORECORDS"
+  >
+
+  <headerset>
+  	<header name="ordering" type="Ordering" sortable="true"  />
+    <header name="axisubs_currency_id" type="RowSelect" tdwidth="20" label="AXISUBS_CURRENCY_ID"/>
+    <header name="currency_title" sortable="true" translate="false"  label="AXISUBS_CURRENCY_TITLE_LABEL"/>
+    <header name="currency_code" type="Searchable" sortable="true" translate="false"  label="AXISUBS_CURRENCY_CODE_LABEL"/>    
+    <header name="currency_symbol"  sortable="true" translate="false" label="AXISUBS_CURRENCY_SYMBOL_LABEL"/>
+    <header name="currency_value" sortable="true" translate="false" label="AXISUBS_CURRENCY_VALUE_LABEL"/>   
+    <header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+  </headerset>
+
+  <fieldset name="items">
+  	<field name="ordering"  type="Ordering" labelclass="order"/>
+    <field name="axisubs_currency_id" type="SelectRow"/>
+    <field name="currency_title" type="text" show_link="true"
+           url="index.php?option=com_axisubs&amp;view=Currency&amp;id=[ITEM:ID]" />
+    <field name="currency_code" type="text" />
+    <field name="currency_symbol" type="text"/>
+    <field name="currency_value" type="text" />   
+    <field name="enabled" type="published"/>
+  </fieldset>
+</form>

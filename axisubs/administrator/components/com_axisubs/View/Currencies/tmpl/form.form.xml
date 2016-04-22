@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form validate="true" serverside_validate="true">
+  <fieldset name="basic_information"            
+            class="span6 ">
+    <field name="currency_numeric_code" type="hidden" id="AXISUBS_currency_numeric_code" 
+    		emptylabel="1"   filter="intval" /> 
+    		
+    <field name="currency_title" type="text" label="AXISUBS_CURRENCY_TITLE_LABEL" description="AXISUBS_CURRENCY_TITLE_DESC"
+           class="inputbox" filter="intval" required="true"                     
+           />
+	  <field name="currency_code" id="currency_code_selector" type="GenericList" 
+			source_file="admin://components/com_axisubs/Helpers/Currency.php"
+			source_class="Flycart\Axisubs\Admin\Helper\Currency"
+			source_method="getNumericCurrencies"						
+			label="AXISUBS_CURRENCY_CODE_LABEL"
+			description="AXISUBS_CURRENCY_CODE_DESC"
+		/>	
+    <field name="currency_symbol" type="text" id="AXISUBS_currency_symbol"  label="AXISUBS_CURRENCY_SYMBOL_LABEL"  description="AXISUBS_CURRENCY_SYMBOL_DESC"
+           class="inputbox" filter="intval" />
+
+    <field name="currency_position" type="list" label="AXISUBS_CURRENCY_POSITION_LABEL"
+           labelclass=""
+           description="AXISUBS_CURRENCY_POSITION_DESC"
+           class="inputbox"
+           filter="intval" size="1" default="1">
+      <option value="pre">AXISUBS_CURRENCY_FRONT</option>
+      <option value="post">AXISUBS_CURRENCY_END</option>
+    </field>
+    
+    </fieldset>
+ <fieldset name="advanced_information"            
+            class="span6">
+    <field name="currency_num_decimals" type="text"  label="AXISUBS_CURRENCY_NUM_DECIMALS_LABEL" description="AXISUBS_CURRENCY_NUM_DECIMALS_DESC"
+	   class="inputbox" filter="intval"/>
+	   
+   <field name="currency_decimal" type="text" label="AXISUBS_CURRENCY_DECIMAL_SEPARATOR_LABEL"  description="AXISUBS_CURRENCY_DECIMAL_SEPARATOR_DESC" 
+   class="inputbox" filter="intval" default="."/>
+      
+   <field name="currency_thousands" type="text" label="AXISUBS_CURRENCY_THOUSANDS_LABEL"  description="AXISUBS_CURRENCY_THOUSANDS_DESC"
+   class="inputbox" filter="intval" />
+   
+   <field name="currency_value" type="text" label="AXISUBS_CURRENCY_VALUE_LABEL" description="AXISUBS_CURRENCY_VALUE_DESC"
+   class="inputbox" filter="intval" />
+   
+   <field name="enabled" type="list" label="JSTATUS"
+			labelclass="AXISUBS-label"
+			description="JFIELD_PUBLISHED_DESC" class="inputbox"
+			filter="intval" size="1" default="1"
+	>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+	</field>
+</fieldset>
+</form>

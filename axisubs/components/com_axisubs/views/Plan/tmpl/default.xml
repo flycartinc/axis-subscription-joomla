@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_AXISUBS_VIEW_PLAN_LABEL">
+		<message>
+				<![CDATA[COM_AXISUBS_VIEW_PLAN_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AXISUBS_VIEW_PLAN_LABEL</name>
+		<description>COM_AXISUBS_VIEW_PLAN_DESC</description>
+	</state>
+	<config addfieldpath="/administrator/components/com_axisubs/Form/Field">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="slug" type="sql" default=""
+				label="COM_AXISUBS_VIEW_PLAN_FILTER_SLUG_TITLE"
+				description="COM_AXISUBS_VIEW_PLAN_FILTER_SLUG_DESC"
+				query="SELECT `slug`, `name` FROM `#__axisubs_plans` WHERE enabled=1"
+				key_field="slug"
+				value_field="name" />	
+			</fieldset>
+		</fields>
+	</config>
+</metadata>

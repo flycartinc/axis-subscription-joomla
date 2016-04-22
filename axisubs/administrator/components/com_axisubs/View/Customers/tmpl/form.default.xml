@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	type="browse"
+	show_header="1"
+	show_header_html="0"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AXISUBS_NORECORDS"
+>
+	<headerset>
+		<header name="axisubs_customer_id" type="RowSelect" tdwidth="16px" />
+		<header name="username" name_from="user.name" type="Text" sortable="false" filterclass="input-small" />
+		<header name="name" name_from="user.name" type="Searchable" sortable="false" filterclass="input-small" />
+		<header name="email" name_from="user.email" type="Searchable" sortable="false" filterclass="input-small" />
+		<header name="company" type="Searchable" sortable="true" filterclass="input-small" />
+		<header name="vat_number" type="Text" sortable="true" filterclass="input-small" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="axisubs_customer_id" type="SelectRow" />
+		<field name="customer_id" name_from="axisubs_customer_id" type="Text" 
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Customer&amp;id=[ITEM:ID]&amp;task=read"/>
+		<field name="user_id" type="User"
+			avatar_size="32" show_email="false" show_name="false"
+			show_link="true"
+		/>
+		<field name="user.name" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Customer&amp;id=[ITEM:ID]"
+		/>
+		<field name="user.email" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Customer&amp;id=[ITEM:ID]"
+		/>
+		<field name="company" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Customer&amp;id=[ITEM:ID]"
+		/>
+		<field name="phone" type="Text" empty_replacement="–––"
+			show_link="true"
+		/>
+		
+		<field name="created_on" type="Text"/>
+
+		<field name="vat_number" type="Text"
+               format="[ITEM:COUNTRY] %s" format_if_not_empty="true" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Customer&amp;id=[ITEM:ID]"
+		/>
+	</fieldset>
+</form>

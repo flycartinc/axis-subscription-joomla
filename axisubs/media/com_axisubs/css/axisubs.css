@@ -1,0 +1,329 @@
+.axisubs-bs3 .pheading {
+    font-family: arial, sans-serif;
+    color: #000000;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+.axisubs-bs3 .text-center {
+    text-align: center;
+}
+.axisubs-bs3 #p-main-content {
+    line-height: 22px;
+}
+.axisubs-bs3 #p-main-content,
+.axisubs-bs3 #p-billing,
+.axisubs-bs3 #p-shipping,
+.axisubs-bs3 #p-account,
+.axisubs-bs3 #p-payment,
+.axisubs-bs3 .p-well {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #F5F5F5;
+    border: 1px solid #e3e3e3;
+}
+.axisubs-bs3 #p-main-content h3 {
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    margin: -16px -16px 9px -16px;
+    padding: 9px 15px;
+    background: #352d45;
+    color: #ffffff;
+}
+.axisubs-bs3 #p-main-content strong {
+    font-weight: normal;
+}
+.axisubs-bs3 #p-main-content ul {
+    margin-bottom: 0;
+}
+.axisubs-bs3 .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+.axisubs-bs3 ul,
+.axisubs-bs3 ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.axisubs-bs3 #p-order-total {
+    font-size: 16px;
+}
+.axisubs-bs3 h1,
+.axisubs-bs3 h2,
+.axisubs-bs3 h3,
+.axisubs-bs3 h4,
+.axisubs-bs3 h5,
+.axisubs-bs3 h6,
+.axisubs-bs3 .h1,
+.axisubs-bs3 .h2,
+.axisubs-bs3 .h3,
+.axisubs-bs3 .h4,
+.axisubs-bs3 .h5,
+.axisubs-bs3 .h6 {
+    font-family: arial, sans-serif;
+    color: #000000;
+}
+.axisubs-bs3 .j2error{
+    font-size: 12px;    
+    color: red;
+}
+
+.axisubs-bs3 input[type="text"], 
+.axisubs-bs3 input[type="password"], 
+.axisubs-bs3 input[type="search"], 
+.axisubs-bs3 input[type="email"], 
+.axisubs-bs3 select, 
+.axisubs-bs3 textarea {
+    border-radius: 0px;
+}
+
+.axisubs-bs3 label{
+    font-weight: 10;
+}
+
+/**************Card design**************************/
+#as-cards,
+#as-cvv,
+.as-process {
+    margin-top: 7px
+}
+#as-cards,
+#as-cvv,
+.as-process,
+.as-success {
+    min-height: 23px;
+    line-height: 23px
+}
+.as-process,
+.as-success {
+    padding-left: 23px
+}
+#as-cards>span {
+    background: url(../media/com_axisubs/images/as-all-cards.png) no-repeat;
+    width: 32px;
+    height: 23px;
+    float: left;
+    margin-right: 4px
+}
+#as-cards>span.visa {
+    background-position: 0 0
+}
+#as-cards>span.mastercard {
+    background-position: -45px 0
+}
+#as-cards>span.american_express {
+    background-position: -91px 0
+}
+#as-cards>span.discover {
+    background-position: -136px 0
+}
+#as-cards>span.diners_club {
+    background-position: -181px 0
+}
+#as-cards>span.jcb {
+    background-position: -226px 0
+}
+#as-cards>span.visa.bw {
+    background-position: 0 -31px
+}
+#as-cards>span.mastercard.bw {
+    background-position: -45px -31px
+}
+#as-cards>span.american_express.bw {
+    background-position: -91px -31px
+}
+#as-cards>span.discover.bw {
+    background-position: -136px -31px
+}
+#as-cards>span.diners_club.bw {
+    background-position: -181px -31px
+}
+#as-cards>span.jcb.bw {
+    background-position: -226px -31px
+}
+#as-cvv {
+    background: url(../media/com_axisubs/images/as-all-cards.png) no-repeat 0 -63px;
+    display: inline-block;
+    padding-left: 41px;
+    white-space: nowrap;
+    color: #999;
+    font-size: 10px
+}
+#as-test-cards .dropdown-menu.panel {
+    width: 100%;
+    padding: 0;
+    font-size: 13px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    line-height: 17px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px
+}
+#as-test-cards .list-group-item {
+    padding: 0
+}
+#as-test-cards .list-group-item a {
+    padding: 5px 15px;
+    display: block;
+    text-decoration: none;
+    color: #333
+}
+#as-test-cards .list-group-item a:hover,
+#as-test-cards .list-group-item a:focus {
+    background: #f3f3f3;
+    outline: 0
+}
+#as-test-cards .list-group-item a:hover .btn-link {
+    text-decoration: underline
+}
+.as-process {
+    background: url(../images/cb-hp-process.gif) no-repeat center left
+}
+.as-success {
+    background: url(../images/cb-hp-success.gif) no-repeat right center;
+    line-height: initial
+}
+.datepicker table tr td,
+.datepicker table tr th {
+    width: 18px;
+    height: 18px
+}
+.datepicker.dropdown-menu th,
+.datepicker.dropdown-menu td {
+    padding: 3px 0;
+    font-size: 12px
+}
+/****************** end card design ********************/
+
+
+.axisubs-bs3 .padbot
+{
+padding-top:10px;
+padding-bottom:10px;
+}
+.axisubs-bs3 .padtop
+{
+padding-top:50px;
+padding-bottom:50px;
+}
+.axisubs-bs3 .padntop
+{
+padding-top:20px;
+padding-bottom:10px;
+}
+.axisubs-bs3 .jqpadding
+{
+padding: 8px 2px;
+border-radius: 4px;
+text-decoration: none !important;
+outline: none !important;
+}
+.axisubs-bs3 .outlne{
+outline: none !important;
+}
+
+.axisubs-bs3 .jqcollpadding
+{
+padding-top: 18px;
+padding-right: 2px;
+padding-left: 2px;
+}
+
+.axisubs-bs3 .jqpadding:hover {
+   
+    text-decoration: none !important;
+}
+.axisubs-bs3 .blocknxt
+{
+display:block;
+}
+.axisubs-bs3 .subspadtop
+{
+padding-top: 50px;
+padding-bottom: 10px;
+}
+.axisubs-bs3 .subsnpadtop
+{
+padding-top: 20px;
+padding-bottom: 10px;
+}
+.axisubs-bs3 .phead
+{
+padding-top: 15px !important;
+padding-bottom: 15px !important;
+}
+.axisubs-bs3 .bordless
+{
+border-top: 0px !important;
+}
+.axisubs-bs3 .pbgcolour
+{
+background-color: #EFFBFB;
+}
+.axisubs-bs3 .p-main-content-botbord
+{
+margin-bottom: 50px!important;
+}
+.axisubs-bs3 .subsformwidth > select
+{
+width: 205px !important;
+}
+
+
+
+
+
+.axisubs-bs3 .viewhighlight-container > .viewdetail-box {
+    line-height: 19px;
+    color: #676767;
+    background-color: white;
+}
+.axisubs-bs3 .viewhighlight-container .highlight-border:last-child {
+    border-bottom: solid 1px #dae0ea !important;
+}
+.axisubs-bs3 .viewhighlight-container .viewhighlight-box {
+    width: 100%;
+    display: inline-block;
+    border: solid 1px #dae0ea;
+    color: #676767;
+    background-color: white;
+}
+.axisubs-bs3 .viewhighlight-container > .viewdetail-box .viewh1 {
+    width: 100%;
+    display: block;
+    text-align: center;
+    background-color: #f4f6f8;
+    color: #676767;
+    line-height: 26px;
+    margin: 0;
+    font-weight: bold;
+}
+.axisubs-bs3 .subsnpadbot
+{
+padding-bottom: 10px;
+padding-right:25px;
+padding-left:25px;
+}
+.axisubs-bs3 .subsnfont
+{
+font-size:16px;
+}
+.axisubs-bs3 .pcolor
+{
+    color: #6f6f6f;
+ }
+    .axisubs-bs3 .profpad{
+    padding-bottom:10px;
+    }

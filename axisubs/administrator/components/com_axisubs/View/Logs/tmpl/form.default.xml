@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form type="browse" show_header="1" show_filters="0"
+	show_pagination="1" norows_placeholder="AXISUBS_NO_ITEMS_FOUND">
+	<headerset>
+		<header name="axisubs_log_id" type="RowSelect" tdwidth="20"
+			label="id" sortable="false"/>
+		<header name="log_time" type="Text" sortable="false"
+			translate="false" label="log time"  buttons="true" />
+		<header name="event" type="Text" sortable="false"
+			translate="false" label="event"  buttons="true" />
+		<header name="message" type="Text" sortable="false"
+			translate="false" label="message"  buttons="true" />
+	</headerset>
+	<fieldset name="items" class="lienitnow" >
+		<field name="axisubs_log_id" type="SelectRow" />
+		<field name="log_time" type="text" />
+		<field name="event" type="text" />
+		<field name="message" type="text" />
+	</fieldset>
+</form>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form validate="true" serverside_validate="true">
+
+	<fieldset id="basic_options" class="tab-pane active " name="basic_options"
+		label="AXISUBS_BASIC_OPTIONS">
+
+		<field name="store_address_1" type="text" label="AXISUBS_ADDRESS_LINE1" />
+		<field name="store_address_2" type="text" label="AXISUBS_ADDRESS_LINE2" />
+		<field name="store_city" type="text" label="AXISUBS_ADDRESS_CITY" />
+		<field name="store_zip" type="text" required="true"
+			label="AXISUBS_ADDRESS_ZIP" />
+		<field name="country_id" type="GenericList" id="axisubs_country_id"
+			source_file="admin://components/com_axisubs/Helper/Select.php"
+			source_class="Flycart\Axisubs\Admin\Helper\Select" source_method="getCountries"
+			sortable="true" tdwidth="15%" label="AXISUBS_COUNTRY_NAME" required="true" />
+		<field name="zone_id" type="GenericList" id="axisubs_zone_id" label="AXISUBS_ADDRESS_ZONE"
+			source_file="admin://components/com_axisubs/Helper/Select.php"
+			source_class="Flycart\Axisubs\Admin\Helper\Select" source_method="getZones"
+			/>
+		<field name="datetime_format" type="text" id="datetime_format" label="AXISUBS_CONFIG_DATETIME_FORMAT"
+			description="AXISUBS_CONFIG_DATETIME_FORMAT_DESC"
+			/>
+	</fieldset>
+	<fieldset role="tabpanel" class="tab-pane" name="tax_settings"
+		label="AXISUBS_TAX_FIELDS">
+
+		<field name="config_currency" type="sql" id="axisubs_currency_id"
+			label="AXISUBS_STORE_DEFAULT_CURRENCY" query="SELECT * FROM #__axisubs_currencies"
+			key_field="currency_code" required="true" value_field="currency_title" />
+
+		<field name="config_currency_auto" type="radio"
+			label="AXISUBS_STORE_CURRENCY_AUTO_UPDATE_CURRENCY" class="inputbox"
+			filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="enable_tax" type="radio" default="0" class="btn-group"
+			label="axisubs_conf_enable_tax_label" description="axisubs_conf_enable_tax_desc">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="config_including_tax" type="radio" default="0"
+			class="btn-group" label="axisubs_conf_including_tax_label"
+			description="axisubs_conf_including_tax_desc">
+			<option value="1">AXISUBS_PRICES_INCLUDING_TAXES</option>
+			<option value="0">AXISUBS_PRICES_EXCLUDING_TAXES</option>
+		</field>
+
+		<field name="price_display_options" type="list" default="1"
+			label="axisubs_conf_price_display_options_label" description="axisubs_conf_price_display_options_desc">
+			<option value="1">AXISUBS_CONFIG_PRICE_ONLY</option>
+			<option value="2">AXISUBS_CONFIG_PRICE_PLUS_TAX</option>			
+		</field>
+		
+		<field name="display_price_with_tax_info" type="radio" default="0" class="btn-group "
+			label="axisubs_conf_display_price_with_tax_info_label" description="axisubs_conf_display_price_with_tax_info_desc">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>						
+		</field>
+
+		<field name="enable_coupon" type="radio" default="0" class="btn-group"
+			label="axisubs_conf_enable_coupon_label" description="axisubs_conf_enable_coupon_desc">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+	</fieldset>
+</form>

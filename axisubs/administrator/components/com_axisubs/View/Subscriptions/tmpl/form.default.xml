@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	type="browse"
+	show_header="1"
+	show_header_html="0"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AXISUBS_NORECORDS"
+>
+	<headerset>
+		<header name="axisubs_subscription_id" type="RowSelect" tdwidth="16px" />
+        <header name="plan_id" type="Model" sortable="true"
+        label="COM_AXISUBS_PLAN_NAME"
+        model="Plans"
+        key_field="axisubs_plan_id"
+        value_field="title"
+        translate="false"
+        apply_access="false"
+        tdwidth="15%"
+        />
+		<header name="plan.name" type="Text" label="COM_AXISUBS_PLAN_NAME" />
+        <header name="filter_search" type="Searchable" 
+                label="COM_AXISUBS_SUBSCRIPTION_SEARCH_FILTER" class="filter-field"/>
+        <header name="customer.email" type="Text" label="COM_AXISUBS_CUSTOMER_EMAIL" />
+        <header name="customer.company" type="Text" label="COM_AXISUBS_CUSTOMER_COMPANY" />
+        <header name="period" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PERIOD" />
+        <header
+                name="status"
+                type="Selectable"
+                source_class="Flycart\Axisubs\Admin\Helper\Status"
+                source_method="getList"
+                onlyFilter="1"
+                />
+		
+		<header
+                name="payment_processor"
+                type="Selectable"
+                source_class="Flycart\Axisubs\Admin\Helper\Select"
+                source_method="getAllPaymentMethods"
+                onlyFilter="1"
+                />
+        <header name="payment_status" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PAYMENT_STATUS" />
+        <header name="subscription_status" type="Text" label="COM_AXISUBS_SUBSCRIPTION_STATUS" />
+        <header name="total" type="Text" label="COM_AXISUBS_SUBSCRIPTION_NET_AMOUNT" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="axisubs_subscription_id" type="SelectRow" empty_replacement="–––"/>
+		<field name="axisubs_plan_id" type="Text" empty_replacement="–––"/>
+		<field name="subscription_id" name_from="axisubs_subscription_id" type="Text" 
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Subscription&amp;id=[ITEM:ID]&amp;task=read" />
+		<field name="plan.name" type="Text" label="COM_AXISUBS_PLAN_NAME" 
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Plan&amp;id=[ITEM:ID]"/>
+        <field name="customer.first_name" type="Text"/>
+        <field name="customer.last_name" type="Text"/>
+        <field name="recurting_items" type="Text" empty_replacement="–––"
+			show_link="true"
+		/>
+		 <field name="references" type="Text" empty_replacement="–––"
+			show_link="true"
+		/>
+		<field name="created_on" type="Text"/>
+		<field name="trail_end" type="Text"/>
+        <field name="customer.email" type="Text" />
+        <field name="customer.company" type="Text"  empty_replacement="–––"/>
+        <field name="customer.phone" type="Text"  empty_replacement="–––"/>
+        <field name="period" type="Text" empty_replacement="–––"/>
+        <field name="payment_status" type="Text" empty_replacement="–––"/>
+        <field name="subscription_status" type="Text" empty_replacement="–––"/>
+        <field name="total" type="Text" empty_replacement="–––"/>
+        <field name="status" type="Status" label="COM_AXISUBS_SUBSCRIPTION_PERIOD" />
+	</fieldset>
+</form>

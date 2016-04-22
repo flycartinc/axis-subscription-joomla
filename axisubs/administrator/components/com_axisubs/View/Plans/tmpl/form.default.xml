@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	type="browse"
+	show_header="1"
+	show_header_html="0"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AXISUBS_NORECORDS"
+>
+	<headerset>
+		<header name="axisubs_plan_id" type="RowSelect" tdwidth="16px" />
+		<header name="name" type="Searchable" label="COM_AXISUBS_PLAN_NAME" />
+        <header name="slug" type="Searchable" label="COM_AXISUBS_PLAN_SLUG" />
+        <header name="period" type="Text" label="COM_AXISUBS_PLAN_PRIOD" />
+        <header name="trial_period" type="Text" label="COM_AXISUBS_TRIAL_PERIOD" />
+        <header name="charge_model" type="Text" label="COM_AXISUBS_PLAN_CHARGING_MODEL" />
+        <header name="price" type="Searchable" label="COM_AXISUBS_PLAN_PRICE" />
+        <header name="access" type="Access" label="COM_AXISUBS_PLAN_ACCESS" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="axisubs_plan_id" type="SelectRow" empty_replacement="–––"/>
+		<field name="name" type="Text" label="COM_AXISUBS_PLAN_NAME" empty_replacement="–––" 
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=Plan&amp;id=[ITEM:ID]"
+			/>
+        <field name="slug" type="Text" label="COM_AXISUBS_PLAN_SLUG" empty_replacement="–––" />
+        <field name="period" type="Text" label="COM_AXISUBS_PLAN_PRIOD" empty_replacement="–––" />
+        <field name="trial_period" type="Text" label="COM_AXISUBS_TRIAL_PERIOD" empty_replacement="–––" />
+        <field name="charge_model" type="Text" label="COM_AXISUBS_PLAN_CHARGING_MODEL" empty_replacement="–––" />
+        <field name="price" type="Text" label="COM_AXISUBS_PLAN_PRICE" empty_replacement="–––" />
+        <field name="access" type="Access" label="COM_AXISUBS_PLAN_ACCESS" empty_replacement="–––" />
+	</fieldset>
+</form>

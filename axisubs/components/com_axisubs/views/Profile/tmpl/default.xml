@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_AXISUBS_VIEW_PROFILE_LABEL">
+		<message>
+				<![CDATA[COM_AXISUBS_VIEW_PROFILE_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AXISUBS_VIEW_PROFILE_LABEL</name>
+		<description>COM_AXISUBS_VIEW_PROFILE_DESC</description>
+	</state>
+</metadata>

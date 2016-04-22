@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	type="browse"
+	show_header="1"
+	show_header_html="0"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AXISUBS_NORECORDS"
+>
+	<headerset>
+		<header name="axisubs_emailtemplate_id" type="RowSelect" sortable="false" tdwidth="16px" />
+		<header name="event" type="Text" sortable="false" filterclass="input-small" />
+		<header name="recipients" type="Text" sortable="false" filterclass="input-small" />
+		<header name="enabled" type="Text" sortable="false" filterclass="input-small" />
+		<header name="ordering" type="Text" sortable="true" filterclass="input-small" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="axisubs_emailtemplate_id" type="SelectRow" />
+		<field name="emailtemplate_id" name_from="axisubs_emailtemplate_id" type="Text" 
+			show_link="true"
+			url="index.php?option=com_axisubs&amp;view=EmailTemplate&amp;id=[ITEM:ID]"/>
+		<field name="event" type="Text" />
+		<field name="recipients" type="Text" />
+		<field name="enabled" type="Published" />
+	</fieldset>
+</form>

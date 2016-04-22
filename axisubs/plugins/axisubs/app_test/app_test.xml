@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="axisubs" method="upgrade">
+    <name>Test App for Axisubs</name>
+    <version>1.0</version>
+    <creationDate>April 2016</creationDate>
+    <author>Axisubs</author>
+    <authorEmail>support@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>2016 Flycart Technologies LLP</copyright>
+    <license>GNU General Public License v3 or later versions</license>
+    <description>Test app for axisubs.</description>
+    <files>
+        <filename plugin="app_test">app_test.php</filename>
+        <filename>index.html</filename>
+        <folder>app_test</folder>  
+    </files>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_axisubs_app_test.ini</language>        
+    </languages>
+    <config>
+    <fields name="params">
+      <fieldset name="basic">
+        <field name="display_name" type="text" size="30" default="" label="axisubs_plugin_display_name" description="axisubs_plugin_display_name_desc"/>
+       <field name="display_image" type="media" label="axisubs_plugin_display_image" description="axisubs_plugin_display_image_desc"/>
+      </fieldset>
+    </fields>
+</config>
+</extension>

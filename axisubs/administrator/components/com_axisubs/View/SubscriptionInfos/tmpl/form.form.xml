@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form class="axisubs-bs3">
+	<fieldset
+        name="basic"
+        label="COM_AXISUBS_SUBSCRIPTION_BASIC"
+        class="form-subheading form-align col-md-6" >
+        <field name="billing_first_name" type="Text" label="COM_AXISUBS_CUSTOMER_FIRST_NAME"
+                    data-field-group="new" />
+        <field name="billing_last_name" type="Text" label="COM_AXISUBS_CUSTOMER_LAST_NAME"
+                    data-field-group="new" />
+        <field
+            name="billing_company"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_COMPANY"
+            class="new"
+        />
+        <field
+            name="billing_email"
+            type="email"
+            label="COM_AXISUBS_USERS_FIELD_EMAIL"
+            class="new"
+        />
+        <field
+            name="billing_phone"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_PHONE"
+            
+        />
+        <field
+            name="billing_address1"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ADDRESS1"
+        />
+        <field
+            name="billing_address2"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ADDRESS2"
+        />
+        <field
+            name="billing_city"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_CITY"
+        />
+        <field
+            name="billing_zip"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_ZIP"
+        />
+        <field
+            name="billing_country"
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getCountries"
+            label="COM_AXISUBS_USERS_FIELD_COUNTRY"
+        />
+        <field
+            name="billing_state"
+            type="GenericList"
+            source_class="\Flycart\Axisubs\Admin\Helper\Select"
+            source_method="getStates"
+            label="COM_AXISUBS_USERS_FIELD_STATE"
+        />
+        <field
+            name="billing_company"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_COMPANY"
+        />
+        <field
+            name="vat_number"
+            type="Text"
+            label="COM_AXISUBS_USERS_FIELD_VATNUMBER"
+        />
+         <field
+            name="user_id"
+            type="hidden"
+            label="COM_AXISUBS_CUSTOMER_DUMMY"
+        />
+        <field
+            name="subscription_id"
+            type="hidden"
+            label="COM_AXISUBS_CUSTOMER_DUMMY"
+        />
+    </fieldset>
+</form>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form class="axisubs-bs3">
+    <model name="Subscription">
+       <relation name="customer"
+               type="hasOne"/>
+    </model>
+	<fieldset
+        name="basic"
+        label="COM_AXISUBS_SUBSCRIPTION_BASIC"
+        class="form-subheading form-align col-md-6" >
+        <field
+           name="plan_id" type="Model"
+           model="Plans"
+           label="COM_AXISUBS_PLAN_NAME"
+           key_field="axisubs_plan_id"
+           value_field="name"
+           translate="false"
+           apply_access="false"
+           description="COM_AXISUBS_SUBSCRIPTION_BASIC_PLANID_DESC"
+        />
+        <field name="plan_quantity" type="Text" label="COM_AXISUBS_PLAN_QUANTITY"  />
+
+        <field name="start_date" type="Calendar" 
+            format="%Y-%m-%d %H:%M:%S"
+            label="COM_AXISUBS_SUBSCRIPTION_CURRENT_TERM_START" 
+             description="COM_AXISUBS_SUBSCRIPTION_CURRENT_TERM_START_DESC"
+            />
+        <field
+            name="subscription_dates"
+            type="Text"/>
+    </fieldset>
+    
+    <fieldset
+        name="prices"
+        label="COM_AXISUBS_SUBSCRIPTION_PRICES"
+        class="col-md-6" 
+        addfieldpath="administrator/components/com_axisubs/Form/Field/" >
+
+        <field name="plan.price" type="Price" label="COM_AXISUBS_PLAN_PRICE" description="COM_AXISUBS_PLAN_PRICE_DESC" readonly="true" addfieldpath="/administrator/components/com_axisubs/Form/Field/" />
+        <field name="plan.setup_cost" type="Price" label="COM_AXISUBS_PLAN_SETUP_COST" description="COM_AXISUBS_PLAN_SETUP_COST_DESC" readonly="true" />
+
+        <field name="subtotal_ex_tax" type="Price" label="COM_AXISUBS_SUBSCRIPTION_GROSS_AMOUNT" description="COM_AXISUBS_SUBSCRIPTION_GROSS_AMOUNT_DESC" readonly="true" />
+        <field name="discount" type="Price" label="COM_AXISUBS_SUBSCRIPTION_DISCOUNT_AMOUNT" description="COM_AXISUBS_SUBSCRIPTION_DISCOUNT_AMOUNT_DESC" readonly="true" />
+        <field name="tax" type="Price" label="COM_AXISUBS_SUBSCRIPTION_TAX_AMOUNT" description="COM_AXISUBS_SUBSCRIPTION_TAX_AMOUNT_DESC" readonly="true" />
+        <field name="total" type="Price" label="COM_AXISUBS_SUBSCRIPTION_NET_AMOUNT" description="COM_AXISUBS_SUBSCRIPTION_NET_AMOUNT_DESC" readonly="true" />
+    </fieldset>
+</form>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="component" method="upgrade">
+    <name>Axisubs</name>
+    <creationDate>2016-02-26</creationDate>
+    <author>Sasi varna kumar</author>
+    <authorEmail>sasi@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>Copyright (c)2015-2019 Flycart Technologies</copyright>
+    <license>GNU GPL v3 or later</license>
+    <version>0.8</version>
+    <description>Axisubs</description>
+
+    <!-- Public front end files -->
+    <files folder="components/com_axisubs">
+        <filename>axisubs.php</filename>
+        <filename>router.php</filename>
+        <folder>Controller</folder>
+        <folder>Dispatcher</folder>
+        <folder>Model</folder>
+        <!-- Not a typo. We need BOTH views and View folders, for different reasons. -->
+        <folder>View</folder>
+        <folder>views</folder>
+    </files>
+
+    <!-- Front end translation files -->
+    <languages folder="language/frontend">
+        <language tag="en-GB">en-GB/en-GB.com_axisubs.ini</language>
+    </languages>
+
+    <!-- Media files -->
+    <media destination="com_axisubs" folder="media/com_axisubs">
+        <folder>css</folder>
+        <folder>fonts</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+    </media>
+
+    <!-- Administrator back-end section -->
+    <administration>
+        <!-- Administration menu -->
+        <menu view="dashboard" img="../media/com_axisubs/images/axisubs-16.png">COM_AXISUBS</menu>
+        <!-- Back-end files -->
+        <files folder="administrator/components/com_axisubs">
+            <filename>access.xml</filename>
+            <filename>axisubs.php</filename>
+            <filename>config.xml</filename>
+            <filename>fof.xml</filename>
+            <filename>version.php</filename>
+            <folder>Controller</folder>
+            <folder>Dispatcher</folder>
+            <folder>Form</folder>
+            <folder>Helper</folder>
+            <folder>Model</folder>
+            <folder>Render</folder>
+            <folder>Toolbar</folder>
+            <folder>View</folder>
+            <folder>layouts</folder>
+            <folder>sql</folder>            
+            <folder>vendor</folder>
+            <folder>views</folder>
+        </files>
+
+        <!-- Back-end translation files -->
+        <languages folder="language/backend">
+            <language tag="en-GB">en-GB/en-GB.com_axisubs.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_axisubs.sys.ini</language>
+        </languages>
+    </administration>
+
+    <!-- Installation script -->
+    <scriptfile>script.com_axisubs.php</scriptfile>
+</extension>

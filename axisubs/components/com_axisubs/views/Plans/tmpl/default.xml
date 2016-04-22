@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_AXISUBS_VIEW_PLANS_LABEL">
+		<message>
+				<![CDATA[COM_AXISUBS_VIEW_PLANS_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AXISUBS_VIEW_PLANS_LABEL</name>
+		<description>COM_AXISUBS_VIEW_PLANS_DESC</description>
+	</state>
+	<config >
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="ids" type="sql" default=""
+					label="COM_AXISUBS_VIEW_PLANS_FILTER_TITLE"
+					description="COM_AXISUBS_VIEW_PLANS_FILTER_DESC"
+					query="SELECT `axisubs_plan_id`, `name` FROM `#__axisubs_plans` WHERE enabled=1"
+					key_field="axisubs_plan_id"
+					value_field="name" 
+					multiple="multiple" />
+			</fieldset>
+		</fields>
+	</config>
+</metadata>
