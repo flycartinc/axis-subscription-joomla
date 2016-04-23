@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="plugin" group="axisubs" method="upgrade">
+	<name>PLG_AXISUBS_JUSERGROUP</name>
+	<author>Sasi varna kumar</author>
+	<authorEmail>sasi@flycart.org</authorEmail>
+	<authorUrl>http://flycart.org</authorUrl>
+	 <copyright>2016 Flycart Technologies LLP</copyright>
+    <license>GNU General Public License v3 or later versions</license>
+	<creationDate>April 2016</creationDate>
+	<version>1.0</version>
+	<description>PLG_AXISUBS_JUSERGROUP_DESCRIPTION</description>
+	<files>
+		<filename plugin="app_jusergroup">app_jusergroup.php</filename>
+		<folder>app_jusergroup</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_axisubs_app_jusergroup.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_axisubs_app_jusergroup.sys.ini</language>
+	</languages>
+</extension>
