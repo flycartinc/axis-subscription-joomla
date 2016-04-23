@@ -16,6 +16,7 @@ require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Axisubs.php');
 
 use FOF30\Container\Container;
 use Flycart\Axisubs\Admin\Model\Subscriptions;
+use Flycart\Axisubs\Admin\Model\CliActions;
 use Flycart\Axisubs\Admin\Model\Mixin\CarbonHelper;
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 use Flycart\Axisubs\Admin\Helper\Date;
@@ -119,7 +120,7 @@ class plgSystemAxisexpirycontrol extends JPlugin
 
 		
 		// Process the number of future subscriptions without start date
-		$cliModel = Container::getInstance('com_axisubs')->factory->model('CliActions')->tmpInstance();
+		$cliModel = Container::getInstance('com_axisubs',array(),'admin')->factory->model('CliActions')->tmpInstance();
 		
 		$cliModel->expiryControl();
 		

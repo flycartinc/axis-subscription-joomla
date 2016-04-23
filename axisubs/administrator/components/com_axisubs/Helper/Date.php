@@ -37,7 +37,7 @@ class Date{
 			self::$instance = new self($config);
 		}
 		
-		self::$store_format = Axisubs::config()->get('datetime_format','Y-m-d');
+		self::$store_format = Axisubs::config()->get('datetime_format','Y-m-d H:i:s');
 
 		return self::$instance;
 	}
@@ -56,13 +56,14 @@ class Date{
 		$date = $this->getDate( $local );
 		$date->setTimeZone($tz);
 		
-		$result = $date->format( $format );
-
 		if(isset($options['format']) && $options['format']) {
-			//format option is set.
-			$format = isset($options['format']) ? $options['format'] : 'Y-m-d'; 
-			$result = $date->format($format);
+			$format = isset($options['format']) ? $options['format'] : 'Y-m-d H:i:s'; 
 		}
+		if (empty($format)) {
+			$format = 'Y-m-d H:i:s';
+		}
+
+		$result = $date->format($format);
 		return $result;
 	}
 

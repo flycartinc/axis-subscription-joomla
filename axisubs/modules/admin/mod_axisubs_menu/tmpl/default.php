@@ -88,7 +88,7 @@ $menus =  array (
                     <!-- Here starts Submenu -->
                      <?php foreach($value['submenu'] as $key => $value): ?>
                       	<li>
-                      		<a href="<?php echo 'index.php?option=com_AXISUBS&view='.strtolower($key);?>"  tabindex="-1">
+                      		<a href="<?php echo 'index.php?option=com_axisubs&view='.$key;?>"  tabindex="-1">
                       			<i class="<?php echo !empty($value) ? $value: '';?>"></i>
                       			<span>
 	                           		<?php echo JText::_('COM_AXISUBS_TITLE_'.JString::strtoupper($key));?>

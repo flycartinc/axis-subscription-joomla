@@ -25,7 +25,31 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 		
 		// include namespaced bootstrap files
 		$this->_loadMediaFiles();
+		$this->translateOldViewNames();
 		require_once JPATH_ADMINISTRATOR.'/components/com_axisubs/vendor/autoload.php';
+	}
+
+	/**
+	 * Translates the view name 
+	 */
+	protected function translateOldViewNames()
+	{
+		$map = [
+			'plan'    		=> 'Plan',
+			'plans'    		=> 'Plans',
+			'subscribe' 	=> 'Subscribe',
+			'myprofile'		=> 'Profile',
+			'profile' 		=> 'Profile',
+			'myaccount' 	=> 'Profile',
+			'emailtemplates' 	=> 'EmailTemplates',
+		];
+
+		$oldViewName = strtolower($this->view);
+
+		if (isset($map[$oldViewName]))
+		{
+			$this->view = $map[$oldViewName];
+		}
 	}
 
 	function _loadMediaFiles(){

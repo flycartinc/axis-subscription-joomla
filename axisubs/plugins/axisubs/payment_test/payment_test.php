@@ -155,14 +155,25 @@ return $object; ///////////////////////////////////////
 
         // prepare the payment form
         $vars = new JObject();
-        $vars->subscription_id = $subcription['axisubs_subscription_id'];
-        $vars->plan_id = $subcription['plan_id'];
-        $vars->user_id = $subcription['user_id'];
+        if ( isset( $subcription['axisubs_subscription_id'] ) ) {
+	        $vars->subscription_id = $subcription['axisubs_subscription_id'];
+	        $vars->plan_id = $subcription['plan_id'];
+	        $vars->user_id = $subcription['user_id'];
+        }
         $vars->payment_method = $this->_element;
         $vars->onbeforepayment_text = $this->params->get('onbeforepayment', '');
 
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
+    }
+
+//////// for testing
+    function onAxisubsPlanAfterFormRender($plan){
+    	$vars = new JObject();
+    	$vars->message='message simple';
+    	$vars->title='message simple';
+    	$vars->html = $this->_getLayout('message', $vars);
+        return $vars;
     }
 
 	/**

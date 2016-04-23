@@ -340,8 +340,22 @@
               `created_on` datetime NOT NULL,
               `modified_on` datetime NOT NULL,
               PRIMARY KEY (`axisubs_transaction_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
         ]]></query>
-    </action>    
+    </action>
+    <action table="#__axisubs_zones" canfail="0">
+        <condition type="missing" value="" />
+        <query><![CDATA[
+            CREATE TABLE IF NOT EXISTS `#__axisubs_zones` (
+              `axisubs_zone_id` int(11) NOT NULL AUTO_INCREMENT,
+              `country_code` varchar(10) NOT NULL,
+              `zone_code` varchar(255) NOT NULL,
+              `zone_name` varchar(255) NOT NULL,
+              `enabled` int(11) NOT NULL,
+              `ordering` int(11) NOT NULL,
+              PRIMARY KEY (`axisubs_zone_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+        ]]></query>
+    </action>
     </sql>
 </schema>

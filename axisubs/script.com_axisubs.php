@@ -70,10 +70,55 @@ class Com_AxisubsInstallerScript extends \FOF30\Utils\InstallScript
 	{
 		// Call the parent method
 		parent::postflight($type, $parent);
+
+		$this->_installLocalisation($parent);
+		
 	}
 
 	public function uninstall($parent)
 	{
 		parent::uninstall($parent);
 	}
+
+	function _installLocalisation($parent) {
+
+
+		$installer = $parent->getParent();
+		$db = JFactory::getDbo();
+		//zones
+		$sql = $installer->getPath('source').'/administrator/components/com_axisubs/sql/install/mysql/zones.sql';
+		$this->_executeSQLFiles($sql);
+
+	}
+
+	private function _executeSQLFiles($sql) {
+		if(JFile::exists($sql)) {
+			$db = JFactory::getDbo();
+			$queries = JDatabaseDriver::splitSql(file_get_contents($sql));
+			foreach ($queries as $query)
+			{
+				$query = trim($query);
+				if ($query != '' && $query{0} != '#')
+				{
+					$db->setQuery($query);
+					try {
+						$db->execute();
+					}catch(Exception $e) {
+						//do nothing as customer can do this very well by going to the tools menu
+					}
+				}
+			}
+		}
+	}
+
+	private function _sqlexecute($query) {
+		$db = JFactory::getDbo();
+		$db->setQuery($query);
+		try {
+			$db->execute();
+		}catch(Exception $e) {
+			//do nothing as customer can do this very well by going to the tools menu
+		}
+	}
+
 }

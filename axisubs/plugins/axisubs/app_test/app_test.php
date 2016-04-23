@@ -75,4 +75,11 @@ class plgAxisubsApp_Test extends App
     	return $html;
     }
 
+    function onAxisubsPlanAfterFormRender($plan){
+        $vars = new JObject();
+        $vars->title='second integ';
+        $vars->html = 'second integration content';
+        return $vars;
+    }
+
 }
