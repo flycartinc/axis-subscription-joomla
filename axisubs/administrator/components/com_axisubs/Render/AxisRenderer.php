@@ -1054,6 +1054,105 @@ HTML;
 	}
 
 	/**
+	 * Custom function to render the head of the admin form with basic component vars
+	 * @param   Form   &$form  The form to render
+	 * @param   DataModel  $model  The model providing our data
+	 *
+	 * @return  string    The HTML head of the form
+	 * */
+	public function getFormHead(Form &$form, DataModel $model){
+
+		// Get the key for this model's table
+		$key		 = $model->getKeyName();
+		$keyValue	 = $model->getId();
+
+		$html = '';
+
+		$validate	 = strtolower($form->getAttribute('validate'));
+
+		if (in_array($validate, array('true', 'yes', '1', 'on')))
+		{
+			\JHTML::_('behavior.formvalidation');
+			$class = ' form-validate';
+			$this->loadValidationScript($form);
+		}
+		else
+		{
+			$class = '';
+		}
+
+		// Check form enctype. Use enctype="multipart/form-data" to upload binary files in your form.
+		$template_form_enctype = $form->getAttribute('enctype');
+
+		if (!empty($template_form_enctype))
+		{
+			$enctype = ' enctype="' . $form->getAttribute('enctype') . '" ';
+		}
+		else
+		{
+			$enctype = '';
+		}
+
+		// Check form name. Use name="yourformname" to modify the name of your form.
+		$formname = $form->getAttribute('name');
+
+		if (empty($formname))
+		{
+			$formname = 'adminForm';
+		}
+
+		// Check form ID. Use id="yourformname" to modify the id of your form.
+		$formid = $form->getAttribute('id');
+
+		if (empty($formid))
+		{
+			$formid = $formname;
+		}
+
+		// Check if we have a custom task
+		$customTask = $form->getAttribute('customTask');
+
+		if (empty($customTask))
+		{
+			$customTask = '';
+		}
+
+		// Get the form action URL
+		$platform = $this->container->platform;
+		$actionUrl = $platform->isBackend() ? 'index.php' : \JUri::root().'index.php';
+
+		$itemid = $this->container->input->getCmd('Itemid', 0);
+		if ($platform->isFrontend() && ($itemid != 0))
+		{
+			$uri = new \JUri($actionUrl);
+
+			if ($itemid)
+			{
+				$uri->setVar('Itemid', $itemid);
+			}
+
+			$actionUrl = \JRoute::_($uri->toString());
+		}
+
+		$html .= '<form action="'.$actionUrl.'" method="post" name="' . $formname .
+		         '" id="' . $formid . '"' . $enctype . ' class="form-horizontal' .
+		         $class . '">' . "\n";
+		$html .= "\t" . '<input type="hidden" name="option" value="' . $this->container->componentName . '" />' . "\n";
+		$html .= "\t" . '<input type="hidden" name="view" value="' . $form->getView()->getName() . '" />' . "\n";
+		$html .= "\t" . '<input type="hidden" name="task" value="' . $customTask . '" />' . "\n";
+		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . "\n";
+		$html .= "\t" . '<input type="hidden" name="format" value="' . $this->container->input->getCmd('format', 'html') . '" />' . "\n";
+
+		if ($tmpl = $this->container->input->getCmd('tmpl', ''))
+		{
+			$html .= "\t" . '<input type="hidden" name="tmpl" value="' . $tmpl . '" />' . "\n";
+		}
+
+		$html .= "\t" . '<input type="hidden" name="' . $this->container->session->getFormToken() . '" value="1" />' . "\n";
+
+		return $html;
+	}
+	/**
 	 * Renders a raw Form and returns the corresponding HTML
 	 *
 	 * @param   Form   &$form     The form to render

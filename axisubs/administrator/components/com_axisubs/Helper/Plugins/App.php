@@ -30,9 +30,11 @@ class App extends Base
 	
 	function __construct(& $subject, $config)
 	{
-		parent::__construct($subject, $config);		
+		parent::__construct($subject, $config);
+		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		$this->loadLanguage( '', JPATH_SITE );
 	}
-
+	
 	public function onAxisubsGetAppView($row){
 		if ( !$this->_isMe( $row ) )
 		{

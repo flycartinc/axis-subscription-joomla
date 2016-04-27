@@ -20,26 +20,12 @@ class plgAxisubsApp_JUsergroup extends App
     var $_element   = 'app_jusergroup';
 
 	/**
-	 * Public constructor
-	 *
-	 * @param object $subject
-	 * @param array  $config
-	 */
-	public function __construct(& $subject, $config = array())
-	{
-		$config['templatePath'] = dirname(__FILE__);
-		$config['name']         = 'joomla';
-
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Method to integrate the plan form 
 	 * */
 	function onAxisubsPlanAfterFormRender($plan){
         $vars = new JObject();
         $vars->plan = $plan ;
-        $vars->title='Joomla User Group';
+        $vars->title= JText::_('PLG_AXISUBS_JUSERGROUP_PLAN_TAB_TITLE');
         $vars->html = $this->_getLayout('form', $vars);
 
         return $vars;

@@ -299,9 +299,18 @@ class Plans extends DataModel
 	 */
 	protected function onBeforeBind(&$data)
 	{
+		$app = \JFactory::getApplication();
+		$input_data = $app->input->getArray($_POST);
+
 		if (!is_array($data))
 		{
 			return;
+		}
+
+		if (array_key_exists('params', $input_data))
+		{
+			$params = json_encode($data['params']);
+			$data['params'] =  $params ;
 		}
 
 		if (array_key_exists('custom', $data))
@@ -314,11 +323,13 @@ class Plans extends DataModel
 
 	protected function getParamsAttribute($value)
 	{
+		
 		return $this->getAttributeForJson($value);
 	}
 
 	protected function setParamsAttribute($value)
 	{
+
 		return $this->setAttributeForJson($value);
 	}
 

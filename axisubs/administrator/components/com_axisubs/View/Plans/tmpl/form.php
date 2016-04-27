@@ -12,7 +12,9 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 $doc = \JFactory::getDocument();
 $model = $this->getModel();
 $all_plugin_fields = Axisubs::plugin()->event('PlanAfterFormRender', array($model) );
+$renderer = $this->container->renderer;
 ?>
+<?php echo $renderer->getFormHead($this->form, $this->getModel()); ?>
 <div class="tabbable">
 	<ul class="nav nav-tabs">
 		<li class="active">
@@ -31,7 +33,7 @@ $all_plugin_fields = Axisubs::plugin()->event('PlanAfterFormRender', array($mode
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="tab0">
-			<?php echo $this->getRenderedForm(); ?>	
+			<?php echo $renderer->renderForm($this->form, $this->getModel(), null,true); ?>	
 		</div>			
 		<?php $n = 1;
 		if (is_array($all_plugin_fields) && !empty($all_plugin_fields)):
@@ -43,6 +45,7 @@ $all_plugin_fields = Axisubs::plugin()->event('PlanAfterFormRender', array($mode
 		endif;?>
 	</div>
 </div>
+</form>
 
 <script type="text/javascript">
 jQuery('#plantitle').change(function() {
