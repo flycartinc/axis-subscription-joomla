@@ -29,9 +29,9 @@ The reveloutionary Recurring Billing, Subscriptions and Membership application f
     + Paypal
     + Test payment gateway
 - Powerful App Structure  
-    Axisubs App structure leverages the flexibility and robustness of Native Joomla Plugin structure. An Axisubs App is can be designed as a Joomla plugin and is easy to manage in Apps section in the Axis Subscription Admin Dashboard. 
+    Axis subscriptions App structure leverages the flexibility and robustness of Native Joomla Plugin structure. An Axis subscriptions App is can be designed as a Joomla plugin and is easy to manage in Apps section in the Axis Subscription Admin Dashboard. 
     + Usefull Triggers for more flexibility and customizable application flow.
-    + Take a look at our test app to know the structure and working of an Axisubs App.
+    + Take a look at our test app to know the structure and working of an Axis subscriptions App.
 
 - Email Notifications ( as an App )  
     + The notifications system is made modular. Any notification system such as mailchimp / amazon ses / newsletter component / push notifications / customized mail notification through another app may be created.
