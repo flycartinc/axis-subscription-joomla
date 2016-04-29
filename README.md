@@ -1,5 +1,5 @@
-# Axisubs
-Subscription and Membership Management for Joomla.
+# Axis Subscriptions
+The reveloutionary Recurring Billing, Subscriptions and Membership application for Joomla
 
 ****
 
