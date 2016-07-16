@@ -1,7 +1,7 @@
 <?php
 /**
- * @package   Axisubs - Subscription Management System
- * @copyright Copyright (c)2016-2020 Sasi varna kumar / Flycart Technologies
+ * @package   Axisubs
+ * @copyright Copyright (c)2015-2019 Sasi varna kumar / J2Store.org
  * @license   GNU General Public License version 3, or later
  */
 
@@ -15,6 +15,6 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 defined('_JEXEC') or die;
 
 class Html extends \FOF30\View\DataView\Html
-{
+{	
 
 }

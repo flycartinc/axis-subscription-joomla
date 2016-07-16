@@ -20,9 +20,11 @@ class Apps extends DataController
 
 	public function execute($task)
 	{
+
 		$app = JFactory::getApplication();
 		$appTask = $app->input->getCmd('appTask', '');
 		$values = $app->input->getArray($_POST);
+		$returnView = $app->input->getCmd('return', '');
 
 		// Check if we are in a report method view. If it is so,
 		// Try lo load the report plugin controller (if any)
@@ -46,7 +48,11 @@ class Apps extends DataController
 			// without the tool_ prefix and with the first letter Uppercase, and should
 			// be placed into a controller.php file inside the root of the plugin
 			// Ex: tool_standard => J2StoreControllerToolStandard in tool_standard/controller.php
-			$controllerName = str_ireplace('app_', '', $element);
+			if($returnView != ''){
+				$controllerName = str_ireplace(strtolower($returnView).'_', '', $element);
+			} else {
+				$controllerName = str_ireplace('app_', '', $element);
+			}
 			$controllerName = ucfirst($controllerName);
 			$path = JPATH_SITE.'/plugins/axisubs/';
 			$controllerPath = $path.$element.'/'.$element.'/controller.php';
@@ -55,8 +61,11 @@ class Apps extends DataController
 			} else {
 				$controllerName = '';
 			}
-			
-			$className    = 'AxisubsControllerApp'.$controllerName;
+			if($returnView != '') {
+				$className = 'AxisubsController'.$returnView. $controllerName;
+			} else {
+				$className = 'AxisubsControllerApp' . $controllerName;
+			}
 			if ($controllerName != '' && class_exists($className)){
 
 				$container = \FOF30\Container\Container::getInstance('com_axisubs');
@@ -75,6 +84,11 @@ class Apps extends DataController
 			}
 		} else{
 			parent::execute($task);
+			if($returnView != '' && $task  != "view"){
+				$app->redirect('index.php?option=com_axisubs&view='.$returnView);
+				return;
+			}
+
 		}
 	}
 

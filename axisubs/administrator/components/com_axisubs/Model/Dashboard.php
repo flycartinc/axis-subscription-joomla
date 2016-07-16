@@ -28,7 +28,6 @@ class Dashboard extends Model
 
 		$dbInstaller = new Installer($db, JPATH_ADMINISTRATOR . '/components/com_axisubs/sql/xml');
 		$dbInstaller->updateSchema();
-
 		return $this;
 	}
 	

@@ -54,6 +54,35 @@ class Mail{
 	}
 
 	/**
+	 * Sends error messages to site administrators
+	 *
+	 * @param string $message
+	 * @param string $paymentData
+	 * @return boolean
+	 * @access protected
+	 */
+	public function sendErrorEmails($receiver, $subject, $body,  $cc = null, $bcc = null)
+	{
+		if(!isset($receiver)) return false;
+
+		$mainframe = JFactory::getApplication();
+		$config = JFactory::getConfig();
+
+		$mailer = $this->getMailer();
+		$mailfrom = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
+		$mailer->setSender(array( $mailfrom, $fromname ));
+
+		$mailer->addRecipient($receiver);
+		$mailer->setSubject($subject);
+		$mailer->setBody($body);
+		$mailer->addCC($cc);
+		$mailer->addCC($bcc);
+
+		return $mailer->Send();
+	}
+
+	/**
 	 * Method to send the emails for the supplied event and objects
 	 * */
 	function sendEmails( $event_name ='', $objects ){
@@ -197,7 +226,7 @@ class Mail{
 		$lang_code = $config->get('language');
 		
 		if (isset($objects['subscription']) && isset( $objects['subscription']->language ) 
-			&& !empty(( $objects['subscription']->language )) ) {
+			&& !empty( $objects['subscription']->language ) ) {
 			$lang_code = $objects['subscription']->language;
 		}
 		// now find the language id for the language code

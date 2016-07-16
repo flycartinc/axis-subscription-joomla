@@ -36,7 +36,7 @@ class AxisubsRouter extends JComponentRouterBase {
 
 		$menus = JMenu::getInstance ( 'site' );
 
-		$view = Router::getAndPop ( $query, 'view', 'carts' );
+		$view = Router::getAndPop ( $query, 'view', 'Plans' );
 		$task = Router::getAndPop ( $query, 'task' );
 		$layout = Router::getAndPop ( $query, 'layout' );
 		$id = Router::getAndPop ( $query, 'id' );
@@ -51,21 +51,21 @@ class AxisubsRouter extends JComponentRouterBase {
 		);
 
 		switch ($view) {
-			case 'Login' :
-			case 'login' :
+			case 'Plans' :
+			case 'plans' :
 				// Is it a mycart menu?
 				if ($Itemid) {
 					$menu = $menus->getItem ( $Itemid );
-					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'login';
+					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'plans';
 					$mTask = isset ( $menu->query ['task'] ) ? $menu->query ['task'] : '';
 					// No, we have to find another root
-					if (($mView != 'Login' && $mView != 'login'))
+					if (($mView != 'Plans' && $mView != 'plans'))
 						$Itemid = null;
 				}
 
 				if (empty ( $Itemid )) {
 					// No menu found, let's add a segment manually
-					$segments [] = 'login';
+					$segments [] = 'plans';
 					if (isset ( $task )) {
 						$segments [] = $task;
 					}
@@ -82,6 +82,118 @@ class AxisubsRouter extends JComponentRouterBase {
 					$query ['Itemid'] = $Itemid;
 				}
 				break;
+			case 'Plan' :
+			case 'plan' :
+				$plan_slug = Router::getAndPop ( $query, 'slug' );
+				// Is it a mycart menu?
+				if ($Itemid) {
+					$menu = $menus->getItem ( $Itemid );
+					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'plan';
+					$mTask = isset ( $menu->query ['task'] ) ? $menu->query ['task'] : '';
+					// No, we have to find another root
+					if (($mView != 'plan' && $mView != 'Plan'))
+						$Itemid = null;
+				}
+
+				if (empty ( $Itemid )) {
+					// No menu found, let's add a segment manually
+					$segments [] = 'Plan';
+					if (isset ( $task )) {
+						$segments [] = $task;
+					}
+					if (isset ( $plan_slug )) {
+						$segments [] = $plan_slug;
+					}
+					
+				} else {
+
+				// sometimes we need task
+					if (isset ( $mTask ) && ! empty ( $mTask )) {
+						$segments [] = $mTask;
+					} elseif (isset ( $task )) {
+						$segments [] = $task;
+					}
+					
+					if (isset ( $plan_slug )) {
+						$segments [] = $plan_slug;
+					}
+
+					// Joomla! will let the menu item naming work its magic
+					$query ['Itemid'] = $Itemid;
+				}
+				break;	
+			case 'Subscribe' :
+			case 'subscribe' :
+				$plan_slug = Router::getAndPop ( $query, 'plan' );
+				// Is it a mycart menu?
+				if ($Itemid) {
+					$menu = $menus->getItem ( $Itemid );
+					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'subscribe';
+					$mTask = isset ( $menu->query ['task'] ) ? $menu->query ['task'] : '';
+					// No, we have to find another root
+					if (($mView != 'subscribe' && $mView != 'Subscribe'))
+						$Itemid = null;
+				}
+
+				if (empty ( $Itemid )) {
+					// No menu found, let's add a segment manually
+					$segments [] = 'Subscribe';
+					if (isset ( $task )) {
+						$segments [] = $task;
+					}
+					if (isset ( $plan_slug )) {
+						$segments [] = $plan_slug;
+					}
+					
+				} else {
+
+				// sometimes we need task
+					if (isset ( $mTask ) && ! empty ( $mTask )) {
+						$segments [] = $mTask;
+					} elseif (isset ( $task )) {
+						$segments [] = $task;
+					}
+					
+					if (isset ( $plan_slug )) {
+						$segments [] = $plan_slug;
+					}
+
+					// Joomla! will let the menu item naming work its magic
+					$query ['Itemid'] = $Itemid;
+				}
+				break;		
+			case 'Profile' :
+			case 'profile' :
+				// Is it a mycart menu?
+				if ($Itemid) {
+					$menu = $menus->getItem ( $Itemid );
+					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'profile';
+					$mTask = isset ( $menu->query ['task'] ) ? $menu->query ['task'] : '';
+					// No, we have to find another root
+					if (($mView != 'profile' && $mView != 'Profile'))
+						$Itemid = null;
+				}
+
+				if (empty ( $Itemid )) {
+					// No menu found, let's add a segment manually
+					$segments [] = 'profile';
+					if (isset ( $task )) {
+						$segments [] = $task;
+					}
+					
+				} else {
+
+					// sometimes we need task
+					if (isset ( $mTask ) && ! empty ( $mTask )) {
+						$segments [] = $mTask;
+					} elseif (isset ( $task )) {
+						$segments [] = $task;
+					}
+
+					// Joomla! will let the menu item naming work its magic
+					$query ['Itemid'] = $Itemid;
+				}
+				break;			
 		}
 
 		return $segments;
@@ -95,32 +207,107 @@ class AxisubsRouter extends JComponentRouterBase {
 		$menu = $menus->getActive ();
 		$vars = array ();
 		$total = count ( $segments );
-		for($i = 0; $i < $total; $i ++) {
+		/*for($i = 0; $i < $total; $i ++) {
 			$segments [$i] = preg_replace ( '/-/', ':', $segments [$i], 1 );
-		}
+		}*/
+		$subs_tasks = array( 'paySubscription', 'subscribeUser','confirmPayment', 'renew' );
 
 		if (is_null ( $menu ) && count ( $segments )) {
-			if ($segments [0] == 'Login' || $segments [0] == 'login') {
+			if ($segments [0] == 'Plans' || $segments [0] == 'plans') {
 				$vars ['view'] = $segments [0];
 				if (isset ( $segments [1] )) {
 					$vars ['task'] = $segments [1];
 				}
 			}
+
+			if ($segments [0] == 'Plan' || $segments [0] == 'plan') {
+				$vars ['view'] = $segments [0];
+				if (isset ( $segments [1] )) {
+					$vars ['slug'] = $segments [1];
+				}
+			}
+
+			if ($segments [0] == 'Subscribe' || $segments [0] == 'subscribe') {
+				$vars ['view'] = $segments [0];
+				if (isset ( $segments [1] )) {
+					if (in_array($segments [1], $subs_tasks)) {
+						$vars ['task'] = $segments [1];	
+					}else {
+						$vars ['plan'] = $segments [1];	
+					}
+				}
+			}
+
+			if ($segments [0] == 'Profile' || $segments [0] == 'profile') {
+				$vars ['view'] = $segments [0];
+				if (isset ( $segments [1] )) {
+					$vars ['task'] = $segments [1];
+				}
+			}
+
 		} else {
 			if (count ( $segments )) {
 
 				$mView = $menu->query ['view'];
 
-				if (isset ( $mView ) && ($mView == 'login' || $mView == 'Login')) {
+				if (isset ( $mView ) && ($mView == 'plans' || $mView == 'Plans')) {
 					$vars ['view'] = $mView;
 					if (isset ( $segments [0] )) {
 						$vars ['task'] = $segments [0];
 					}
 
-				} elseif ($segments [0] == 'login' || $segments [0] == 'Login') {
+				} elseif ($segments [0] == 'plans' || $segments [0] == 'Plans') {
 					$vars ['view'] = $segments [0];
 					if (isset ( $segments [1] )) {
 						$vars ['task'] = $segments [1];
+					}
+				}
+
+				if (isset ( $mView ) && ($mView == 'plan' || $mView == 'Plan')) {
+					$vars ['view'] = $mView;
+					if (isset ( $segments [0] )) {
+						$vars ['slug'] = $segments [0];
+					}
+
+				} elseif ($segments [0] == 'plan' || $segments [0] == 'Plan') {
+					$vars ['view'] = $segments [0];
+					if (isset ( $segments [1] )) {
+						$vars ['slug'] = $segments [1];
+					}
+				}
+
+				
+				if (isset ( $mView ) && ($mView == 'subscribe' || $mView == 'Subscribe')) {
+					$vars ['view'] = $mView;					
+					if (isset ( $segments [0] )) {
+						if (in_array($segments [0], $subs_tasks)) {
+							$vars ['task'] = $segments [0];	
+						}else {
+							$vars ['plan'] = $segments [0];	
+						}						
+					}
+
+				} elseif ($segments [0] == 'subscribe' || $segments [0] == 'Subscribe') {
+					$vars ['view'] = $segments [0];
+					if (isset ( $segments [1] )) {
+						if (in_array($segments [1], $subs_tasks)) {
+							$vars ['task'] = $segments [1];	
+						}else {
+							$vars ['plan'] = $segments [1];	
+						}
+					}
+				}
+
+				if (isset ( $mView ) && ($mView == 'profile' || $mView == 'Profile')) {
+					$vars ['view'] = $mView;					
+					if (isset ( $segments [0] )) {
+						$vars ['task'] = $segments [0];
+					}
+
+				} elseif ($segments [0] == 'profile' || $segments [0] == 'Profile') {
+					$vars ['view'] = $segments [0];
+					if (isset ( $segments [1] )) {
+						$vars ['task'] = $segments [1];	
 					}
 				}
 

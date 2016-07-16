@@ -4,6 +4,8 @@
  * @copyright Copyright (c)2016-2020 Sasi varna kumar / Flycart Technologies
  * @license   GNU General Public License version 3, or later
  */
+ 
+defined('_JEXEC') or die();
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $this->current_customer = $this->item->customer ;

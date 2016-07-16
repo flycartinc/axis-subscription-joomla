@@ -34,6 +34,7 @@ class Transactions extends DataModel
 									'transaction_status',
 									'payment_processor',
 									'processor_status',
+									'subscription_profile_id',
 									'transaction_ref_id',
 									'transaction_amount',
 									'transaction_currency',

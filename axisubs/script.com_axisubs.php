@@ -65,14 +65,18 @@ class Com_AxisubsInstallerScript extends \FOF30\Utils\InstallScript
 	 * @var   array
 	 */
 	protected $removeFilesAllVersions = array( );
-
+	
+	private $axisubsCliScripts = array(
+		'axisubs-expirycontrol.php'
+	);
+	
 	public function postflight($type, $parent)
 	{
 		// Call the parent method
 		parent::postflight($type, $parent);
 
-		$this->_installLocalisation($parent);
-		
+		$this->_installLocalisation($parent);	
+		$this->_copyCliFiles($parent);
 	}
 
 	public function uninstall($parent)
@@ -82,15 +86,61 @@ class Com_AxisubsInstallerScript extends \FOF30\Utils\InstallScript
 
 	function _installLocalisation($parent) {
 
-
 		$installer = $parent->getParent();
 		$db = JFactory::getDbo();
+
 		//zones
 		$sql = $installer->getPath('source').'/administrator/components/com_axisubs/sql/install/mysql/zones.sql';
 		$this->_executeSQLFiles($sql);
 
+		// create a currency object if no currencies are found yet.
+		$sql = " INSERT INTO `#__axisubs_currencies` (`axisubs_currency_id`, `currency_title`, `currency_code`, `currency_position`, `currency_symbol`, `currency_num_decimals`, `currency_decimal`, `currency_thousands`, `currency_value`, `enabled`, `ordering`) VALUES (1, 'USD', 'USD', 'pre', '$', 2, '.', ',', 1.00000000, 1, 0);";
+		$count_sql = "SELECT count(*) FROM #__axisubs_currencies ";
+		$db->setQuery($count_sql);
+		$currency_count = $db->loadResult();
+		if ( !$currency_count ) {
+			$this->_sqlexecute($sql);
+		}
+
+		// validate the configurations table
+		$get_conf_sql = "SELECT config_meta_value FROM #__axisubs_configurations where config_meta_key='config_currency'; ";
+		$db->setQuery($get_conf_sql);
+		$conf_currency = $db->loadObjectList();
+		$sql='';
+		if ( empty($conf_currency) ) {
+			$sql = " INSERT INTO `#__axisubs_configurations` (`config_meta_key`, `config_meta_value`, `config_meta_default`) VALUES ('config_currency', 'USD', ''); " ;
+		}elseif (empty($conf_currency[0]->config_meta_value)) {
+			$sql = " UPDATE `#__axisubs_configurations` SET `config_meta_value` = 'USD' WHERE `#__axisubs_configurations`.`config_meta_key` = 'config_currency'; ";
+		}
+
+		if (!empty($sql)) {
+			$this->_sqlexecute($sql);
+		}
+	}
+	
+	/**
+	 * Copies the CLI scripts into Joomla!'s cli directory
+	 *
+	 * @param JInstaller $parent
+	 */
+	private function _copyCliFiles($parent)
+	{
+		$src = $parent->getParent()->getPath('source');
+
+		JLoader::import("joomla.filesystem.file");
+		JLoader::import("joomla.filesystem.folder");
+
+		foreach($this->axisubsCliScripts as $script) {
+			if(JFile::exists(JPATH_ROOT.'/cli/'.$script)) {
+				JFile::delete(JPATH_ROOT.'/cli/'.$script);
+			}
+			if(JFile::exists($src.'/cli/'.$script)) {
+				JFile::move($src.'/cli/'.$script, JPATH_ROOT.'/cli/'.$script);
+			}
+		}
 	}
 
+	
 	private function _executeSQLFiles($sql) {
 		if(JFile::exists($sql)) {
 			$db = JFactory::getDbo();

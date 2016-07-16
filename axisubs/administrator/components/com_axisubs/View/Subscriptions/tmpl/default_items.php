@@ -11,6 +11,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $curr = Axisubs::currency();
 $status_helper = Axisubs::status();
+$date_helper = Axisubs::date();
 ?>
 <div class="panel panel-info cb-custm-chkbx">
 	<div class="panel-heading"></div>
@@ -85,18 +86,55 @@ $status_helper = Axisubs::status();
 		</div>
 		<div class="col-md-3 planpadding">
 			<dl>
-				<dt>
+				<!-- <dt>
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_CUSTOMERSS_CREATED_AT');?>:
 					</span>
 					<?php echo $item->created_on; ?>
-				</dt>
-				<dt>
-					<span class="pcolor">
-						<?php echo JText::_('COM_AXISUBS_PLAN_CONTENT_TRAIL_END');?>:
-					</span> 
-						<?php echo $item->trail_end; ?>
-				</dt>
+				</dt> -->
+				<?php if ( ! in_array($item->status, array('N','P') )) { ?>
+	                 <dt>
+	                    <span class="pcolor">
+	                        <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_STARTS_ON');?>
+	                    </span>
+	                    <?php echo $date_helper->get_formatted_date ( $item->current_term_start ); ?>
+	                </dt>
+	                <dt>
+	                    <span class="pcolor">
+	                        <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_ENDS_ON');?>
+	                    </span>
+	                    <?php echo $date_helper->get_formatted_date ( $item->current_term_end ); ?>
+	                </dt>
+	                <dt>
+	                    <span class="pcolor">
+	                    	 <?php 
+	                            $now = $date_helper->getCarbonDate(); 
+	                            $term_start = $date_helper->getCarbonDate( $item->current_term_start );
+	                            $term_end = $date_helper->getCarbonDate( $item->current_term_end );
+	                            if ( $term_start->gte($now) ){
+	                                // Trial yet to start - no of days to start
+	                                $no_of_days_to_start = $now->diffInDays( $term_start ) ;
+	                            ?>
+	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_DAYS_TO_START'); ?>
+	                                <?php echo $no_of_days_to_start; ?> Days
+	                            <?php 
+	                            }elseif ( $term_start->lte($now) && $term_end->gte($now)){
+	                                // trial is running - show no of days remaining
+	                                $no_of_days_to_end = $term_end->diffInDays( $now ) ;
+	                            ?>
+	                                <?php echo $no_of_days_to_end; ?> 
+	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_DAYS_REMAINING'); ?>
+	                            <?php
+	                            }else {
+	                                // Trial period ended
+	                            ?>
+	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_ENDED'); ?>
+	                            <?php    
+	                            }
+	                        ?>
+	                    </span>
+	                </dt>
+	            <?php } ?>
 				<dt>
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_PLAN_PRICE');?>:

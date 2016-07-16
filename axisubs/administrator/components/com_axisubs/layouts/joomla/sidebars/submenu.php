@@ -14,6 +14,11 @@ $menus = array (
 				'icon' => 'fa fa-th-large'
 		),
 		array (
+			'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_PLANS' ),
+			'viewname' => 'Plans',
+			'icon' => 'fa fa-file-powerpoint-o'
+		),
+		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_CUSTOMERS' ),
 				'viewname' => 'Customers',
 				'icon' => 'fa fa-user'
@@ -22,11 +27,6 @@ $menus = array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_SUBSCRIPTIONS' ),
 				'viewname' => 'Subscriptions',
 				'icon' => 'fa fa-rss'
-		),
-		array (
-				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_PLANS' ),
-				'viewname' => 'Plans',
-				'icon' => 'fa fa-file-powerpoint-o'
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_REPORTS' ),
@@ -40,7 +40,7 @@ $menus = array (
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_SETUP' ),
-				'viewname' => 'Setup',
+				'viewname' => '',
 				'icon' => 'fa fa-cubes',
 				'submenu' => array (
 						'Payments' => 'fa fa-money',

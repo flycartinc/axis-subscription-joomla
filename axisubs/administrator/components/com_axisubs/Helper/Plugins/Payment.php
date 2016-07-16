@@ -37,7 +37,7 @@ class Payment extends Base
 	}
 
 	/**
-	 * Triggered before making the payment
+	 * Triggered before making the Payment
 	 * You can perform any modification to the order table variables here. Like setting a surcharge
 	 *
 	 *
@@ -46,17 +46,17 @@ class Payment extends Base
 	 */
 	function _beforePayment( $order )
 	{
-		// Before the payment
+		// Before the Payment
 		$html = '';
 		return $html;
 	}
 
 	/**
-	 * Prepares the payment form
+	 * Prepares the Payment form
 	 * and returns HTML Form to be displayed to the user
 	 * generally will have a message saying, 'confirm entries, then click complete order'
 	 *
-	 * Submit button target for onsite payments & return URL for offsite payments should be:
+	 * Submit button target for onsite Payment & return URL for offsite Payment should be:
 	 * index.php?option=com_j2store&view=billing&task=confirmPayment&orderpayment_type=xxxxxx
 	 * where xxxxxxx = $_element = the plugin's filename
 	 *
@@ -65,7 +65,7 @@ class Payment extends Base
 	 */
 	function _prePayment( $data )
 	{
-		// Process the payment
+		// Process the Payment
 
 		$vars = new JObject();
 		$vars->message = "Preprocessing successful. Double-check your entries.  Then, to complete your order, click Complete Order!";
@@ -75,12 +75,12 @@ class Payment extends Base
 	}
 
 	/**
-	 * Processes the payment form
+	 * Processes the Payment form
 	 * and returns HTML to be displayed to the user
 	 * generally with a success/failed message
 	 *
-	 * IMPORTANT: It is the responsibility of each payment plugin
-	 * to tell clear the user's cart (if the payment status warrants it) by using:
+	 * IMPORTANT: It is the responsibility of each Payment plugin
+	 * to tell clear the user's cart (if the Payment status warrants it) by using:
 	 *
 	 * $this->removeOrderItemsFromCart( $order_id );
 	 *
@@ -122,14 +122,14 @@ class Payment extends Base
 
 	/**
 	 * Prepares the 'view' tmpl layout
-	 * when viewing a payment record
+	 * when viewing a Payment record
 	 *
 	 * @param $orderPayment     object       a valid TableOrderPayment object
 	 * @return string   HTML to display
 	 */
 	function _renderView( $orderPayment )
 	{
-		// Load the payment from _orderpayments and render its html
+		// Load the Payment from _orderpayments and render its html
 
 		$vars = new JObject();
 		$vars->full_name        = "";
@@ -141,7 +141,7 @@ class Payment extends Base
 	}
 
 	/**
-	 * Prepares variables for the payment form
+	 * Prepares variables for the Payment form
 	 *
 	 * @param $data     array       form post data for pre-populating form
 	 * @return string   HTML to display
@@ -190,7 +190,7 @@ class Payment extends Base
 	************************************/
 
 	/**
-	 * This method can be executed by a payment plugin after a succesful payment
+	 * This method can be executed by a Payment plugin after a succesful Payment
 	 * to perform acts such as enabling file downloads, removing items from cart,
 	 * updating product quantities, etc
 	 *
@@ -214,9 +214,9 @@ class Payment extends Base
 	}
 
 	/**
-	 * Tells extension that this is a payment plugin
+	 * Tells extension that this is a Payment plugin
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @return boolean
 	 */
 	function onAxisubsGetPaymentPlugins( $element )
@@ -239,9 +239,9 @@ class Payment extends Base
 
 		$found = true;
 
-		// if this payment method should be available for this order, return true
+		// if this Payment method should be available for this order, return true
 		// if not, return false.
-		// by default, all enabled payment methods are valid, so return true here,
+		// by default, all enabled Payment methods are valid, so return true here,
 		// but plugins may override this
 
 		// TODO: zone based filter
@@ -252,7 +252,7 @@ class Payment extends Base
 	/**
 	 * Wrapper for the internal _renderForm method
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $data     array       form post data
 	 * @return html
 	 */
@@ -271,7 +271,7 @@ class Payment extends Base
 	/**
 	 * Wrapper for the internal _verifyForm method
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $data     array       form post data
 	 * @return html
 	 */
@@ -290,7 +290,7 @@ class Payment extends Base
 	/**
 	 * Wrapper for the internal _renderView method
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $orderPayment  object      a valid TableOrderPayment object
 	 * @return html
 	 */
@@ -308,9 +308,9 @@ class Payment extends Base
 
 	/**
 	 * Wrapper for the internal _prePayment method
-	 * which performs any necessary actions before payment
+	 * which performs any necessary actions before Payment
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $data     array       form post data
 	 * @return html
 	 */
@@ -328,9 +328,9 @@ class Payment extends Base
 
 	/**
 	 * Wrapper for the internal _postPayment method
-	 * that processes the payment after user submits
+	 * that processes the Payment after user submits
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $data     array       form post data
 	 * @return html
 	 */
@@ -348,9 +348,9 @@ class Payment extends Base
 
 	/**
 	 * Wrapper for the internal _beforePayment method
-	 * which performs any necessary actions before payment
+	 * which performs any necessary actions before Payment
 	 *
-	 * @param $element  string      a valid payment plugin element
+	 * @param $element  string      a valid Payment plugin element
 	 * @param $order    object      order object
 	 * @return html
 	 */

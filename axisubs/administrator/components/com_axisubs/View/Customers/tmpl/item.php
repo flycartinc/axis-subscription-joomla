@@ -248,9 +248,6 @@ $status_helper = Axisubs::status();
 
 
 
-
-
-
 <!--SIDE BAR-->
         <div class="viewsidebar">   
             <h2 class="viewtitle-text viewh actionsub"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS');?></h2>
@@ -260,7 +257,7 @@ $status_helper = Axisubs::status();
                         <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_CREATE_NEW_SUBSCRIPTION_DESC');?>
                     </dt>
                     <dd>
-                        <a id="" class="btn btn-default viewaction-button" href="#">
+                        <a id="" class="btn btn-default viewaction-button" href="index.php?option=com_axisubs&view=Subscriptions&task=add&user_id=<?php echo $this->item->user_id; ?>" >
                             <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_CREATE_NEW_SUBSCRIPTION');?>
                         </a>
                     </dd>        
@@ -268,11 +265,11 @@ $status_helper = Axisubs::status();
                         <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_CHANGE_CUSTOMER_DETAILS_DESC');?>
                     </dt>
                     <dd>
-                        <a id="cust-update-link" class="btn btn-default viewaction-button" href="#">
+                        <a id="cust-update-link" class="btn btn-default viewaction-button" href="index.php?option=com_axisubs&view=Customer&id=<?php echo $this->item->axisubs_customer_id; ?>">
                             <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_CHANGE_CUSTOMER_DETAILS');?>
                         </a>
                     </dd>
-                    <dt>
+                    <!-- <dt>
                         <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_REQUEST_PAYMENT_METHOD_DESC');?>
                     </dt>
                     <dd>
@@ -296,7 +293,7 @@ $status_helper = Axisubs::status();
                             <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_ACTIONS_DELETE_CUSTOMER');?>
                         </a>
                     
-                    </dd>
+                    </dd> -->
                 </dl>
             </div>
         </div>

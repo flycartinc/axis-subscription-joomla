@@ -1,6 +1,6 @@
 <?php
 /**
- * @package   Axisubs - Test payment
+ * @package   Axisubs - Test Payment
  * @copyright Copyright (c)2016-2020 Sasi varna kumar / Flycart Technologies
  * @license   GNU General Public License version 3, or later
  */
@@ -44,7 +44,48 @@ class plgAxisubsPayment_Test extends Payment
 	function onAxisubsCalculateFees($order) {
 	
 	}
-	
+
+	function onAxisubsGetAppView( $row )
+	{
+
+		if (!$this->_isMe($row))
+		{
+			return null;
+		}
+
+		$html = $this->viewList();
+
+		return $html;
+	}
+
+	function viewList()
+	{
+		$app = JFactory::getApplication();
+		$option = 'com_axisubs';
+		$ns = $option.'.payment';
+		$html = "";
+		JToolBarHelper::title(JText::_('AXISUBS_APP').'-'.JText::_('PLG_AXISUBS_'.strtoupper($this->_element)),'axisubs-logo');
+		JToolBarHelper::apply('apply');
+		JToolBarHelper::save();
+
+		$vars = new JObject();
+		$this->includeCustomModel('PaymentTest');
+
+		$container = \FOF30\Container\Container::getInstance('com_axisubs');
+		$model = new AxisubsModelPaymentTest( $container, $config = array('name'=>'AxisubsModelPaymentTest') );
+
+		$data = $this->params->toArray();
+		$newdata = array();
+		$newdata['params'] = $data;
+		$form = $model->getForm($newdata);
+		$vars->form = $form;
+
+		$id = $app->input->getInt('id', '0');
+		$vars->id = $id;
+		$html = $this->_getLayout('default', $vars);
+		return $html;
+	}
+
 	/**
 	 * @param $data     array       form post data
 	 * @return string   HTML to display
@@ -56,7 +97,7 @@ class plgAxisubsPayment_Test extends Payment
 		$params = Axisubs::config();
 		$currency = Axisubs::currency();
 
-		// prepare the payment form
+		// prepare the Payment form
 
 		$vars = new JObject();
 
@@ -153,7 +194,7 @@ return $object; ///////////////////////////////////////
         //get subscription data
         $subcription = $data->getData();
 
-        // prepare the payment form
+        // prepare the Payment form
         $vars = new JObject();
         if ( isset( $subcription['axisubs_subscription_id'] ) ) {
 	        $vars->subscription_id = $subcription['axisubs_subscription_id'];
@@ -167,17 +208,17 @@ return $object; ///////////////////////////////////////
         return $html;
     }
 
-//////// for testing
-    function onAxisubsPlanAfterFormRender($plan){
+
+    /*function onAxisubsPlanAfterFormRender($plan){
     	$vars = new JObject();
     	$vars->message='message simple';
     	$vars->title='message simple';
     	$vars->html = $this->_getLayout('message', $vars);
         return $vars;
-    }
+    }*/
 
 	/**
-	 * Processes the payment form
+	 * Processes the Payment form
 	 * and returns HTML to be displayed to the user
 	 * generally with a success/failed message
 	 *
@@ -232,7 +273,7 @@ return $object; ///////////////////////////////////////
 	}
 
 	/**
-	 * Prepares variables for the payment form
+	 * Prepares variables for the Payment form
 	 *
 	 * @return unknown_type
 	 */
@@ -259,7 +300,7 @@ return $object; ///////////////////////////////////////
 	}
 
 	/**
-	 * Processes the sale payment
+	 * Processes the sale Payment
 	 *
 	 * @param array $data IPN data
 	 * @return boolean Did the IPN Validate?
@@ -267,7 +308,7 @@ return $object; ///////////////////////////////////////
 	 */
 	function _processSale($data, $ipnValidationFailed = '') {
 		/*
-		 * validate the payment data
+		 * validate the Payment data
 		 */
 		$errors = array ();
 

@@ -140,6 +140,10 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 				<?php endforeach ?>	
 				</div>
 				<!-- end Tab body -->
+				<?php else : ?>
+					<div class="alert alert-info">
+						<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_CONTENT_CAN_EDIT_AFTER_SAVE'); ?>
+					</div>
 				<?php endif ?>
 			</div>			
 		</div>

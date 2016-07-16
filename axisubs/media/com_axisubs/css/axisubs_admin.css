@@ -2052,3 +2052,31 @@ display:block !important;
 {
     width:100px !important;
 }
+.chzn-container-multi .chzn-choices li.search-field input[type="text"]{
+    min-height: 22px;
+}
+.admin-menu-item{
+    cursor: pointer;
+}
+#configurationContent a.modal.btn {
+    display: inline-block;
+    position: relative;
+}
+#mailcontent1 textarea {
+    min-height: 100px;
+    width: 100%;
+}
+.axisubs-bs3 input.width-auto{
+    width: auto;
+}
+.notification .alert-notice,
+.notification .j2error{
+    display: block;
+    width: 100%;
+}
+#j-main-container-create{
+    display: none;
+}
+#j-main-container-buttons .col-md-12 {
+    margin: 0 0 10px 20px;
+}

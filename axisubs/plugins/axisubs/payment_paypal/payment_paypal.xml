@@ -3,36 +3,37 @@
     <name>Paypal</name>
     <version>1.0</version>
     <creationDate>April 2016</creationDate>
-    <author>Alagesan</author>
-    <authorEmail>support@axisubs.org</authorEmail>
-    <authorUrl>http://axisubs.org</authorUrl>
-    <copyright>2016 Flycart Technologies LLP</copyright>
+    <author>Sasi varna kumar</author>
+    <authorEmail>sasi@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>Copyright (c)2015-2019 Flycart Technologies</copyright>
     <license>GNU General Public License v3 or later versions</license>
     <description>PLG_AXISUBS_PAYMENT_PAYPAL_DESC</description>
     <files>
         <filename plugin="payment_paypal">payment_paypal.php</filename>
         <filename>index.html</filename>
         <folder>payment_paypal</folder>
+        <folder>images</folder>
     </files>
     <languages>
         <language tag="en-GB">languages/en-GB.plg_axisubs_payment_paypal.ini</language>
     </languages>
     <config>
         <fields name="params">
-            <fieldset name="basic">
+            <fieldset name="basic" label="PLG_AXISUBS_PAYMENT_PAYPAL_BASIC_OPTIONS">
                 <field name="display_name" type="text" size="30" default="" label="axisubs_plugin_display_name" description="axisubs_plugin_display_name_desc"/>
                 <field name="display_image" type="media" label="axisubs_plugin_display_image" description="axisubs_plugin_display_image_desc"/>
-                <field name="merchant_email" type="text" size="50" default="" label="j2store_paypal_email" description="j2store_paypal_email_desc"/>
-                <field name="validate_ipn" type="radio" default="1" label="j2store_paypal_validate_ipn" description="j2store_paypal_validate_ipn_desc">
+                <field name="merchant_email" type="text" size="50" default="" label="PLG_AXISUBS_PAYMENT_PAYPAL_EMAIL" description="PLG_AXISUBS_PAYMENT_PAYPAL_EMAIL_DESC"/>
+                <field name="validate_ipn" type="radio" default="1" label="PLG_AXISUBS_PAYMENT_PAYPAL_VALIDATE_IPN" description="PLG_AXISUBS_PAYMENT_PAYPAL_VALIDATE_IPN_DESC">
                     <option value="0">No</option>
                     <option value="1">Yes</option>
                 </field>
                 <field type="spacer" />
-                <field name="sandbox" type="radio" default="0" class="btn-group" label="axisubs_payment_sandbox" description="axisubs_payment_sandbox_desc">
-                    <option value="0">axisubs_no</option>
-                    <option value="1">axisubs_yes</option>
+                <field name="sandbox" type="radio" default="0" class="btn-group" label="PLG_AXISUBS_PAYMENT_PAYPAL_SANDBOX" description="PLG_AXISUBS_PAYMENT_PAYPAL_SANDBOX_DESC">
+                    <option value="0">AXISUBS_NO</option>
+                    <option value="1">AXISUBS_YES</option>
                 </field>
-                <field name="sandbox_merchant_email" type="text" size="50" default="" label="j2store_paypal_sandbox_merchant_email" description="j2store_paypal_sandbox_merchant_email_desc"/>
+                <field name="sandbox_merchant_email" type="text" size="50" default="" label="PLG_AXISUBS_PAYMENT_PAYPAL_SANDBOX_MERCHANT_EMAIL" description="PLG_AXISUBS_PAYMENT_PAYPAL_SANDBOX_MERCHANT_EMAIL_DESC"/>
                 <field name="articleid" type="modal_article" size="10" default="" label="axisubs_paypal_thanks_msg" description="axisubs_paypal_thanks_msg_desc"/>
 
                 <field type="spacer" />
@@ -53,8 +54,8 @@
                 <field name="onerrorpayment" type="textarea" cols="10" rows="5" default="" label="axisubs_on_error_payment_label" description="axisubs_on_error_payment_desc"/>
                 <field name="oncancelpayment" type="textarea" cols="10" rows="5" default="" label="axisubs_on_cancel_payment_label" description="axisubs_on_cancel_payment_desc"/>
                 <field type="spacer" />
-                <field name="button_text" type="text" size="50" default="J2STORE_PLACE_ORDER" label="j2store_button_text_label" description="j2store_button_text_desc" />
-                <field name="debug" type="list" default="0" class="btn-group" label="axisubs_payment_debug" description="axisubs_payment_debug_desc">
+                <field name="button_text" type="text" size="50" default="AXISUBS_PLACE_ORDER" label="PLG_AXISUBS_PAYMENT_PAYPAL_BUTTON_TEXT" description="PLG_AXISUBS_PAYMENT_PAYPAL_BUTTON_TEXT_DESC" />
+                <field name="debug" type="list" default="0" class="btn-group" label="PLG_AXISUBS_PAYMENT_PAYPAL_DEBUG" description="PLG_AXISUBS_PAYMENT_PAYPAL_DEBUG_DESC">
                     <option value="0">axisubs_no</option>
                     <option value="1">axisubs_yes</option>
                 </field>

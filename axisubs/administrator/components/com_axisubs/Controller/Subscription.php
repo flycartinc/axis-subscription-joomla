@@ -14,6 +14,7 @@ use FOF30\Controller\DataController;
 use FOF30\Inflector\Inflector;
 use FOF30\Container\Container;
 use JFactory;
+use JText;
 
 class Subscription extends DataController
 {
@@ -27,7 +28,7 @@ class Subscription extends DataController
 	}
 
 	/**
-	 * Task to prompt the user to payment complete
+	 * Task to prompt the user to Payment complete
 	 * */
 	public function mark_payment_complete(){
 		// get the subscription records
@@ -49,7 +50,7 @@ class Subscription extends DataController
 	}
 
 	/**
-	 * Save the transaction record and mark payment complete action
+	 * Save the transaction record and mark Payment complete action
 	 * */
 	public function payment_complete(){
 		// get the subscription records

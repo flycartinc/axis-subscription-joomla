@@ -41,7 +41,7 @@ class ShortCodes{
 	}
 
 	/**
-	 * define list of short codes based on different objects such as customer, subscription, payments, etc.,
+	 * define list of short codes based on different objects such as customer, subscription, Payment, etc.,
 	 * getShortCodes($object_type)
 	 * processShortCode($object,$code)
 	 * processContent($text, $objects) // processes list of all shorcodes in the text using the object
@@ -49,7 +49,7 @@ class ShortCodes{
 
 	/**
 	 * Method to list different shortcodes based on short code type
-	 * @param string $object_type different objects such as customer, subscription, payments, etc.,
+	 * @param string $object_type different objects such as customer, subscription, Payment, etc.,
 	 * */
 	function getShortCodes( $object_type = '' ){
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package   Axisubs - Test payment
+ * @package   Axisubs - Test Payment
  * @copyright Copyright (c)2016-2020 Sasi varna kumar / Flycart Technologies
  * @license   GNU General Public License version 3, or later
  */

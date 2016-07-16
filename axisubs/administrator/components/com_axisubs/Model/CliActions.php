@@ -20,15 +20,18 @@ class CliActions extends Model
 	 * Method to update the subscription expiry statuses based on thier dates
 	 * */
 	function expiryControl(){
+
 		$date = Axisubs::date();
 		$current_date = $date->getCarbonDate();
 
-		// Process the number of future subscriptions without start date
+		$record_limit = 10;
+
+		// 1. Process the expired subscriptions in confirmed state
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$exp_subs = $subsModel
 				->status('A')
 				->term_end($current_date)
-				->limit(10)
+				->limit( $record_limit )
 				->get();
 
 		if ( count( $exp_subs ) > 0 ) {
@@ -37,12 +40,12 @@ class CliActions extends Model
 			}
 		}
 
-		// Process the expired subscriptions in confirmed state
+		// 2. Process the number of future subscriptions without start date
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$future_subs = $subsModel
 				->status('F')
 				->term_start( $current_date )
-				->limit(10)
+				->limit( $record_limit )
 				->get();
 
 		if ( count( $future_subs ) > 0 ) {
@@ -51,11 +54,26 @@ class CliActions extends Model
 			}
 		}
 
-		// Process the trial ended subscriptions in trial state
+		// 3. Process the trial ended subscriptions in trial state
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$trial_ended_subs = $subsModel
 				->status('T')
 				->trial_end( $current_date )
+				->limit( $record_limit )
+				->get();
+
+		if ( count( $trial_ended_subs ) > 0 ) {
+			foreach ($trial_ended_subs as $sub) {
+				$sub->selfCheckStatus();
+			}
+		}
+
+		// 4. Process the recurring subscriptions for which the term has ended and next term needs to start
+		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
+		$trial_ended_subs = $subsModel
+				->status('A')
+				->recurring( 1 )
+				->term_end($current_date)
 				->limit(10)
 				->get();
 
@@ -64,6 +82,7 @@ class CliActions extends Model
 				$sub->selfCheckStatus();
 			}
 		}
+
 	}
 
 	/**

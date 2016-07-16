@@ -97,7 +97,7 @@ class EmailTemplates extends DataModel {
 	}	
 
 	/**
-	 * Converts the loaded comma-separated list of payment plugins into an array
+	 * Converts the loaded comma-separated list of Payment plugins into an array
 	 *
 	 * @param   string  $value  The comma-separated list
 	 *
@@ -109,7 +109,7 @@ class EmailTemplates extends DataModel {
 	}
 
 	/**
-	 * Converts the array of payment plugins into a comma separated list
+	 * Converts the array of Payment plugins into a comma separated list
 	 *
 	 * @param   array  $value  The array of values
 	 *
@@ -121,7 +121,7 @@ class EmailTemplates extends DataModel {
 	}
 
 	/**
-	 * Converts the loaded comma-separated list of payment plugins into an array
+	 * Converts the loaded comma-separated list of Payment plugins into an array
 	 *
 	 * @param   string  $value  The comma-separated list
 	 *
@@ -133,7 +133,7 @@ class EmailTemplates extends DataModel {
 	}
 
 	/**
-	 * Converts the array of payment plugins into a comma separated list
+	 * Converts the array of Payment plugins into a comma separated list
 	 *
 	 * @param   array  $value  The array of values
 	 *

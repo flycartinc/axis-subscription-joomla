@@ -7,7 +7,7 @@
     <authorUrl>http://flycart.org</authorUrl>
     <copyright>Copyright (c)2015-2019 Flycart Technologies</copyright>
     <license>GNU GPL v3 or later</license>
-    <version>0.8 beta</version>
+    <version>0.9.1</version>
     <description>Axisubs</description>
 
     <!-- Public front end files -->
@@ -34,6 +34,12 @@
         <folder>images</folder>
         <folder>js</folder>
     </media>
+    
+    <fileset>
+		<files target="cli">
+			<file>cli/axisubs-expirycontrol.php</file>
+		</files>
+	</fileset>
 
     <!-- Administrator back-end section -->
     <administration>

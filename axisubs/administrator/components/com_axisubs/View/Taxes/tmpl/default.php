@@ -21,7 +21,7 @@ $zones = Select::getStates();
 	}
 </style>
 
-<div class="axisubs-bs3">
+<div class="axisubs-bs3-">
 	<?php if(!empty( $sidebar )): ?>
 	<div id="j-sidebar-container">
 	  <?php echo $sidebar ; ?>
@@ -29,7 +29,8 @@ $zones = Select::getStates();
 	<?php endif;?>
 	<div id="j-main-container-create" class="row">
 		<div class="col-md-12">
-			<div class="notification"></div>
+			<div class="title-content-add"><h3><?php echo JText::_('COM_AXISUBS_TITLE_ADD_NEW_TAX'); ?></h3></div>
+			<div class="title-content-edit"><h3><?php echo JText::_('COM_AXISUBS_TITLE_ADD_EDIT_TAX'); ?></h3></div>
 			<form name="adminForm" id="adminForm" action="index.php" method="post">
 				<input type="hidden" name="option" value="com_axisubs" />
 				<input type="hidden" name="view" value="Taxes" />
@@ -97,8 +98,8 @@ $zones = Select::getStates();
 
 					<tr>
 						<td>
-							<input type="submit" class="btn btn-info" name="submit" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE');?>" />
-
+							<input type="submit" class="width-auto btn btn-success" name="submit" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE'); ?>" />
+							<input type="button" onclick="cancelTaxBtn()" class="editpage width-auto btn btn-info" name="cancel" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE_CANCEL'); ?>" />
 						</td>
 					</tr>
 
@@ -106,7 +107,12 @@ $zones = Select::getStates();
 			</form>
 		</div>
 	</div>
-
+	<div id="j-main-container-buttons" class="row">
+		<div class="col-md-12">
+			<input type="button" onclick="addTaxBtn('0')" class="width-auto btn btn-success" name="addbtn" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE_NEW_BUTTON'); ?>" />
+			<div class="notification"></div>
+		</div>
+	</div>
 	<div id="j-main-container" class="row">
         <div class="col-md-12">
         	<div class="alert alert-info">
@@ -151,11 +157,18 @@ $zones = Select::getStates();
 					</td>
         			<td>
 						<input type="hidden" name="tax_rate_country" value="<?php echo $tax_rate->tax_rate_country; ?>" />
-						<?php echo $tax_rate->tax_rate_country; ?>
+						<?php echo Select::decodeCountry($tax_rate->tax_rate_country); ?>
 					</td>
         			<td>
 						<input type="hidden" name="tax_rate_state" value="<?php echo $tax_rate->tax_rate_state; ?>" />
-						<?php echo $tax_rate->tax_rate_state; ?>
+						<?php
+						if($tax_rate->tax_rate_state != ''){
+							$statesSelected = Select::getZones($tax_rate->tax_rate_country);
+							if(isset($statesSelected[$tax_rate->tax_rate_state])){
+								echo $statesSelected[$tax_rate->tax_rate_state];
+							}
+						}
+						?>
 					</td>
         			<td>
 						<input type="hidden" name="tax_rate" value="<?php echo $tax_rate->tax_rate; ?>" />
@@ -216,14 +229,37 @@ $zones = Select::getStates();
 		(function ($) {
 			var data = $('.'+key+' input').serializeArray();
 			$.each( data, function( p_key, value ) {
-				console.log(value.name);
 				if(value.name == 'tax_rate_country'){
-					$('#axisubs_country_id').val(value.value);
+					$('#axisubs_country_id').val(value.value).change();
 				}else if(value.name == 'tax_rate_state'){
 					$('#axisubs_zone_id').val(value.value);
 				}
 				$('#'+value.name).val(value.value);
 			});
+			addTaxBtn('1');
+		})(axisubs.jQuery);
+	}
+	function addTaxBtn(val){
+		(function ($) {
+			$('#j-main-container-create').show();
+			$('#j-main-container-buttons, #j-main-container').hide();
+			$('.notification').html('');
+			$('.title-content-add, .title-content-edit').addClass('hidden');
+			if(val == '1'){
+				$('.title-content-edit').removeClass('hidden');
+			} else {
+				$('.title-content-add').removeClass('hidden');
+			}
+		})(axisubs.jQuery);
+	}
+
+	function cancelTaxBtn(){
+		(function ($) {
+			$('#j-main-container-create').hide();
+			$('#j-main-container-buttons, #j-main-container').show();
+			$('#j-main-container-create tr.tax_tr input').val('');
+			$('#j-main-container-create tr.tax_tr select').val('');
+			$('#tax_rate_class').val('standard');
 		})(axisubs.jQuery);
 	}
 

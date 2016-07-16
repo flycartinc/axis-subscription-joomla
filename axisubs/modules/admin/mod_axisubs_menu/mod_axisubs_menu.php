@@ -7,7 +7,11 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+JLoader::import('joomla.application.component.helper');
 require_once( dirname(__FILE__).'/helper.php' );
+if (!JComponentHelper::isEnabled('com_axisubs')) {
+    return false;
+}
 JFactory::getLanguage()->load('com_axisubs', JPATH_ADMINISTRATOR);
 $moduleclass_sfx = $params->get('moduleclass_sfx','');
 $link_type = $params->get('link_type','link');

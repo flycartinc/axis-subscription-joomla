@@ -12,15 +12,16 @@
     <files>
         <filename plugin="payment_test">payment_test.php</filename>
         <filename>index.html</filename>
-        <folder>payment_test</folder>     
+        <folder>payment_test</folder>  
+        <folder>images</folder>   
     </files>
     <languages>
         <language tag="en-GB">languages/en-GB.plg_axisubs_payment_test.ini</language>        
     </languages>
     <config>
     <fields name="params">
-      <fieldset name="basic">
-      <field name="display_name" type="text" size="30" default="" label="axisubs_plugin_display_name" description="axisubs_plugin_display_name_desc"/>
+      <fieldset name="basic" label="PLG_AXISUBS_PAYMENT_PAYPAL_BASIC_OPTIONS">
+        <field name="display_name" type="text" size="30" default="" label="axisubs_plugin_display_name" description="axisubs_plugin_display_name_desc"/>
        <field name="display_image" type="media" label="axisubs_plugin_display_image" description="axisubs_plugin_display_image_desc"/>
 
         <field name="surcharge_percent" type="text" size="30" default="" label="axisubs_plugin_surcharge_percent" description="axisubs_plugin_surcharge_percent_desc"/>

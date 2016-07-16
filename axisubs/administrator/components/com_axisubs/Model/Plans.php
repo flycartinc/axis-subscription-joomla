@@ -82,6 +82,25 @@ class Plans extends DataModel
 		$this->blacklistFilters(['only_once']);
 	}
 
+	protected function preProcessSave($dataObject){
+		$app = \JFactory::getApplication();
+		$post = $app->input->post->getArray();
+		if(!empty($post)){
+			if($app->input->get("payment_plugins", '0') != '0')
+				$dataObject->payment_plugins = implode(',', $app->input->get("payment_plugins"));
+			else
+				$dataObject->payment_plugins = '';
+		}
+		return $dataObject->payment_plugins;
+	}
+	function onBeforeCreate(&$dataObject){
+		$dataObject->payment_plugins = $this->preProcessSave($dataObject);
+	}
+
+	function onBeforeUpdate(&$dataObject){
+		$dataObject->payment_plugins = $this->preProcessSave($dataObject);
+
+	}
 	/**
 	 * Run the onAKUserSaveData event on the plugins before saving a row
 	 *
@@ -319,6 +338,12 @@ class Plans extends DataModel
 			unset($data['custom']);
 			$data['params'] = $params;
 		}
+		//print_r($app->input->get('payment_plugins'));exit;
+		if(isset($data['payment_plugins']) && $data['payment_plugins'] != ''){
+			$data['payment_plugins'] = explode(",", $data['payment_plugins']);
+		}
+
+		//echo "<pre>";print_r($data);exit;
 	}
 
 	protected function getParamsAttribute($value)
@@ -338,6 +363,7 @@ class Plans extends DataModel
 	 * For any new subscription to be created, all the parameters depend upon the plan's settings and behaviour
 	 * hasTrial()
 	 * isActive()
+	 * isRecurring()
 	 * getPeriod()
 	 * getTrialPeriod()
 	 * hasFixedEndDate()
@@ -351,6 +377,7 @@ class Plans extends DataModel
 	 * canSubscribe($user_id) // alias for canAccess()
 	 * getPrice()
 	 * getSetupCost()
+	 * 
 	 * 
 	 * */
 
@@ -369,6 +396,25 @@ class Plans extends DataModel
 			return false;
 		}
 	}
+
+	/**
+	 * Method to check if the plan is a recurring plan
+	 * */
+	function isRecurring(){
+		if ( $this->recurring == 1 ){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Method to get the number of billing cycles
+	 * */
+	function getBillingCycle(){
+		return (int) $this->billing_cycles;
+	}
+
 
 	/**
 	 * Calculate the period in days

@@ -377,7 +377,7 @@ class Base extends JPlugin
 	}
 
 	/**
-	 * Formatts the payment data for storing
+	 * Formatts the Payment data for storing
 	 *
 	 * @param array $data
 	 * @return string

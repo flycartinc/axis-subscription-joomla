@@ -90,11 +90,11 @@ class Status{
 		 * New 			- N 		-	
 		 * Trial 		- T 		-	when subscription is in trial period
 		 * Pending 		- P 		-	when subscription is not paid
-		 * Active 		- A 		-	Payment successfull and state is Active
+		 * Active 		- A 		-	Payment_old successfull and state is Active
 		 * Future		- F 		- 	When the subscription start date is in future date	
 		 * Expired 		- E 		-	Subscription has expired
-		 * Cancelled 	- C 		-	Cancelled ( cancelled but payment not refunded )
-		 * Refunded 	- R 		-	Refunded ( cancelled and payment has been refunded )
+		 * Cancelled 	- C 		-	Cancelled ( cancelled but Payment not refunded )
+		 * Refunded 	- R 		-	Refunded ( cancelled and Payment has been refunded )
 		 * Other 		- O 		-	Other	( A reason statement can be specified for understanding the status )
 		 * */
 		self::$statuses = array(

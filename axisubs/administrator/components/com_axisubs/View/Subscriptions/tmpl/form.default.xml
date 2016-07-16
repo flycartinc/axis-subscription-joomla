@@ -10,7 +10,7 @@
 	<headerset>
 		<header name="axisubs_subscription_id" type="RowSelect" tdwidth="16px" />
         <header name="plan_id" type="Model" sortable="true"
-        label="COM_AXISUBS_PLAN_NAME"
+        label="COM_AXISUBS_PLAN_ID"
         model="Plans"
         key_field="axisubs_plan_id"
         value_field="title"
@@ -18,12 +18,12 @@
         apply_access="false"
         tdwidth="15%"
         />
-		<header name="plan.name" type="Text" label="COM_AXISUBS_PLAN_NAME" />
-        <header name="filter_search" type="Searchable" 
-                label="COM_AXISUBS_SUBSCRIPTION_SEARCH_FILTER" class="filter-field"/>
-        <header name="customer.email" type="Text" label="COM_AXISUBS_CUSTOMER_EMAIL" />
-        <header name="customer.company" type="Text" label="COM_AXISUBS_CUSTOMER_COMPANY" />
-        <header name="period" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PERIOD" />
+		<header name="plan.name" sortable="false" type="Text" label="COM_AXISUBS_PLAN_NAME" />
+        <header name="filter_search" type="Searchable" sortable="false"
+				label="COM_AXISUBS_SUBSCRIPTION_SEARCH_FILTER" class="filter-field"/>
+        <header name="customer.email" sortable="false" type="Text" label="COM_AXISUBS_CUSTOMER_EMAIL" />
+        <header name="customer.company" sortable="false" type="Text" label="COM_AXISUBS_CUSTOMER_COMPANY" />
+        <header name="period" sortable="false" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PERIOD" />
         <header
                 name="status"
                 type="Selectable"
@@ -39,8 +39,8 @@
                 source_method="getAllPaymentMethods"
                 onlyFilter="1"
                 />
-        <header name="payment_status" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PAYMENT_STATUS" />
-        <header name="subscription_status" type="Text" label="COM_AXISUBS_SUBSCRIPTION_STATUS" />
+        <header name="payment_status" sortable="false" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PAYMENT_STATUS" />
+        <header name="subscription_status" sortable="false" type="Text" label="COM_AXISUBS_SUBSCRIPTION_STATUS" />
         <header name="total" type="Text" label="COM_AXISUBS_SUBSCRIPTION_NET_AMOUNT" />
 	</headerset>
 

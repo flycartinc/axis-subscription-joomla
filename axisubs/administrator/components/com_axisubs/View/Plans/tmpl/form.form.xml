@@ -15,9 +15,9 @@
         label="COM_AXISUBS_PLAN_PERIOD_TITLE"
         class="form-subheading"
     >    
-        <field name="period" type="Period" label="COM_AXISUBS_PLAN_PRIOD"  description="COM_AXISUBS_PLAN_PRIOD_DESC"
+        <field name="period" type="Period" label="COM_AXISUBS_PLAN_PRIOD" description="COM_AXISUBS_PLAN_PRIOD_DESC"
             append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
-        <field name="charge_model" type="List" label="COM_AXISUBS_PLAN_CHARGING_MODEL" description="COM_AXISUBS_PLAN_CHARGING_MODEL_DESC">
+        <field name="charge_model" type="List" label="COM_AXISUBS_PLAN_CHARGING_MODEL" description="COM_AXISUBS_PLAN_CHARGING_MODEL_DESC" class="hide">
             <option value="flatfee">COM_AXISUBS_PLAN_CHARGING_MODEL_FLAT_FEE</option>
             <option value="perunit">COM_AXISUBS_PLAN_CHARGING_MODEL_PER_UNIT</option>
         </field>
@@ -27,6 +27,11 @@
             <option value="0">JYES</option>
             <option value="1">JNO</option>
         </field>
+        <field name="recurring" type="radio" class="btn-group" label="COM_AXISUBS_PLAN_RECURRING" description="COM_AXISUBS_PLAN_RECURRING_DESC" default="0" >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="billing_cycles" type="text" class="btn-group" label="COM_AXISUBS_PLAN_BILLING_CYCLES" description="COM_AXISUBS_PLAN_BILLING_CYCLES_DESC" default="0" />
         <field name="access" type="AccessLevel" label="COM_AXISUBS_PLAN_ACCESS" description="COM_AXISUBS_PLAN_ACCESS_DESC"/>
         <field name="payment_plugins" 
             type="GenericList"
@@ -44,21 +49,9 @@
         <field name="trial_period" type="Period" label="COM_AXISUBS_TRIAL_PERIOD" description="COM_AXISUBS_TRIAL_PERIOD_DESC"
             append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
         <field name="trial_start_condition" type="list" label="COM_AXISUBS_TRIAL_STARTS_CONDITION" description="COM_AXISUBS_TRIAL_STARTS_CONDITION_DESC" default="signup">
-            <option value="authourize">COM_AXISUBS_TRIAL_STARTS_CONDITION_CARD_VALIDATION</option>
+            <!-- <option value="authourize">COM_AXISUBS_TRIAL_STARTS_CONDITION_CARD_VALIDATION</option> -->
             <option value="sale">COM_AXISUBS_TRIAL_STARTS_CONDITION_PAYMENT</option>
-            <option value="signup">COM_AXISUBS_TRIAL_STARTS_CONDITION_SIGN_UP</option>
+            <!-- <option value="signup">COM_AXISUBS_TRIAL_STARTS_CONDITION_SIGN_UP</option> -->
         </field>
-    </fieldset>
-    <fieldset
-        name="advanced"
-        label="COM_AXISUBS_PLAN_ADVANCED"
-        class="form-subheading"
-    >
-        <field name="ordertext" type="Textarea" label="COM_AXISUBS_PLAN_THANKYOU_MESSAGE" description="COM_AXISUBS_PLAN_THANKYOU_MESSAGE_DESC"/>
-        <field name="orderurl" type="Text" label="COM_AXISUBS_PLAN_THANKYOU_URL" description="COM_AXISUBS_PLAN_THANKYOU_URL_DESC"/>
-        <field name="canceltext" type="Textarea" label="COM_AXISUBS_PLAN_CANCEL_MESSAGE" description="COM_AXISUBS_PLAN_CANCEL_MESSAGE_DESC"/>
-        <field name="cancelurl" type="Text" label="COM_AXISUBS_PLAN_CANCEL_URL" description="COM_AXISUBS_PLAN_CANCEL_URL_DESC"/>
-        <field name="renew_url" type="Text" label="COM_AXISUBS_PLAN_RENEWAL_URL" description="COM_AXISUBS_PLAN_RENEWAL_URL_DESC"/>
-        <field name="content_url" type="Text" label="COM_AXISUBS_PLAN_CONTENT_URL" description="COM_AXISUBS_PLAN_CONTENT_URL_DESC"/>
     </fieldset>
 </form>

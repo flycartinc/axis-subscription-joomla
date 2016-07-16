@@ -102,7 +102,7 @@ class Subscriptions extends DataModel
 							'remaining_billing_cycles', 'po_number', 'started_at', 'activated_at', 'cancel_reason', 
 							'affiliate_token', 'created_from_ip', 'has_scheduled_changes', 'due_invoices_count', 
 							'due_since','total_dues', 'invoice_notes', 'ip', 'ip_country','skip_trial',
-							'recurring_amount', 'tax_percent', 'prediscount_amount', 'params'];
+							'recurring_amount', 'tax_percent', 'prediscount_amount', 'params', 'ref_subscription_id'];
 	}
 
 	/**
@@ -228,6 +228,25 @@ class Subscriptions extends DataModel
 			}
 		}
 
+		$exclude_this = $this->getState('exclude_this', 0);
+		if ( $exclude_this > 0 ) {
+			$query->where(
+				$tableAlias . $db->qn('#__axisubs_subscriptions.axisubs_subscription_id') . ' <> ' . $db->q($exclude_this)
+			);
+		}
+
+		$statuses = $this->getState('statuses', array() );
+		if ( count($statuses) > 0  ) {
+			$str_statuses = '';
+			foreach ($statuses as $k => $st) {
+				$str_statuses .= $db->q($st).',';
+			}
+			$str_statuses = trim($str_statuses, ',');
+
+			$query->where(
+				$tableAlias . $db->qn('#__axisubs_subscriptions.status') . ' IN ( ' . $str_statuses .' ) '
+			);
+		}
 	/*	if ( $filter_trial_date ) {
 			if (!empty($start_date) || $start_date!='0000-00-00 00:00:00'){
 				$query->where(
@@ -291,6 +310,12 @@ class Subscriptions extends DataModel
 			);
 		}
 */
+
+		$is_recurring = $this->getState('recurring', 0, 'int');
+		if ( $is_recurring > 0 ) {
+			$query->where( $db->qn('remaining_billing_cycles') . ' >= 1 ' );
+		}
+
 		$price_from = $this->getState('filter_price_from', null, 'int');
 		if ( !empty($price_from) ) {
 			$query->where(
@@ -403,16 +428,17 @@ class Subscriptions extends DataModel
 		$app = JFactory::getApplication();
 
 		// check if plan relation is set, else load the plan record 
-		if ( ! isset($this->plan) && $this->plan instanceof Plans ){
+		if ( ! (isset($this->plan) && $this->plan instanceof Plans) ){
 			// maybe try to load it ourself
 			$plan = $this->getContainer()->factory->model('Plans');
+
 			if ( !empty($this->plan_id) ){
 				$plan->load($this->plan_id);
 				if ( empty($plan->axisubs_plan_id) ){
 					$this->throwError( 'COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_BIND_PLAN_RELATION' );
 					// log this error it's an application level error
 				}else {
-					$this->plan = $plan; // every thing is fine bind the relation
+					$this->plan = clone($plan); // everything is fine bind the relation
 				}
 			}
 		}
@@ -468,9 +494,9 @@ class Subscriptions extends DataModel
 			$errors[] = JText::_('COM_AXISUBS_SUBSCRIPTION_ERR_PLAN_ID');
 		}*/
 		$this->assertNotEmpty($this->plan_id, 'COM_AXISUBS_SUBSCRIPTION_ERR_PLAN_ID');
-		
+
 		// if the plan is allowed for this user
-		if ( ! $this->plan->canAccess($this->user_id) ){
+		if ( isset($this->plan) && ! $this->plan->canAccess($this->user_id) ){
 			$this->throwError( 'COM_AXISUBS_SUBSCRIPTION_ERR_RESTRICTED_ACCESS' );
 			// or throw the standard error -> throw new AccessForbidden;
 		}
@@ -597,6 +623,7 @@ class Subscriptions extends DataModel
 		$active_subscription = $subs_model->user_id( $this->user_id )
 					->plan_id( $this->plan_id)
 					->status( 'A' ) // active and future subscriptions
+					->exclude_this( $this->axisubs_subscription_id )
 					->get()
 					->sortByDesc( 'current_term_end' )
 					->first();
@@ -604,6 +631,7 @@ class Subscriptions extends DataModel
 		$future_subscription = $subs_model->user_id( $this->user_id )
 					->plan_id( $this->plan_id)
 					->status( 'F' ) // active and future subscriptions
+					->exclude_this( $this->axisubs_subscription_id )
 					->get()
 					->sortByDesc( 'current_term_end' )
 					->first();			
@@ -611,11 +639,14 @@ class Subscriptions extends DataModel
 		if ( isset($active_subscription->axisubs_subscription_id) && $active_subscription->axisubs_subscription_id > 0 ) {
 			$has_active_subscription = true;
 		}
+		
+		$this->recurring = $this->plan->isRecurring();
 
 		// check only once flag / renewal applicable flag
 		// if renewals are not allowed, then throw exception
 		if ( $this->plan->only_once == 1 && $has_active_subscription ){
-			$this->throwError( 'COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_RENEW' );
+			//$this->throwError( 'COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_RENEW' );
+			\JError::raiseWarning( 100, JText::_('COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_RENEW') );
 		}
 		
 		// if active subscription is present, then curent subscription is a renewal
@@ -628,6 +659,8 @@ class Subscriptions extends DataModel
 
 			$this->status 			= 'P'; // a renewal always has a pending subscription status until paid 
 
+			$this->remaining_billing_cycles = $this->plan->getBillingCycle();
+
 			$has_future_subscription = false;
 			if ( isset($future_subscription->axisubs_subscription_id) 
 					&& $future_subscription->axisubs_subscription_id > 0 ) {
@@ -636,8 +669,12 @@ class Subscriptions extends DataModel
 
 			if ( $has_future_subscription ) {
 				$active_ends_on = $this->getDate( $future_subscription->current_term_end ) ;
+				$billing_cycles = $future_subscription->remaining_billing_cycles - 1 ;
+				$this->remaining_billing_cycles = ($billing_cycles > 0) ? $billing_cycles : 0;
 			}else{
 				$active_ends_on = $this->getDate( $active_subscription->current_term_end ) ;
+				$billing_cycles = $active_subscription->remaining_billing_cycles - 1 ;
+				$this->remaining_billing_cycles = ($billing_cycles > 0) ? $billing_cycles : 0;
 			}
 
 			$active_ends_on->addSeconds(1);
@@ -655,6 +692,8 @@ class Subscriptions extends DataModel
 			// calculate based on default plan dates
 
 			$this->status 			= 'N'; // new subscription
+
+			$this->remaining_billing_cycles = $this->plan->getBillingCycle();
 
 			if ( empty($this->start_date) ){
 				$this->start_date = $this->getCurrentDate()->toDateTimeString() ;
@@ -702,6 +741,7 @@ class Subscriptions extends DataModel
 		$subs_model = $this->getModel('Subscriptions');
 		$other_subscriptions_count = $subs_model->user_id( $this->user_id )
 			->plan_id( $this->plan_id )
+			->exclude_this( $this->axisubs_subscription_id )
 			->get()
 			->filter(function($item)
 					{
@@ -719,12 +759,19 @@ class Subscriptions extends DataModel
 		$this->setup_fee = 0 ;
 
 		if ($other_subscriptions_count <= 0 || $this->user_id == 0 ){
-			$this->setup_fee	= $this->plan->getSetupCost();
-		}
+			if ( !$this->isRecurring() ) {
+				$this->setup_fee	=	$this->plan->getSetupCost();
+			}elseif ( $this->remaining_billing_cycles == $this->plan->getBillingCycle() ){
+				$this->setup_fee	=	$this->plan->getSetupCost();
+			}
+		}	
 
 		$this->subtotal += $this->plan_price * $this->plan_quantity;
-		$this->subtotal += $this->setup_fee;
+		
+		// recurring total does not include setup fee
+		$this->recurring_total = $this->subtotal;
 
+		$this->subtotal += $this->setup_fee;
 	}
 
 	function calculateDiscountTotals(){
@@ -946,7 +993,7 @@ class Subscriptions extends DataModel
 			$this->reset_flag = true ; 
 		}
 
-		//TODO: additionally check if the is no transaction records created / payment tried for this subscription
+		//TODO: additionally check if the is no transaction records created / Payment tried for this subscription
 
 		$this->plan_id = $plan_id ;
 
@@ -1051,6 +1098,9 @@ class Subscriptions extends DataModel
 	 * isTrial()
 	 * isActive()
 	 * isExpired()
+	 * 
+	 * isRecurring()
+	 * getRemaingBillingCycles()
 	 * getRenewals()
 	 * 
 	 * // console jobs / system jobs only
@@ -1058,7 +1108,7 @@ class Subscriptions extends DataModel
 	 * sendReminderEmails()
 	 * raiseInvoice()
 	 * collectPayment()
-	 * charge() // alias for collectPayment - uses payment factory
+	 * charge() // alias for collectPayment - uses Payment factory
 	 * 
 	 * markTrialEnd()
 	 * markExpired()
@@ -1077,9 +1127,10 @@ class Subscriptions extends DataModel
 	 * */
 	function isEligibleForSubscription( $user_id ){
 		// check if customer and plan is binded
-		if ( !( isset($this->customer) && isset($this->plan) ) ){
+		if ( !( isset($this->plan) ) ){
 			return false;
 		}
+
 		// plan access 
 		if (! $this->plan->canAccess( $user_id ) ){
 			return false;
@@ -1093,6 +1144,7 @@ class Subscriptions extends DataModel
 		// non recurring - only once plan - customer already has an active subscription 
 		// then not allowed
 		$subs_model = $this->getModel('Subscriptions');
+
 		if ( $this->plan->only_once == 1 ){
 			// check if there is any active subscription
 			$active_subscription_count = $subs_model->user_id( $this->user_id )
@@ -1110,7 +1162,7 @@ class Subscriptions extends DataModel
 						->plan_id( $this->plan_id)
 						->status('T') 
 						->get()
-						->count(); 
+						->count();
 		if ( $trial_subscription_count > 0 && $user_id != 0 ){
 			return false;
 		}
@@ -1132,13 +1184,13 @@ class Subscriptions extends DataModel
 	 * Method to check if the subscription is isEligibleForPayment
 	 * */
 	function isEligibleForPayment(){
-		// before collecting payments we check for certain parameters
-		// if subscription / plan parameters has any payment related restrictions
+		// before collecting Payment we check for certain parameters
+		// if subscription / plan parameters has any Payment related restrictions
 		return true;
 	}
 
 	/**
-	 * Mark the payment as completed
+	 * Mark the Payment as completed
 	 * */
 	function paymentCompleted( $transaction_data = array() ){
 		// save the transaction details
@@ -1152,11 +1204,13 @@ class Subscriptions extends DataModel
 		$active_subscription_count = $subs_model->user_id( $this->user_id )
 						->plan_id( $this->plan_id)
 						->status('A') // active
+						->exclude_this( $this->axisubs_subscription_id )
 						->get()
 						->count();
+
 		if ($active_subscription_count > 0){
 			// a future subscription 
-			// regenerate the dates and payment info and save the record
+			// regenerate the dates and Payment info and save the record
 			$this->calculateTermDates();
 			
 			// assign the correct start date for a future subscription
@@ -1185,7 +1239,7 @@ class Subscriptions extends DataModel
 	}
 
 	/**
-	 * Mark the payment as Failed
+	 * Mark the Payment as Failed
 	 * */
 	function paymentFailed( $transaction_data = array() ){
 		// save the transaction details
@@ -1205,7 +1259,7 @@ class Subscriptions extends DataModel
 	}
 
 	/**
-	 * Mark the payment as Failed
+	 * Mark the Payment as Failed
 	 * */
 	function paymentPending( $transaction_data = array() ){
 		$transaction = $this->saveTransaction( $transaction_data );
@@ -1224,14 +1278,14 @@ class Subscriptions extends DataModel
 
 	function markActive(){
 		$old_subscription_status = $this->status;
-		// verify the payment records related to this subscription and update status to active
+		// verify the Payment records related to this subscription and update status to active
 		$this->updateState('A');
 		Axisubs::plugin()->event( 'SubscriptionMarkedActive', array($this, $old_subscription_status) );
 	}
 
 	function markPending(){
 		$old_subscription_status = $this->status;
-		//$this->updateState('P');
+		$this->updateState('P');
 		Axisubs::plugin()->event( 'SubscriptionMarkedPending', array($this, $old_subscription_status) );
 	}
 
@@ -1297,7 +1351,7 @@ class Subscriptions extends DataModel
 	}
 
 	function skipTrial(){
-		// just mark trial end and mark active or pending based on payment records
+		// just mark trial end and mark active or pending based on Payment records
 		// if card is authourized then this will bill the customer
 	}
 
@@ -1307,6 +1361,17 @@ class Subscriptions extends DataModel
 
 	function isExpired(){
 		// if the plan is in expired status
+	}
+
+	/**
+	 * Method to check if the subscription is recurring
+	 * @return bool true if it is a recurring subscription
+	 * */
+	function isRecurring(){
+		if ( $this->remaining_billing_cycles >= 1 ) {
+			return true;
+		}
+		return false;
 	}
 
 	function getRenewals(){
@@ -1337,10 +1402,15 @@ class Subscriptions extends DataModel
 
 		// expired subscriptions in Active state
 		if ( $this->status == 'A' ) {
+			
+			// create the renewal subscription record in pending status
+			$this->createRenewalSubscription();
+
 			$term_end_date = $this->getDate( $this->current_term_end );
 			if ( $term_end_date->lte( $current_date ) ) {
 				$this->markExpired();
-			}
+			}		
+			
 		}
 
 		// trial ended
@@ -1349,6 +1419,107 @@ class Subscriptions extends DataModel
 			if ( $trial_end_date->lte( $current_date ) ) {
 				$this->markActive(); // move to active state
 			}
+		}
+	}
+
+	/**
+	 * Creates or gets the next renewal record for the current subscription supplied
+	 * @param 	int 	$subscription 	subscription record or a subscription id
+	 * @return 	bool/subscription object	
+	 * */
+	public function getNextRenewal( $subscription , $transaction_ref_id = '' ){
+		
+		// check for the subscription records with exiting transaction id 
+		if (!empty($transaction_ref_id)) {
+			$transaction_model = $this->getModel('Transactions');
+			$matched_transaction = $transaction_model->transaction_ref_id($transaction_ref_id)
+								->get()
+								->first();
+		
+			if (isset( $matched_transaction->axisubs_transaction_id ) ) {
+				$existing_sub = $this->getModel('Subscriptions');
+				$existing_sub->load( $matched_transaction->subscription_id );
+				return $existing_sub;
+			}	
+		
+		}
+		
+		$current_sub = '';
+
+		if ( $subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions ) {
+			$current_sub = $subscription ;
+		}else{
+			$subscription_id = (int) $subscription ;
+			if ($subscription_id > 0) {
+				$sub = $this->getModel('Subscription');
+				$sub->load( $subscription_id ) ;
+				if ( $sub->axisubs_subscription_id > 0 ) {
+					$current_sub = $sub;
+				}
+			}
+		}
+
+		// validate if a valid subscription record is available
+		if ( !($current_sub instanceof \Flycart\Axisubs\Admin\Model\Subscriptions ) ) {
+			return false;
+		}
+
+		if ( empty( $current_sub->ref_subscription_id ) || $current_sub->ref_subscription_id > 0 ) {
+			if (empty( $current_sub->transaction->transaction_ref_id )) {
+				return $current_sub;
+			}
+		}
+
+		// first check if there is a pending subscription in this state alredy exists
+		$subs_model = $this->getModel('Subscriptions');
+		$latest_pending_sub = $subs_model->user_id( $current_sub->user_id )
+								->plan_id( $current_sub->plan_id )
+								->ref_subscription_id( $current_sub->axisubs_subscription_id )
+								->statuses( [ 'P','F'] ) // any subscription in pending or in future state
+								->get()
+								->sortByDesc( 'current_term_end' )
+								->first();
+
+		if ( !isset($latest_pending_sub->transaction) || count($latest_pending_sub->transaction) == 0 ){
+			// no transaction record or same transaction reference, then this is the subscription to be processed
+			return $latest_pending_sub ;
+		}
+		
+		$new_subscription = $current_sub->createRenewalSubscription();
+
+		return $new_subscription;
+	}
+
+	/**
+	 * Method to actually create a renewal subscription record
+	 * */
+	function createRenewalSubscription(){
+		//
+		if ( $this->isRecurring() ) {
+			$subs_data = $this->getData();
+			$new_subscription_data = [  'plan_id'				=>	$subs_data['plan_id'],
+										'user_id'				=>	$subs_data['user_id'],
+										'ref_subscription_id' 	=>  $subs_data['axisubs_subscription_id'],
+										'plan_quantity'			=>	$subs_data['plan_quantity'] ,
+										'currency_code' 		=> 	$subs_data['currency_code'],
+										'currency_value' 		=> 	$subs_data['currency_value'],
+										'language'				=>  $subs_data['language'] 
+										];
+
+			//$subs_model = $this->getModel('Subscriptions');
+			//$new_subscription = $subs_model->tmpInstance();
+			$new_subscription = clone ($this);
+
+			$new_subscription->axisubs_subscription_id = 0;
+			$new_subscription->save( $new_subscription_data );
+
+			$new_subscription->currency_code	=	$subs_data['currency_code'];
+			$new_subscription->currency_value	=	$subs_data['currency_value'];
+			$new_subscription->language 		=	$subs_data['language'];
+			$new_subscription->save();
+			$new_subscription->markPending();
+
+			return $new_subscription;
 		}
 	}
 
@@ -1368,7 +1539,7 @@ class Subscriptions extends DataModel
 	}
 	
 	/**
-	 * Method to collect payment for the subscription
+	 * Method to collect Payment for the subscription
 	 * */
 	function collectPayment(){
 

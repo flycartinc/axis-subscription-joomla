@@ -7,12 +7,17 @@
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.plugin.plugin');
-
-require_once JPATH_ADMINISTRATOR.'/components/com_axisubs/vendor/autoload.php';
-require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Model/Mixin/CarbonHelper.php');
-require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Config.php');
-require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Date.php');
-require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Axisubs.php');
+jimport('joomla.filesystem.file');
+if(JFile::exists(JPATH_ADMINISTRATOR.'/components/com_axisubs/vendor/autoload.php'))
+	require_once JPATH_ADMINISTRATOR.'/components/com_axisubs/vendor/autoload.php';
+if(JFile::exists(JPATH_ADMINISTRATOR.'/components/com_axisubs/Model/Mixin/CarbonHelper.php'))
+	require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Model/Mixin/CarbonHelper.php');
+if(JFile::exists(JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Config.php'))
+	require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Config.php');
+if(JFile::exists(JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Date.php'))
+	require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Date.php');
+if(JFile::exists(JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Axisubs.php'))
+	require_once (JPATH_ADMINISTRATOR.'/components/com_axisubs/Helper/Axisubs.php');
 
 use FOF30\Container\Container;
 use Flycart\Axisubs\Admin\Model\Subscriptions;
@@ -118,23 +123,22 @@ class plgSystemAxisexpirycontrol extends JPlugin
 			return;
 		}
 
-		
+/*		
 		// Process the number of future subscriptions without start date
 		$cliModel = Container::getInstance('com_axisubs',array(),'admin')->factory->model('CliActions')->tmpInstance();
 		
 		$cliModel->expiryControl();
 		
-		/*
 
 		$date = Axisubs::date();
 		$current_date = $date->getCarbonDate();
 
-		// Process the number of future subscriptions without start date
+		// 1. Process the expired subscriptions in confirmed state
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$exp_subs = $subsModel
 				->status('A')
 				->term_end($current_date)
-				->limit(10)
+				->limit( $record_limit )
 				->get();
 
 		if ( count( $exp_subs ) > 0 ) {
@@ -142,13 +146,13 @@ class plgSystemAxisexpirycontrol extends JPlugin
 				$sub->selfCheckStatus();
 			}
 		}
-
-		// Process the expired subscriptions in confirmed state
+		
+		// 2. Process the number of future subscriptions without start date
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$future_subs = $subsModel
 				->status('F')
 				->term_start( $current_date )
-				->limit(10)
+				->limit( $record_limit )
 				->get();
 
 		if ( count( $future_subs ) > 0 ) {
@@ -157,11 +161,26 @@ class plgSystemAxisexpirycontrol extends JPlugin
 			}
 		}
 
-		// Process the trial ended subscriptions in trial state
+		// 3. Process the trial ended subscriptions in trial state
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
 		$trial_ended_subs = $subsModel
 				->status('T')
 				->trial_end( $current_date )
+				->limit( $record_limit )
+				->get();
+
+		if ( count( $trial_ended_subs ) > 0 ) {
+			foreach ($trial_ended_subs as $sub) {
+				$sub->selfCheckStatus();
+			}
+		}
+
+		// 4. Process the recurring subscriptions for which the term has ended and next term needs to start
+		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
+		$trial_ended_subs = $subsModel
+				->status('A')
+				->recurring( 1 )
+				->term_end($current_date)
 				->limit(10)
 				->get();
 
@@ -169,8 +188,8 @@ class plgSystemAxisexpirycontrol extends JPlugin
 			foreach ($trial_ended_subs as $sub) {
 				$sub->selfCheckStatus();
 			}
-		}*/
-
+		}
+*/
 		// Update the last run info and quit
 		$this->setLastRunTimestamp();
 	}

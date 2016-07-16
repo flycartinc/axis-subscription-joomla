@@ -12,9 +12,10 @@
 	<files>
 		<filename plugin="app_jusergroup">app_jusergroup.php</filename>
 		<folder>app_jusergroup</folder>
+		<folder>images</folder>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_axisubs_app_jusergroup.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_axisubs_app_jusergroup.sys.ini</language>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_axisubs_app_jusergroup.ini</language>
+		<language tag="en-GB">en-GB.plg_axisubs_app_jusergroup.sys.ini</language>
 	</languages>
 </extension>

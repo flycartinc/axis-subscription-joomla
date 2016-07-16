@@ -84,8 +84,8 @@ class plgAxisubsApp_Emailtemplates extends App
     	$ns = $option.'.app';
     	$html = "";
     	JToolBarHelper::title(JText::_('AXISUBS_APP').'-'.JText::_('PLG_AXISUBS_'.strtoupper($this->_element)),'axisubs-logo');
-        JToolBarHelper::apply('apply');
-        JToolBarHelper::save();
+        //JToolBarHelper::apply('apply');
+        //JToolBarHelper::save();
 
 	   	$vars = new JObject();
 	    $this->includeCustomModel('AppEmailtemplates');

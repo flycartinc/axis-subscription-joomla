@@ -38,6 +38,16 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
                         </div>
                     </li>
                 <?php endif; ?>
+                    <?php if ($this->subscription->tax > 0): ?>
+                        <li class="row">
+                            <div class="col-xs-8">
+                                <strong><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TOTAL_TAX'); ?></strong>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                <?php echo Axisubs::currency()->format($this->subscription->tax); ?>
+                            </div>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
@@ -93,8 +103,11 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
                         <?php echo $this->subscription->subscriptioninfo->billing_address1; ?>
                         <?php echo $this->subscription->subscriptioninfo->billing_address2; ?>,
                         <?php echo $this->subscription->subscriptioninfo->billing_city; ?>, <br>
-                        <?php echo $this->subscription->subscriptioninfo->billing_state; ?>
-                        <?php echo $this->subscription->subscriptioninfo->billing_country; ?> <br>
+                        <?php $stateSelected = Select::getZones($this->subscription->subscriptioninfo->billing_country);
+                        if(isset($stateSelected[$this->subscription->subscriptioninfo->billing_state])){
+                            echo $stateSelected[$this->subscription->subscriptioninfo->billing_state].', ';
+                        } ?>
+                        <?php echo Select::decodeCountry($this->subscription->subscriptioninfo->billing_country); ?> <br>
                         <?php echo $this->subscription->subscriptioninfo->billing_zip; ?>
                     </td>
                 </tr>
@@ -126,15 +139,15 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 </form>
 
 <div class="row">
-	<div class="col-md-4">
-		<pre><?php  print_r( $this->subscription->getData() );  ?></pre>
+	<!--<div class="col-md-4">
+		<pre><?php  /*print_r( $this->subscription->getData() );*/  ?></pre>
 	</div>
 	<div class="col-md-4">
-		<pre><?php  print_r( $this->subscription->customer->getData() );  ?></pre>
+		<pre><?php  /*print_r( $this->subscription->customer->getData() ); */ ?></pre>
 	</div>
 	<div class="col-md-4">
-		<pre><?php  print_r( $this->subscription->plan->getData() );  ?></pre>
-	</div>
+		<pre><?php  /*print_r( $this->subscription->plan->getData() ); */ ?></pre>
+	</div> -->
 </div>
 
 <script>

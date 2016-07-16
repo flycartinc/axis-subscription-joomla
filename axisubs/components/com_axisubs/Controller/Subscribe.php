@@ -43,6 +43,12 @@ class Subscribe extends Controller
 		parent::execute($task);
 	}
 
+	public function userRefTest(){
+		$app = JFactory::getApplication();
+		$session = $app->getSession();
+	 	$user_id = \JFactory::getUser()->id; 
+	 	Axisubs::plugin()->event( 'UserRefresh',array($user_id) );
+	}
 	/**
 	 * Register view required data
 	 *  */
@@ -96,7 +102,7 @@ class Subscribe extends Controller
 			$subscription->onAfterBind($d); // this will calculate totals and dates
 		}
 
-		if (! $subscription->isEligibleForSubscription($user_id) ){
+		if (!$subscription->isEligibleForSubscription($user_id) ){
 			$redirect_url = JRoute::_('index.php?option=com_axisubs&view=Plans');
 			$this->setRedirect($redirect_url,JText::_('AXISUBS_ERROR_INVALID_ACCESS_CANNOT_SUBSCRIBE'),'error');
 			return ;
@@ -104,11 +110,11 @@ class Subscribe extends Controller
 
 		$view->subscription = $subscription ;
 
-		// get the payment plugins and set it in the view object
+		// get the Payment plugins and set it in the view object
 		$paymentFactory = Axisubs::payment();
 		$paymentFactory->initialize( $subscription_id ) ;
-
-		$pluginList = $paymentFactory->getPaymentMethods();
+		$enabledPaymentPlugin = $plan_model->payment_plugins;
+		$pluginList = $paymentFactory->getPaymentMethods($enabledPaymentPlugin);
 
 		$view->payments = $pluginList;
 	}
@@ -230,7 +236,7 @@ class Subscribe extends Controller
 			$this->handleResponse($result);
 			return; // some error - subscription not created - return to view and retry
 		}
-//////////////////////////// prepare payment plugins
+//////////////////////////// prepare Payment plugins
 
 		$paymentFactory = Axisubs::payment() ;
 		$paymentFactory->initialize( $subscription_id );
@@ -241,15 +247,15 @@ class Subscribe extends Controller
 			$result['error']['axisubs_payment_form_validation'] = JText::_('AXISUBS_PAYMENT_METHOD_MANDATORY');
 			$is_valid = false;
 			$this->handleResponse($result);
-			// log it - did not choose the payment gateway maybe has some js errors or difficulties
+			// log it - did not choose the Payment gateway maybe has some js errors or difficulties
 		}
 
-		$payment_values = $app->input->post->get('payment', array(), 'array');
+		$payment_values = $app->input->post->get('Payment', array(), 'array');
 
-		// if the payment fields are empty then send an error message
-		// try to get the payment fields in other way
+		// if the Payment fields are empty then send an error message
+		// try to get the Payment fields in other way
 
-		//validate the selected payment
+		//validate the selected Payment
 		try {
 			$is_valid = $paymentFactory->validateSelectPayment( $payment_plugin, $payment_values );
 		} catch (\Exception $e) {
@@ -261,20 +267,20 @@ class Subscribe extends Controller
 			$this->handleResponse( $result );
 		}
 
-		// set the subscription id, payment method and all params in session		
+		// set the subscription id, Payment method and all params in session		
 		$session->set('payment_method', $payment_plugin, 'axisubs');
 		$session->set('payment_values', $payment_values, 'axisubs');
 
 		$result['redirect'] = JRoute::_('index.php?option=com_axisubs&view=Subscribe&task=paySubscription');
 		$this->handleResponse( $result ); 
-//////////////////////////// everything is fine, just redirect and process the payment
+//////////////////////////// everything is fine, just redirect and process the Payment
 	}
 
 	/**
-	 * Task to load the prePayment layout and redirect the customer to a payment gateway.
+	 * Task to load the prePayment layout and redirect the customer to a Payment gateway.
 	 *  <<< TODO: This method could be rewritten or merged with above view itself
 	 * 	For a better design and conversion rate - we need to remove dependancy from Joomla session variables and 
-	 *  Just process the payment request too in a single screen. With help of Javascript functions. >>>
+	 *  Just process the Payment request too in a single screen. With help of Javascript functions. >>>
 	 * */
 	function paySubscription(){
 		// load the subscriptions and perform some prechecks - isEligibleForPayment()
@@ -309,7 +315,7 @@ class Subscribe extends Controller
 			if ( !$error ){
 			 	$payment_values = $session->get('payment_values', '' , 'axisubs');
 
-				// trigger prepayment and get the form - intialize with payment values
+				// trigger prepayment and get the form - intialize with Payment values
 				$paymentFactory = Axisubs::payment() ;
 				$paymentFactory->initialize( $subscription_id );
 				$prePaymentForm = $paymentFactory->getPrePaymentForm( $payment_plugin );
@@ -327,8 +333,7 @@ class Subscribe extends Controller
 
 				$plan_model = $this->getModel('Plans');
 				$plan_model->load( $subs_model->plan_id );
-				$view->plan = $plan_model;			
-
+				$view->plan = $plan_model;
 				$view->setLayout('payment');
 				$view->display();
 			}
@@ -340,7 +345,7 @@ class Subscribe extends Controller
 	}
 
 	function confirmPayment(){
-		// handle the post payment task here
+		// handle the post Payment task here
 
 		$app = JFactory::getApplication();
 		$session = $app->getSession();
@@ -352,7 +357,7 @@ class Subscribe extends Controller
 
 		$payment_plugin = $app->input->get('orderpayment_type','');
 		if ( empty($payment_plugin) ){
-			// sometimes this is got from payment gateway, log the error
+			// sometimes this is got from Payment gateway, log the error
 			$error = true; // redirect back to the first subscribe screen
 		}
 
@@ -367,7 +372,7 @@ class Subscribe extends Controller
 			$postPaymentForm = $paymentFactory->getPostPaymentForm( $payment_plugin , $values );
 			$view->postPaymentForm = $postPaymentForm;
 			
-			// after payment remove subscription id from session
+			// after Payment remove subscription id from session
 			$session->clear('subscription_id', 'axisubs');
 			$session->clear('plan_id', 'axisubs');
 			$session->clear('user_id', 'axisubs');
@@ -386,7 +391,7 @@ class Subscribe extends Controller
 	}
 
 	function paymentCallback(){
-		// handle payment callback
+		// handle Payment callback
 	}
 
 	/**

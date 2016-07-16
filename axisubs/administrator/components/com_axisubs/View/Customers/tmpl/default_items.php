@@ -82,9 +82,7 @@ margin-left:84px !important;
 							</dt>
 				<?php endif;?>
 				<dt>
-					<span class="pcolor"><?php echo JText::_('COM_AXISUBS_CUSTOMER_PAYMENT_METHOD');?>:
-					</span> 
-					
+										
 				</dt>
 			</dl>
 		</div>

@@ -131,7 +131,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
                                 <!-- CREDIT CARD FORM STARTS HERE -->
                                 <div id="p-payment">
                                     <h3 id="p-payment-title"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_PAYMENT_METHOD_INFORMATION'); ?></h3>
-                                    <?php echo $this->loadTemplate('payment') ?>
+                                    <?php echo $this->loadTemplate('payment'); ?>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -152,6 +152,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-4 hidden-xs">
                 <div class="p-well">
                     <div>

@@ -22,11 +22,11 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function renderSubmenu()
 	{
 		$views = array(
-			'Dashboard',	
+			'Dashboard',
+			'Plans',
 			'Configuration',
 			'Customers',
 			'Subsribers',
-			'Plans',
 			'Setup'
 		);
 
@@ -290,6 +290,14 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 		$subtitle_key = $option . '_TITLE_PAYMENTS';
 		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
+		$this->hideToolbar();
+	}
+
+	public function onTaxes(){
+		$option = $this->container->componentName;
+		$subtitle_key = $option . '_TITLE_TAXES_HEADER';
+		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+			str_replace('com_', '', $option));
 		$this->hideToolbar();
 	}
 

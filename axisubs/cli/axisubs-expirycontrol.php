@@ -256,7 +256,7 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 		$phpversion		 = PHP_VERSION;
 		$phpenvironment	 = PHP_SAPI;
 
-		$this->out("Axis Subscriptions Updater CLI " . AKEEBASUBS_VERSION . " (" . AKEEBASUBS_DATE . ")");
+		$this->out("Axis Subscriptions Updater CLI " . AXISUBS_VERSION . " (" . AXISUBS_DATE . ")");
 		$this->out("Copyright (C) 2015-$year Sasi varna kumar");
 		$this->out(str_repeat('-', 79));
 		$this->out("Axis Subscriptions is Free Software, distributed under the terms of the GNU General");
@@ -283,9 +283,9 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 
 		$container = \FOF30\Container\Container::getInstance('com_axisubs');
 		/** @var \Akeeba\Subscriptions\Admin\Model\Updates $updateModel */
-		$updateModel = $container->factory->model('Updates')->tmpInstance();
+		$cliModel = $container->factory->model('CliActions')->tmpInstance();
 
-        $result = $updateModel->autoupdate();
+        $result = $cliModel->expiryControl(); 
 
         echo implode("\n", $result['message']);
 
@@ -309,5 +309,4 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 }
 
 $app = JApplicationCli::getInstance('AxiSubsExpiryControlApp');
-JFactory::$application = $app;
 $app->execute();

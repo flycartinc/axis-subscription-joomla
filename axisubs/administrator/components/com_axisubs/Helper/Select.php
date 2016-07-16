@@ -9,7 +9,6 @@ namespace Flycart\Axisubs\Admin\Helper;
 
 use FOF30\Container\Container;
 use FOF30\Model\DataModel;
-use FOF30\Utils\String;
 use JFactory;
 use JFolder;
 use JHtml;
@@ -919,7 +918,7 @@ abstract class Select
 	}
 
 	/**
-	 * Generates a drop-down list for the available subscription payment states.
+	 * Generates a drop-down list for the available subscription Payment states.
 	 *
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $id        The value of the HTML name attribute
@@ -1125,7 +1124,6 @@ abstract class Select
 		{
 			$ret[$plugin->element ] = $plugin->name;
 		}
-
 		return $ret;
 	}
 

@@ -36,7 +36,7 @@ class PaymentFactory
 	}
 
 	/**
-	 * Payment factory initialized using the subscription id
+	 * Payment_old factory initialized using the subscription id
 	 * @param 	int 	$subscription_id	 subscription id
 	 * */
 	public function initialize($subscription_id){
@@ -48,17 +48,16 @@ class PaymentFactory
 	}
 
 	/**
-	 * Method to list all the payment methods applicable for the current customer / subscription / plan / state
-	 * @return 	array	List of payment methods applicable
+	 * Method to list all the Payment methods applicable for the current customer / subscription / plan / state
+	 * @return 	array	List of Payment methods applicable
 	 * */
-	public function getPaymentMethods(){
+	public function getPaymentMethods($enabledPaymentPlugin = array()){
 
 		$app = JFactory::getApplication();
 		$params = Axisubs::config();
 		$subscription = $this->subscription ;
 
 		$payment_plugins = Axisubs::plugin()->getPluginsWithEvent( 'onAxisubsGetPaymentPlugins');
-
 		$default_method = $params->get('default_payment_method', ''); // additionally check the plan's preferences
 		$plugins = array();
 		$payment_form_div = '' ;
@@ -66,6 +65,11 @@ class PaymentFactory
 		{
 			foreach ($payment_plugins as $plugin)
 			{
+				if(!empty($enabledPaymentPlugin)) {
+					if (!in_array($plugin->element, $enabledPaymentPlugin)) {
+						continue;
+					}
+				}
 				$results = Axisubs::plugin()->event("onAxisubsGetPaymentOptions", array( $plugin->element, $subscription ) );
 				if (!in_array(false, $results, false))
 				{
@@ -97,12 +101,12 @@ class PaymentFactory
 	}
 
 	/**
-	 * Method to get the pre payment forms
+	 * Method to get the pre Payment forms
 	 * */
 	function getPrePaymentForm( $payment_method ){
 		$app = JFactory::getApplication();
 		$results = Axisubs::plugin()->event( "PrePayment", array( $payment_method, $this->subscription ) );
-		// Display whatever comes back from Payment Plugin for the onPrePayment
+		// Display whatever comes back from Payment_old Plugin for the onPrePayment
 		$html = "";
 		for ($i=0; $i<count($results); $i++)
 		{
@@ -113,13 +117,13 @@ class PaymentFactory
 	}
 
 	/**
-	 * Method to get the pre payment forms
+	 * Method to get the pre Payment forms
 	 * */
 	function getPostPaymentForm( $payment_method ,$values){
 		$app = \JFactory::getApplication();
 		$results = Axisubs::plugin()->event( "PostPayment", array( $payment_method, $values ) );
 
-		// Display whatever comes back from Payment Plugin for the onPrePayment
+		// Display whatever comes back from Payment_old Plugin for the onPrePayment
 		$html = "";
 		for ($i=0; $i<count($results); $i++)
 		{
@@ -130,7 +134,7 @@ class PaymentFactory
 	}
 
 	/**
-	 * Method to get the payment form
+	 * Method to get the Payment form
 	 * */
 	function getPaymentForm($element = '', $plain_format = false) {
 		$app = JFactory::getApplication ();
@@ -171,7 +175,7 @@ class PaymentFactory
 	}
 
 	/**
-	 * Method to validate the selected payment method and its form values
+	 * Method to validate the selected Payment method and its form values
 	 * */
 	//function validatePaymentForm( $payment_plugin, $values ) {
 	public function validateSelectPayment( $payment_plugin, $values ) {

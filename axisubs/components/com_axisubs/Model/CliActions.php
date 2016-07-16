@@ -15,6 +15,9 @@ use JLoader;
 use Carbon\Carbon;
 use JText;
 
+use Flycart\Axisubs\Admin\Model\Subscriptions;
+use Flycart\Axisubs\Admin\Helper\Axisubs;
+
 /**
  * Model class for Axisubs CliActions
  * 
