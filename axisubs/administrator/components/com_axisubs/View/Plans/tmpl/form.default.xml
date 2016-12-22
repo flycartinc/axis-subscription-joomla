@@ -16,11 +16,12 @@
         <header name="charge_model" type="Text" label="COM_AXISUBS_PLAN_CHARGING_MODEL" />
         <header name="price" type="Searchable" label="COM_AXISUBS_PLAN_PRICE" />
         <header name="access" type="Access" label="COM_AXISUBS_PLAN_ACCESS" />
+		<header name="enabled" type="Text" label="COM_AXISUBS_PLAN_CONTENT_STATUS" />
 	</headerset>
 
 	<fieldset name="items">
 		<field name="axisubs_plan_id" type="SelectRow" empty_replacement="–––"/>
-		<field name="name" type="Text" label="COM_AXISUBS_PLAN_NAME" empty_replacement="–––" 
+		<field name="name" type="Text" label="COM_AXISUBS_PLAN_NAME" empty_replacement="–––"
 			show_link="true"
 			url="index.php?option=com_axisubs&amp;view=Plan&amp;id=[ITEM:ID]"
 			/>
@@ -30,5 +31,6 @@
         <field name="charge_model" type="Text" label="COM_AXISUBS_PLAN_CHARGING_MODEL" empty_replacement="–––" />
         <field name="price" type="Text" label="COM_AXISUBS_PLAN_PRICE" empty_replacement="–––" />
         <field name="access" type="Access" label="COM_AXISUBS_PLAN_ACCESS" empty_replacement="–––" />
+		<field name="enabled" type="Text" label="COM_AXISUBS_PLAN_CONTENT_STATUS" empty_replacement="–––" />
 	</fieldset>
 </form>

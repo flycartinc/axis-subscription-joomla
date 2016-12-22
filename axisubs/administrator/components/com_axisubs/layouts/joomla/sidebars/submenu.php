@@ -26,12 +26,12 @@ $menus = array (
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_SUBSCRIPTIONS' ),
 				'viewname' => 'Subscriptions',
-				'icon' => 'fa fa-rss'
+				'icon' => 'fa fa-usd'
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_REPORTS' ),
 				'viewname' => 'Reports',
-				'icon' => 'fa fa-sticky-note'
+				'icon' => 'fa fa-signal'
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_APPS' ),
@@ -68,15 +68,16 @@ $view = $app->input->get('view');
     <div class="sidebar-collapse">
         <ul id="side-menu" class="nav-pills">
             <li class="nav-header">
-                <h2 class="menud"> <?php echo JText::_('COM_AXISUBS'); ?> </h2><?php echo  "V ".$version->version; ?>
+            	<h2 class="menud"> <a href="index.php?option=com_axisubs&view=Dashboard">
+            	<?php echo JText::_('COM_AXISUBS'); ?> </a></h2><?php echo  "V ".$version->version; ?>
             </li>
             <li class="">
              <ul class="nav navbar-nav ">
 				 <li class="dropdown">
-            <?php foreach($menus as $k => $menu_item) { 
+            <?php foreach($menus as $k => $menu_item) {
 				//~ echo $view;
 				// check if the menu is currenct view
-					
+
 				$class_is_active='';
 				if(isset($menu_item['viewname']) && !empty($view))
 					$class_is_active = ($view==$menu_item['viewname'])?'active':'';
@@ -85,27 +86,27 @@ $view = $app->input->get('view');
 					{
 						$has_submenu = 'dropdow';
 					}
-					
+
 				?>
-					<li class="<?php echo $class_is_active; ?> <?php echo $has_submenu; ?> "> 
+					<li class="<?php echo $class_is_active; ?> <?php echo $has_submenu; ?> ">
                     <a  class="admin-menu-item" class="dropdown-toggle" data-toggle="dropdown"
 						<?php if(isset($menu_item['viewname'])&&!empty($menu_item['viewname'])) { ?>
 						href="<?php echo 'index.php?option=com_axisubs&view='.$menu_item['viewname']; ?>"
 						<?php } //endif ?>
                      >  <div class="menud1">
-						<i class="<?php echo $menu_item['icon']; ?>"></i> 
+						<i class="<?php echo $menu_item['icon']; ?>"></i>
 						<span class="nav-label ">
-						<?php echo $menu_item['name']; ?> 
+						<?php echo $menu_item['name']; ?>
 						</span></div>
                     </a>
-                   
-                   <!-- submenu for the group goes here --> 
+
+                   <!-- submenu for the group goes here -->
                    <?php if(isset($menu_item['submenu'])) { ?>
-				
-						
+
+
 					<ul class="dropdown-menu ">
 					    <ul class="nav nav-second-level collapse in admin-submenu-item">
-							
+
 					<?php	 foreach($menu_item['submenu'] as $sub_vname => $sub_icon) {
 			                    $class_is_active='';
 								if(!empty($view))
@@ -113,7 +114,7 @@ $view = $app->input->get('view');
 			            ?>
 			           <li class="<?php echo $class_is_active; ?>">
 								<a  href="<?php echo 'index.php?option=com_axisubs&view='.$sub_vname; ?>">
-										<i class="<?php echo $sub_icon; ?>"></i> 
+										<i class="<?php echo $sub_icon; ?>"></i>
 										<span class="nav-label">
 											<?php echo JText::_('COM_AXISUBS_MAINMENU_'.strtoupper($sub_vname)); ?>
 										</span>
@@ -121,7 +122,7 @@ $view = $app->input->get('view');
 						</li>
 			       <?php 	} // end for submenu ?>
 			            </ul> </ul>
-				  <?php	 } //end if submenu ?>            
+				  <?php	 } //end if submenu ?>
                 </li>
 			<?php	} // end foreach $menus ?>
         </ul>
@@ -137,7 +138,7 @@ $view = $app->input->get('view');
 <div class="filter-select hidden-phone">
 <?php foreach ($displayData->filters as $filter) : ?>
 	<label for="<?php echo $filter['name']; ?>"
-	class="element-invisible"><?php echo $filter['label']; ?></label> 
+	class="element-invisible"><?php echo $filter['label']; ?></label>
 	<select name="<?php echo $filter['name']; ?>"
 	id="<?php echo $filter['name']; ?>" class="span12 small"
 	onchange="this.form.submit()">
@@ -165,8 +166,8 @@ $view = $app->input->get('view');
 
 	jQuery(document).ready(function() {
 		jQuery("#akeeba-renderjoomla").addClass('axisubs-bs3');
-		jQuery("#j-main-container").attr("class", 'axisubs-bs3');
-		jQuery("#j-sidebar-container").attr("class", 'col-md-12');
+		jQuery("#j-main-container").attr("class", 'axisubs-bs3').addClass('col-sm-9');
+		jQuery("#j-sidebar-container").attr("class", 'col-sm-3');
 	});
 
 jQuery(document).ready(function(){

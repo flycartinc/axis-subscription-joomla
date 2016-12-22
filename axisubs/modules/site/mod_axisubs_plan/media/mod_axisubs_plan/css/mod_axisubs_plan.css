@@ -1,0 +1,16 @@
+/**
+ * @package   Axisubs Module - Subscription Management System
+ * @copyright Copyright (c)2016-2020 Ashlin / Flycart Technologies
+ * @license   GNU General Public License version 3, or later
+ */
+
+.axisubs_mod-item {
+    padding: 2px 0;
+}
+.axisubs_mod-plan_label {
+    font-weight: bold;
+}
+.axisubs_mod-plan_price {
+    font-size: 24px;
+    padding: 10px 0;
+}

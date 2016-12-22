@@ -56,7 +56,7 @@ class Subscription extends DataController
 		// get the subscription records
 		$app = JFactory::getApplication();
 		$id = $app->input->get('subscription_id',0);
-		$data = $app->input->getArray ( $_POST );
+		$data = $app->input->post->getArray();
 
 		$subs_model = $this->getModel();
 		if ($id <= 0){

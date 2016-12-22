@@ -18,7 +18,7 @@
            apply_access="false"
            description="COM_AXISUBS_SUBSCRIPTION_BASIC_PLANID_DESC"
         />
-        <field name="plan_quantity" type="Text" label="COM_AXISUBS_PLAN_QUANTITY"  />
+        <field name="plan_quantity" type="hidden" label="COM_AXISUBS_PLAN_QUANTITY" default="1" />
 
         <field name="start_date" type="Calendar" 
             format="%Y-%m-%d %H:%M:%S"

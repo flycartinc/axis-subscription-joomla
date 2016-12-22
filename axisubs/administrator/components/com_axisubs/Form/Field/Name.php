@@ -19,12 +19,12 @@ class Name extends Text
 	protected function getInput()
 	{
 		$this->name = 'first_name';
-		$this->hint = 'COM_AXISUBS_CUSTOMER_FIRST_NAME';
+		$this->hint = 'AXISUBS_ADDRESS_FIRST_NAME';
 		$this->class = 'span4';
 		$html = parent::getInput();
 
 		$html .= '  <input type="text" value="" id="last_name" name="last_name" '
-				.' placeholder ="'.JText::_('COM_AXISUBS_CUSTOMER_LAST_NAME') .'" '
+				.' placeholder ="'.JText::_('AXISUBS_ADDRESS_LAST_NAME') .'" '
 				.' class="'.$this->class.'" > ' ; 
 		return $html .= '';
 	}

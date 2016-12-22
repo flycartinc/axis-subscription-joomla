@@ -15,7 +15,7 @@ $mailcontents = $this->item->getEmailContent();
 $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 ?>
 <div class="axisubs-bs3">
-	<form action="<?php echo JRoute::_('index.php'); ?>" method="post" 
+	<form action="<?php echo JRoute::_('index.php'); ?>" method="post"
 		name="adminForm" id="adminForm" class="form-horizontal form-validate">
 		<input type="hidden" value="com_axisubs" name="option">
 		<input type="hidden" value="EmailTemplates" name="view">
@@ -26,7 +26,7 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 		<?php foreach ($fieldsets as $fieldset) : ?>
 			<div id="<?php echo $fieldset->name; ?>" class="<?php echo $fieldset->class; ?>" >
 			<h3><?php echo JText::_('COM_AXISUBS_USER_BASIC_TITLE'); ?></h3>
-			<?php 
+			<?php
 				$fields = $this->form->getFieldset($fieldset->name);
 				foreach ($fields as $field) : ?>
 				<?php if ($field->name == 'recipientshortcodes') { ?>
@@ -48,7 +48,7 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 				<?php if ( count($mailcontents) > 0 ): ?>
 				<!-- Tab head -->
 				<ul class="nav nav-tabs bordcolor">
-				<?php foreach ($mailcontents as $lang_id => $content): 
+				<?php foreach ($mailcontents as $lang_id => $content):
 					$active_class = '';
 					if ( $content->is_default == 1 ){
 						$active_class = 'active ';
@@ -57,18 +57,18 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 					<li class="<?php echo $active_class; ?> ">
 			            <a data-toggle="tab" href="#mailcontent<?php echo $lang_id; ?>">
 			                <img src="<?php echo JURI::root(); ?>/media/mod_languages/images/<?php echo $content->language->image;?>.gif" alt="">
-			                <?php echo $content->language->title_native; ?> 
+			                <?php echo $content->language->title_native; ?>
 			                <span class="muted">
 			                	[ <?php echo $content->language->lang_code; ?> ]
 			                </span>
 			            </a>
-			        </li>	
-				<?php endforeach ?>	
+			        </li>
+				<?php endforeach ?>
 				</ul>
 				<!-- end Tab head -->
 				<!-- Tab body -->
 				<div class="tab-content">
-				<?php foreach ($mailcontents as $lang_id => $content): 
+				<?php foreach ($mailcontents as $lang_id => $content):
 					$field_name_prefix = 'emailcontent['.$lang_id.']';
 					$active_class = '';
 					if ( $content->is_default == 1 ){
@@ -80,36 +80,38 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 					 <div id="mailcontent<?php echo $lang_id; ?>" class="tab-pane fade <?php echo $active_class; ?>">
 						<table class="table bordered">
 							<tr>
-								<td>
-									<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_SUBJECT'); ?>
-								</td>
-								<td>
-									<?php 
-									$field_val = '';
-									if (isset($content->fields['subject']) 
+								<td colspan="2" class="email_template_td_sub">
+									<div class="col-md-1">
+										<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_SUBJECT'); ?>
+									</div>
+									<div class="col-md-11 email_template_field_con">
+										<?php
+										$field_val = '';
+										if (isset($content->fields['subject'])
 											&& isset( $content->fields['subject']->content) ){
-										$field_val = $content->fields['subject']->content;
-									}
-									echo AxisHtml::text( $field_name_prefix.'[subject]',
-																$field_val ); ?>
+											$field_val = $content->fields['subject']->content;
+										}
+										echo AxisHtml::text( $field_name_prefix.'[subject]',
+											$field_val ); ?>
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
 								<div class="row">
-									<div class="col-md-9">
+									<div class="col-md-8">
 										<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_BODY_HTML'); ?>
-										<br>
-										<?php 
+										<br/><br/>
+										<?php
 										$field_val = '';
-										if (isset($content->fields['body_html']) 
+										if (isset($content->fields['body_html'])
 												&& isset( $content->fields['body_html']->content) ){
 											$field_val = $content->fields['body_html']->content;
 										}
 										echo AxisHtml::editor( $field_name_prefix.'[body_html]',
-																	$field_val ); ?>	
+																	$field_val ); ?>
 									</div>
-									<div class="col-md-2">
+									<div class="col-md-3">
 										<br><br>
 										<a class="btn btn-success" onclick="insertShortCode('editor_emailcontent\\[1\]\\\[body_html\\]',jQuery('#shortcode<?php echo $lang_id; ?>').attr('value'));">
 											<i class="icon-arrow-left"></i>
@@ -121,23 +123,25 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 								</td>
 							</tr>
 							<tr>
-								<td>
-									<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_BODY_PLAIN'); ?>
-								</td>
-								<td>
-									<?php 
-									$field_val = '';
-									if (isset($content->fields['body_plain']) 
+								<td colspan="2" class="email_template_td_sub">
+									<div class="col-md-1">
+										<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_BODY_PLAIN'); ?>
+									</div>
+									<div class="col-md-11 email_template_field_con">
+										<?php
+										$field_val = '';
+										if (isset($content->fields['body_plain'])
 											&& isset( $content->fields['body_plain']->content) ){
-										$field_val = $content->fields['body_plain']->content;
-									}
-									echo AxisHtml::textarea( $field_name_prefix.'[body_plain]',
-																$field_val ); ?>
+											$field_val = $content->fields['body_plain']->content;
+										}
+										echo AxisHtml::textarea( $field_name_prefix.'[body_plain]',
+											$field_val ); ?>
+									</div>
 								</td>
 							</tr>
 						</table>
 					</div>
-				<?php endforeach ?>	
+				<?php endforeach ?>
 				</div>
 				<!-- end Tab body -->
 				<?php else : ?>
@@ -145,7 +149,7 @@ $emailtemplate_id = $this->item->axisubs_emailtemplate_id;
 						<?php echo JText::_('COM_AXISUBS_EMAILTEMPLATES_CONTENT_CAN_EDIT_AFTER_SAVE'); ?>
 					</div>
 				<?php endif ?>
-			</div>			
+			</div>
 		</div>
 	</form>
 </div>
@@ -173,7 +177,7 @@ function insertRecipientShortCode(textarea, value) {
 }
 
 (function($) {
-	$(document).ready(function(){ 
+	$(document).ready(function(){
 
 		<?php foreach ($mailcontents as $lang_id => $content): ?>
 		var divdbl = $( "#shortcode<?php echo $lang_id; ?> > optgroup > option" );
@@ -186,6 +190,6 @@ function insertRecipientShortCode(textarea, value) {
 		divdbl.dblclick(function() {
 			insertRecipientShortCode('recipients', jQuery('#recipientshortcodes').attr('value') );
 		});
-	});	
+	});
 })(jQuery.noConflict());
 </script>

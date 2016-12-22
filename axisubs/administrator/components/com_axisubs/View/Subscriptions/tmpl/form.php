@@ -114,5 +114,6 @@ $fieldsets = $this->form->getFieldsets();
 	$customer = $this->customer ; ?>
 	<input type="hidden" name="user_id" value="<?php echo $this->customer->user_id; ?>" />
 <?php endif; ?>
+	<input type="hidden" name="axisubs_subscription_id" value="<?php echo $this->item->axisubs_subscription_id; ?>" />
 
 </form>

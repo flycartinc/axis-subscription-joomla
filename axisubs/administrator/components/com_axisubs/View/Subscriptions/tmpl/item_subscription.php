@@ -7,7 +7,6 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 //$customer = $this->item->customer ;
-
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $this->current_customer = $this->item->customer ;
@@ -72,7 +71,12 @@ $status_helper = Axisubs::status();
                                         <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_ENDS_ON');?>
                                     </td>
                                     <td class="">
-                                    <?php echo $this->item->current_term_end; ?>
+                                    <?php
+                                    if($this->item->plan->plan_type) {
+                                        echo $this->item->current_term_end;
+                                    } else {
+                                        echo JText::_('COM_AXISUBS_PLAN_RECURRING_UNLIMIT');
+                                    } ?>
                                     </td>
                                 </tr>
                             </table>

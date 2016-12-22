@@ -8,11 +8,11 @@ defined('_JEXEC') or die();
 use Flycart\Axisubs\Admin\Helper\Select;
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 ?>
-<div class="row">
+<div class="row<?php echo (\JFactory::getUser()->id <= 0)? ' hide': ''?>">
     <div class="col-sm-6">
         <div class="form-group">
             <label for="billing_address[first_name]">
-				<?php echo JText::_('COM_AXISUBS_CUSTOMER_FIRST_NAME'); ?>
+				<?php echo JText::_('AXISUBS_ADDRESS_FIRST_NAME'); ?>
 				<span>*</span>
             </label>
             <span id="billing_address[first_name].err" class="text-danger pull-right">&nbsp;</span>
@@ -23,7 +23,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
     <div class="col-sm-6">
         <div class="form-group">
             <label for="billing_address[last_name]">
-				<?php echo JText::_('COM_AXISUBS_CUSTOMER_LAST_NAME'); ?>
+				<?php echo JText::_('AXISUBS_ADDRESS_LAST_NAME'); ?>
             </label>
             <span id="billing_address[last_name].err" class="text-danger pull-right">&nbsp;</span>
             <input id="billing_address[last_name]" name="billing_address[last_name]" class="form-control" minlength="1"  value="<?php echo $this->customer->last_name; ?>" validate="true" type="text" required>
@@ -35,17 +35,16 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
     <div class="col-sm-6">
         <div class="form-group">
             <label for="billing_address[company]">
-                <?php echo JText::_('COM_AXISUBS_CUSTOMER_COMPANY'); ?>
-                <span>*</span>
+                <?php echo JText::_('AXISUBS_ADDRESS_COMPANY_NAME'); ?>
             </label>
             <span id="billing_address[company].err" class="text-danger pull-right">&nbsp;</span>
-            <input id="billing_address[company]" name="billing_address[company]" class="form-control" value="<?php echo $this->customer->company; ?>" validate="true" type="text" minlength="2"  required>
+            <input id="billing_address[company]" name="billing_address[company]" class="form-control" value="<?php echo $this->customer->company; ?>" validate="true" type="text" minlength="2" >
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
             <label for="billing_address[vat_number]">
-                <?php echo JText::_('COM_AXISUBS_CUSTOMER_VATNUMBER'); ?>
+                <?php echo JText::_('AXISUBS_ADDRESS_TAX_NUMBER'); ?>
             </label>
             <span id="billing_address[vat_number].err" class="text-danger pull-right">&nbsp;</span>
             <input id="billing_address[vat_number]" name="billing_address[vat_number]" class="form-control" minlength="1"  value="<?php echo $this->customer->vat_number; ?>" validate="true" type="text" required>
@@ -58,7 +57,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
         <div class="form-group">
 
             <label for="billing_address[address1]">
-				<?php echo JText::_('COM_AXISUBS_USERS_FIELD_ADDRESS1'); ?>
+				<?php echo JText::_('AXISUBS_ADDRESS_LINE1'); ?>
                 <span>*</span>
             </label>
             <span id="billing_address[address1].err" class="text-danger pull-right">&nbsp;</span>
@@ -68,7 +67,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
     <div class="col-sm-6">
         <div class="form-group">
             <label for="billing_address[address2]">
-				<?php echo JText::_('COM_AXISUBS_USERS_FIELD_ADDRESS2'); ?>												
+				<?php echo JText::_('AXISUBS_ADDRESS_LINE2'); ?>												
             </label>
             <span id="billing_address[address2].err" class="text-danger pull-right">&nbsp;</span>
             <input id="billing_address[address2]" name="billing_address[address2]" class="form-control" value="<?php echo $this->customer->address2; ?>" validate="true" type="text" required>
@@ -78,7 +77,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="billing_address[city]"><?php echo JText::_('COM_AXISUBS_USERS_FIELD_CITY'); ?>
+            <label for="billing_address[city]"><?php echo JText::_('AXISUBS_ADDRESS_CITY'); ?>
                 <span>*</span>
             </label>
             <span id="billing_address[city].err" class="text-danger pull-right">&nbsp;</span>
@@ -87,18 +86,17 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="billing_address[zip]"><?php echo JText::_('COM_AXISUBS_USERS_FIELD_ZIP'); ?>
-                <span>*</span>
+            <label for="billing_address[zip]"><?php echo JText::_('AXISUBS_ADDRESS_ZIP'); ?>
             </label>
             <span id="billing_address[zip].err" class="text-danger pull-right">&nbsp;</span>
-            <input id="billing_address[zip]" name="billing_address[zip]" class="form-control" value="<?php echo $this->customer->zip; ?>" validate="true" data-p-checkout="gen-order" type="text" required>
+            <input id="billing_address[zip]" name="billing_address[zip]" class="form-control" value="<?php echo $this->customer->zip; ?>" data-p-checkout="gen-order" type="text">
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group subsformwidth">
-            <label for="billing_address[country]"><?php echo JText::_('COM_AXISUBS_USERS_FIELD_COUNTRY'); ?>
+            <label for="billing_address[country]"><?php echo JText::_('AXISUBS_ADDRESS_COUNTRY'); ?>
                 <span>*</span>
             </label>
             <span id="billing_address[country].err" class="text-danger pull-right">&nbsp;</span>
@@ -107,7 +105,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
     </div>
     <div class="col-sm-6">
         <div class="form-group subsformwidth">
-            <label for="billing.region"><?php echo JText::_('COM_AXISUBS_USERS_FIELD_STATE'); ?>
+            <label for="billing.region"><?php echo JText::_('AXISUBS_ADDRESS_STATE'); ?>
                 <span>*</span>
             </label>
             <span id="billing.region.err" class="text-danger pull-right">&nbsp;</span>
@@ -121,7 +119,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            <label for="billing_address[phone]"><?php echo JText::_('COM_AXISUBS_CUSTOMER_PHONE'); ?>                                             
+            <label for="billing_address[phone]"><?php echo JText::_('AXISUBS_ADDRESS_PHONE'); ?>                                             
                 <span>*</span>
             </label>
             <span id="billing_address[phone].err" class="text-danger pull-right">&nbsp;</span>

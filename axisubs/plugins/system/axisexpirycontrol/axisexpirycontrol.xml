@@ -16,4 +16,58 @@
         <language tag="en-GB">en-GB/en-GB.plg_system_axisexpirycontrol.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_system_axisexpirycontrol.sys.ini</language>
     </languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="run_as_cron"
+						type="list"
+						description="PLG_SYSTEM_AXISEXPIRYCONTROL_RUN_AS_CRON_OR_PLUGIN_DESC"
+						label="PLG_SYSTEM_AXISEXPIRYCONTROL_RUN_AS_CRON_OR_PLUGIN"
+						default="2"
+				>
+					<option value="1">PLG_SYSTEM_AXISEXPIRYCONTROL_RUN_AS_CRON_OR_PLUGIN_CRON</option>
+					<option value="2">PLG_SYSTEM_AXISEXPIRYCONTROL_RUN_AS_CRON_OR_PLUGIN_PLUGIN</option>
+				</field>
+				<field
+					name="cron_key"
+					type="text"
+					description="PLG_SYSTEM_AXISEXPIRYCONTROL_CRON_KEY_DESC"
+					label="PLG_SYSTEM_AXISEXPIRYCONTROL_CRON_KEY_LABEL"
+				/>
+				<field
+						name="execute_by_each_hours"
+						type="list"
+						description="PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_DESC"
+						label="PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_LABEL"
+						default="12"
+				>
+					<option value="1">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_1</option>
+					<option value="2">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_2</option>
+					<option value="3">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_3</option>
+					<option value="4">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_4</option>
+					<option value="5">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_5</option>
+					<option value="6">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_6</option>
+					<option value="7">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_7</option>
+					<option value="8">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_8</option>
+					<option value="9">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_9</option>
+					<option value="10">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_10</option>
+					<option value="11">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_11</option>
+					<option value="12">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_12</option>
+					<option value="13">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_13</option>
+					<option value="14">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_14</option>
+					<option value="15">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_15</option>
+					<option value="16">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_16</option>
+					<option value="17">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_17</option>
+					<option value="18">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_18</option>
+					<option value="19">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_19</option>
+					<option value="20">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_20</option>
+					<option value="21">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_21</option>
+					<option value="22">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_22</option>
+					<option value="23">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_23</option>
+					<option value="24">PLG_SYSTEM_AXISEXPIRYCONTROL_EXECUTE_BY_EACH_HOURS_24</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -45,10 +45,25 @@ class Subscribe extends Controller
 
 	public function userRefTest(){
 		$app = JFactory::getApplication();
-		$session = $app->getSession();
-	 	$user_id = \JFactory::getUser()->id; 
-	 	Axisubs::plugin()->event( 'UserRefresh',array($user_id) );
+		$sub_id = $this->input->get('subid',0);
+
+		$subscription = $this->getModel('Subscriptions');
+		$subscription->load( $sub_id );
+
+	 	Axisubs::plugin()->event( 'SubscriptionMarkedActive', array( $subscription , 'P') );
 	}
+
+	/**
+	 * Apply coupon code through plugin
+	 * */
+	public function applyCoupon(){
+		$app = JFactory::getApplication();
+		$couponCode = $app->input->get('coupon_code');
+		$plan_id = $app->input->get('plan_id');
+		$appTask = $app->input->get('apptask');
+		Axisubs::plugin()->event( 'ApplyCouponCode', array( $couponCode, $plan_id, $appTask));
+	}
+
 	/**
 	 * Register view required data
 	 *  */
@@ -75,13 +90,13 @@ class Subscribe extends Controller
 			$this->setRedirect($redirect_url);
 			return ;
 		}
-
 		// check if user has enough acess to the plan
 		if ( !$plan_model->isEligible($user_id) ){
 			$redirect_url = JRoute::_('index.php?option=com_axisubs&view=Plans');
 			$this->setRedirect($redirect_url,JText::_('AXISUBS_ERROR_INVALID_ACCESS_CANNOT_SUBSCRIBE'),'error');
 			return ;
 		}
+
 		// get the customer details and set it in the view
 		$cust_model = $this->getModel('Customers');
 		$cust_model->load( array('user_id'=>$user_id) );
@@ -100,7 +115,7 @@ class Subscribe extends Controller
 			$subscription->plan_id = $plan_id;
 			$d = array() ;
 			$subscription->onAfterBind($d); // this will calculate totals and dates
-		}
+		}		
 
 		if (!$subscription->isEligibleForSubscription($user_id) ){
 			$redirect_url = JRoute::_('index.php?option=com_axisubs&view=Plans');
@@ -115,8 +130,56 @@ class Subscribe extends Controller
 		$paymentFactory->initialize( $subscription_id ) ;
 		$enabledPaymentPlugin = $plan_model->payment_plugins;
 		$pluginList = $paymentFactory->getPaymentMethods($enabledPaymentPlugin);
-
+		if(isset($view->subscription->axisubs_subscription_id) && $view->subscription->axisubs_subscription_id){
+			$view->subscription->calculateTotals();
+		}
 		$view->payments = $pluginList;
+		//For trigger plugin for loading more price list and options
+		$this->triggerPlugins($view, $plan_id);
+
+	}
+
+	/**
+	 * To trigger plugin for loading more price list and options
+	 * */
+	protected function triggerPlugins(&$view, $plan_id, $page = 'default'){
+		$plugin_helper = Axisubs::plugin();
+		$view->morePriceList = $plugin_helper->eventWithHtml('LoadContentInPriceList', array($view, $plan_id, $page));
+		$view->optionsBelowPrice = $plugin_helper->eventWithHtml('LoadContentBelowPriceList', array($view, $plan_id, $page));
+	}
+
+	public function loginUser(){
+		$app = JFactory::getApplication();
+		$session = $app->getSession();
+		$errors = [];
+
+		$login  = $app->input->post->get('login', array(), 'array');
+		if(isset($login['username']) && trim($login['username']) == ''){
+			$errors['login_username']=JText::_('AXISUBS_ERROR_REQUIRED');
+		}
+		if(isset($login['password']) && trim($login['password']) == ''){
+			$errors['login_password']=JText::_('AXISUBS_ERROR_REQUIRED');
+		}
+
+		if ( count($errors) > 0 ) {
+			$result['error'] = $errors ;
+			echo json_encode($result); $app->close();
+		}
+			//$result['error']
+		if(isset($login['username']) && isset($login['password'])) {
+			$credentials = array();
+			$credentials['username'] = $login['username'];
+			$credentials['password'] = $login['password'];
+			$success = $app->login($credentials);
+				if($success){
+					$result['success'] = 1 ;
+					$result['redirect'] = 1 ;
+				} else {
+					$errors['login_username'] = JText::_('COM_AXISUBS_INVALID_CREDENTIALS');
+					$result['error'] = $errors ;
+				}
+			echo json_encode($result); $app->close();
+		}
 	}
 
 	public function subscribeUser(){
@@ -172,7 +235,7 @@ class Subscribe extends Controller
 				}
 			}
 		}
-		
+
 		$errors = $customer_model->validateAddress( $billing_data );
 
 		$errors = array_merge( $errors, $customer_errors );
@@ -189,11 +252,9 @@ class Subscribe extends Controller
 			$customer_model->bind( $billing_data );
 			$customer_model->user_id = $user_id ;
 
-			$session->get('customer_billing_country', $customer_model->country ,'axisubs');
-			$session->get('customer_billing_state', $customer_model->state ,'axisubs');
-			$session->get('customer_billing_zip', $customer_model->zip ,'axisubs');
-			$session->get('customer_billing_city', $customer_model->city ,'axisubs');
-			
+			//set address session data
+			Axisubs::setSessionData()->updateAddressSessionData($customer_model);
+
 			$cust_store_success = $customer_model->store();	
 			$customer_id = $customer_model->axisubs_customer_id;
 			 
@@ -201,6 +262,8 @@ class Subscribe extends Controller
 			$result['error'] = $e->getMessage() ;
 			$this->handleResponse($result);
 		}
+
+
 
 //////////////////////////// customer created
 		// get  currency
@@ -218,6 +281,11 @@ class Subscribe extends Controller
 						  'currency_value' 	=> 	$currency_val, 
 						  'language'		=>  JFactory::getLanguage()->getTag() ];
 			try {
+				if($subscription_id) {
+					$subs_model->getClone();
+					$subs_model->load($subscription_id);
+					$subs_model->calculateTotals();
+				}
 				$subs_model->save( $subs_data );
 				$subs_model->updateSubscriptionInfo();
 
@@ -235,6 +303,26 @@ class Subscribe extends Controller
 			$result['error'] =  'Unable to create subscription please retry';
 			$this->handleResponse($result);
 			return; // some error - subscription not created - return to view and retry
+		}
+
+		// For Free Subscription
+		$plan_slug = $app->input->get('slug');
+		if (!empty($plan_slug) || $plan_id > 0) {
+			$plan_model = $this->getModel('Plans');
+			$plan_model->load(array('slug' => $plan_slug));
+			if($plan_model->plan_type == "0"){
+//				$result['redirect'] = JRoute::_('index.php?option=com_axisubs&view=Profile');
+//				$this->handleResponse( $result );
+//				return ;
+
+				// set the subscription id, Payment method and all params in session
+				$session->set('payment_method', 'payment_free', 'axisubs');
+				$session->set('payment_values', '', 'axisubs');
+
+				$result['redirect'] = JRoute::_('index.php?option=com_axisubs&view=Subscribe&task=paySubscription');
+				$this->handleResponse( $result );
+				return ;
+			}
 		}
 //////////////////////////// prepare Payment plugins
 
@@ -265,6 +353,12 @@ class Subscribe extends Controller
 
 		if (!$is_valid){
 			$this->handleResponse( $result );
+		}
+
+		$paymentAddressValidation = $paymentFactory->validateAddressForPayment($payment_plugin, $billing_data);
+		if ( count($paymentAddressValidation) > 0 ) {
+			$result['error'] = $paymentAddressValidation ;
+			$this->handleResponse($result);
 		}
 
 		// set the subscription id, Payment method and all params in session		
@@ -334,12 +428,52 @@ class Subscribe extends Controller
 				$plan_model = $this->getModel('Plans');
 				$plan_model->load( $subs_model->plan_id );
 				$view->plan = $plan_model;
+				//for trigger plugin for loading more price list and options
+				$this->triggerPlugins($view, $subs_model->plan_id, $page = 'payment');
+
 				$view->setLayout('payment');
 				$view->display();
 			}
 
 		}else{
 			$app->redirect('index.php'); //  redirect to previous page
+		}
+		return;
+	}
+
+	function confirmFreeSubscription(){
+
+		$app = JFactory::getApplication();
+		$session = $app->getSession();
+		$view = $this->getView();
+		$view->postPaymentForm = '';
+		$subscription_id = $app->input->get('subscription_id');
+		$plan_id = $app->input->get('plan_id');
+		$user_id = JFactory::getUser()->id;
+		$plan_model = $this->getModel('Plans');
+		$plan_model->load($plan_id);
+		$session->clear('subscription_id', 'axisubs');
+		$session->clear('plan_id', 'axisubs');
+		$session->clear('user_id', 'axisubs');
+		$subs_model = $this->getModel('Subscriptions');
+		$current_date = date('Y-m-d h:m:s');
+		$subs_model = $subs_model->getClone();
+		$subs_model->load($subscription_id);
+
+		if($plan_model->plantype == 0 && $subs_model->plan_id == $plan_id){
+			$subs_data['status'] = 'A';
+			$subs_data['user_id'] = $user_id;
+			//$subs_data['current_term_start'] = $current_date;
+			$result = $subs_model->updateFreeSubscription($subs_data, $subscription_id);
+
+			if($result){
+				$view->setLayout('postpayment');
+				$view->display();
+			} else {
+				$app->redirect('index.php');
+			}
+		} else {
+			$app->redirect('index.php');
 		}
 		return;
 	}
@@ -352,10 +486,11 @@ class Subscribe extends Controller
 		$view = $this->getView();
 		$subscription_id = 0;
 		//$subscription_id = $this->getSubscriptionId();
-		$values = $app->input->getArray ( $_POST );
+		$values = $app->input->post->getArray();
 		$error = false;
 
 		$payment_plugin = $app->input->get('orderpayment_type','');
+		$payment_action = $app->input->get('paction','');
 		if ( empty($payment_plugin) ){
 			// sometimes this is got from Payment gateway, log the error
 			$error = true; // redirect back to the first subscribe screen
@@ -371,11 +506,23 @@ class Subscribe extends Controller
 
 			$postPaymentForm = $paymentFactory->getPostPaymentForm( $payment_plugin , $values );
 			$view->postPaymentForm = $postPaymentForm;
-			
+			$subscription_id = $this->getSubscriptionId();
+			if ( $subscription_id > 0 ) {
+				$subs_model = $this->getModel('Subscriptions');
+				$subs_model = $subs_model->getClone();
+				$subs_model->load($subscription_id);
+				$view->subscriptionDetails = $subs_model;
+				$view->returnStatus = $payment_action;
+			} else {
+				$view->subscriptionDetails = '';
+			}
 			// after Payment remove subscription id from session
 			$session->clear('subscription_id', 'axisubs');
 			$session->clear('plan_id', 'axisubs');
 			$session->clear('user_id', 'axisubs');
+
+			//For clear Session created in app
+			Axisubs::plugin()->event( 'ClearAppSession', array());
 
 			$error = false;
 		}
@@ -461,7 +608,7 @@ class Subscribe extends Controller
 						->first();
 
 			// and check if renewal allowed for this subscription
-			if ( $latest_subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions ){
+			if ( $latest_subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions || $latest_subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions ){
 				if ( $latest_subscription->isRenewalAllowed( $user_id ) ) {
 					
 					// mark a renewal attempt and redirect to subscription view with proper slug
@@ -614,7 +761,7 @@ class Subscribe extends Controller
 		$is_ajax = $app->input->get('ajax', '' );
 
 		$returnURL = $app->input->get ( 'returnURL' );
-		$data = $app->input->getArray ( $_POST );
+		$data = $app->input->post->getArray();
 		if ( !empty( $is_ajax ) ) {
 			echo json_encode($result); $app->close();
 		} else{

@@ -10,6 +10,7 @@ namespace Flycart\Axisubs\Site\Controller;
 defined('_JEXEC') or die;
 
 use Flycart\Axisubs\Admin\Controller\Mixin;
+use Flycart\Axisubs\Admin\Helper\Axisubs;
 use FOF30\Controller\Controller;
 use FOF30\Container\Container;
 use JFactory;
@@ -37,6 +38,29 @@ class Profile extends Controller
 		$this->viewName = 'Profile';
 	}
 
+	function removeSubscription(){
+		$subscription_model = $this->getModel('subscriptions');
+		$app = JFactory::getApplication();
+		if((int)$app->input->get('id')) {
+			$user = JFactory::getUser();
+			$subscription_model->getClone();
+			$subscription_model->load( array('user_id' => $user->id, 'axisubs_subscription_id' => (int)$app->input->get('id'), 'status'=> 'N'));
+			if(isset($subscription_model->axisubs_subscription_id) && $subscription_model->axisubs_subscription_id){
+				$subscription_model->markDeleted();
+				$data['status'] = 1;
+				$data['message'] = 'Deleted successfully';
+			} else {
+
+				$data['status'] = 0;
+				$data['message'] = 'Invalid Access';
+			}
+		} else {
+			$data['status'] = 0;
+			$data['message'] = 'Invalid request';
+		}
+		echo json_encode($data); $app->close();
+	}
+
 	/**
 	 * Runs before the default task
 	 *
@@ -56,19 +80,40 @@ class Profile extends Controller
 		$view->customer = $customer_model ;
 
 		// get the subscription records for that users
+		$app = JFactory::getApplication();
+
 		$subscription_model = $this->getModel('subscriptions');
 		$view->subscriptions = $subscription_model->user_id($user->id)
+									->orderBy('axisubs_subscription_id'	)
 									->get()
 									->sortBy('plan_id')
 									->filter(function($item){
 											return ($item->status !='N');
 										});
+		// List state information
+		$limit = $app->getUserStateFromRequest('limit', 'limit', $app->get('list_limit'), 'int');
+		$limitstart = $app->input->get('start', 0);
+		$model = $this->getModel();
+		$model->setState('limitstart', $limitstart);
+		$model->setState('limit', $limit);
+		$view->paginationS = new \JPagination($subscription_model->count(), $model->getState('limitstart'), $model->getState('limit'));
+
+		$subscription_model = $this->getModel('subscriptions')->limit(0)
+			->limitstart(0);
 		$view->new_subscriptions = 	$subscription_model->user_id($user->id)
+									->orderBy('axisubs_subscription_id')
 									->get()
 									->sortBy('plan_id')
 									->filter(function($item){
 											return ($item->status =='N');
-										});					
+										});
+		$view->active_subscriptions = 	$subscription_model->user_id($user->id)
+			->orderBy('axisubs_subscription_id')
+			->get()
+			->sortBy('plan_id')
+			->filter(function($item){
+				return ($item->status =='A');
+			});
 		return ;
 	}
 
@@ -124,6 +169,9 @@ class Profile extends Controller
 			$customer_model->bind( $billing_data );
 			$customer_model->user_id = $user_id ;
 
+			//set address session data
+			Axisubs::setSessionData()->updateAddressSessionData($customer_model);
+
 			$cust_store_success = $customer_model->store();
 		} catch (\Exception $e) {
 			$result['error'] = $e->getMessage() ;
@@ -165,12 +213,21 @@ class Profile extends Controller
 			}
 
 			$view->subscription = $subscription ;
+			$this->triggerPlugins($view, $subscription);
 			$view->setLayout('view_subscription');
 			$view->display();
 		}else {
 			$app->redirect('index.php?option=com_axisubs&view=profile',
 							JText::_('COM_AXISUBS_ERROR_INVALID_SUBSCRIPTION_ID'),'error');
 		}
+	}
+
+	/**
+	 * To trigger plugin for loading additional buttons
+	 * */
+	protected function triggerPlugins(&$view, $subscription){
+		$plugin_helper = Axisubs::plugin();
+		$view->additionalButtons = $plugin_helper->eventWithHtml('LoadButtonsInSubscriptionDetail', array($view, $subscription));
 	}
 
 	/**
@@ -196,7 +253,7 @@ class Profile extends Controller
 		$is_ajax = $app->input->get('ajax', '' );
 
 		$returnURL = $app->input->get ( 'returnURL' );
-		$data = $app->input->getArray ( $_POST );
+		$data = $app->input->post->getArray();
 		if ( !empty( $is_ajax ) ) {
 			echo json_encode($result); $app->close();
 		} else{

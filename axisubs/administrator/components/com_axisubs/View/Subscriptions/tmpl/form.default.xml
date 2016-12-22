@@ -22,14 +22,15 @@
         <header name="filter_search" type="Searchable" sortable="false"
 				label="COM_AXISUBS_SUBSCRIPTION_SEARCH_FILTER" class="filter-field"/>
         <header name="customer.email" sortable="false" type="Text" label="COM_AXISUBS_CUSTOMER_EMAIL" />
-        <header name="customer.company" sortable="false" type="Text" label="COM_AXISUBS_CUSTOMER_COMPANY" />
+        <header name="customer.company" sortable="false" type="Text" label="AXISUBS_ADDRESS_COMPANY_NAME" />
         <header name="period" sortable="false" type="Text" label="COM_AXISUBS_SUBSCRIPTION_PERIOD" />
         <header
                 name="status"
                 type="Selectable"
                 source_class="Flycart\Axisubs\Admin\Helper\Status"
                 source_method="getList"
-                onlyFilter="1"
+                onlyFilter="0"
+				sortable="true"
                 />
 		
 		<header

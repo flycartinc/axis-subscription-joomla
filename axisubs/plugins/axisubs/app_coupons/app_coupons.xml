@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="axisubs" method="upgrade">
+    <name>Dicount Coupons</name>
+    <version>1.1.0</version>
+    <creationDate>April 2016</creationDate>
+    <author>Ashlin</author>
+    <authorEmail>ashlin@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>2016 Flycart Technologies LLP</copyright>
+    <license>GNU General Public License v3 or later versions</license>
+    <description>Helps to create coupons for subscription plans.</description>
+    <!-- Installation / uninstallation PHP scripts -->
+    <scriptfile>script.app_coupons.php</scriptfile>
+    <files>
+        <filename plugin="app_coupons">app_coupons.php</filename>
+        <filename>index.html</filename>
+        <folder>app_coupons</folder>  
+        <folder>images</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_axisubs_app_coupons.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_axisubs_app_coupons.sys.ini</language>   
+    </languages>
+    <config>
+		<fields name="params">
+		  <!--<fieldset name="basic">
+			<field name="display_name" type="text" size="30" default="" label="axisubs_plugin_display_name" description="axisubs_plugin_display_name_desc"/>
+		  </fieldset>-->
+		</fields>
+	</config>
+</extension>

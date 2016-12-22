@@ -27,7 +27,7 @@ $zones = Select::getStates();
 	  <?php echo $sidebar ; ?>
 	</div>
 	<?php endif;?>
-	<div id="j-main-container-create" class="row">
+	<div id="j-main-container-create" class="col-sm-9">
 		<div class="col-md-12">
 			<div class="title-content-add"><h3><?php echo JText::_('COM_AXISUBS_TITLE_ADD_NEW_TAX'); ?></h3></div>
 			<div class="title-content-edit"><h3><?php echo JText::_('COM_AXISUBS_TITLE_ADD_EDIT_TAX'); ?></h3></div>
@@ -42,8 +42,8 @@ $zones = Select::getStates();
 
 				<table class="table table-bordered">
 					<tr>
-						<th><?php echo JText::_('COM_AXISUBS_TAXRATE_COUNTRY'); ?></th>
-						<th><?php echo JText::_('COM_AXISUBS_TAXRATE_STATE'); ?></th>
+						<th><?php echo JText::_('AXISUBS_ADDRESS_COUNTRY'); ?></th>
+						<th><?php echo JText::_('AXISUBS_ADDRESS_STATE'); ?></th>
 						<th><?php echo JText::_('COM_AXISUBS_TAXRATE_RATE'); ?></th>
 						<th><?php echo JText::_('COM_AXISUBS_TAXRATE_NAME'); ?></th>
 						<!-- <th><?php echo JText::_('COM_AXISUBS_TAXRATE_PRIORITY'); ?></th>
@@ -107,14 +107,12 @@ $zones = Select::getStates();
 			</form>
 		</div>
 	</div>
-	<div id="j-main-container-buttons" class="row">
-		<div class="col-md-12">
-			<input type="button" onclick="addTaxBtn('0')" class="width-auto btn btn-success" name="addbtn" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE_NEW_BUTTON'); ?>" />
-			<div class="notification"></div>
-		</div>
-	</div>
 	<div id="j-main-container" class="row">
         <div class="col-md-12">
+					<div class="new_btn">
+					<input type="button" onclick="addTaxBtn('0')" class="width-auto btn btn-success" name="addbtn" value="<?php echo JText::_('AXISUBS_CREATE_TAX_RATE_NEW_BUTTON'); ?>" />
+					<div class="notification"></div>
+				</div>
         	<div class="alert alert-info">
         		<b><?php echo JText::_('AXISUBS_TAXES_IMPORTANT_TAX_SETTINGS'); ?></b>
         		<a href="index.php?option=com_axisubs&view=Configuration#tax_settings" class="btn btn-warning pull-right"><?php echo JText::_('AXISUBS_TAXES_MANAGE_SETTING'); ?></a>
@@ -137,8 +135,8 @@ $zones = Select::getStates();
         	<table class="table table-bordered">
         		<tr>
         			<th><?php echo JText::_('COM_AXISUBS_TAXRATE_ID'); ?></th>
-        			<th><?php echo JText::_('COM_AXISUBS_TAXRATE_COUNTRY'); ?></th>
-        			<th><?php echo JText::_('COM_AXISUBS_TAXRATE_STATE'); ?></th>
+        			<th><?php echo JText::_('AXISUBS_ADDRESS_COUNTRY'); ?></th>
+        			<th><?php echo JText::_('AXISUBS_ADDRESS_STATE'); ?></th>
         			<th><?php echo JText::_('COM_AXISUBS_TAXRATE_RATE'); ?></th>
         			<th><?php echo JText::_('COM_AXISUBS_TAXRATE_NAME'); ?></th>
         			<!-- <th><?php echo JText::_('COM_AXISUBS_TAXRATE_PRIORITY'); ?></th>

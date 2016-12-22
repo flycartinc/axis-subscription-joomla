@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Flycart\Axisubs\Admin\Render\AxisRenderer;
 
+require_once(JPATH_ADMINISTRATOR.'/components/com_axisubs/version.php');
+
 defined('_JEXEC') or die;
 
 use FOF30\Container\Container;
@@ -68,5 +70,6 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 		$doc->addScript ( JURI::root ( true ) . '/media/com_axisubs/js/bootstrap.min.js' );
 		$doc->addScript ( JURI::root ( true ) . '/media/com_axisubs/js/jquery.sparkline.min.js' );
 		$doc->addScript ( JURI::root ( true ) . '/media/com_axisubs/js/jquery.circliful.min.js' );
+		$doc->addScript ( JURI::root ( true ) . '/media/com_axisubs/js/admin.js' );
 	}
 }

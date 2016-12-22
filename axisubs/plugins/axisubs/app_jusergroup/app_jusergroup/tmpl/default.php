@@ -29,7 +29,11 @@ JHtml::_('formbehavior.chosen', 'select');
 		Joomla.submitform('view');
   }
 </script>
-
+<div class="hero-unit">
+	<p class="lead">
+		<?php echo JText::_('PLG_AXISUBS_JUSERGROUP_DETAILED_DESCRIPTION'); ?>
+	</p>
+</div>
 <form class="form-horizontal form-validate" id="adminForm" 	name="adminForm" method="post" action="index.php">
 	<input type="hidden" name="option" value="com_axisubs" >
 	<input type="hidden" name="view" value="Apps" >
@@ -39,7 +43,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<input type="hidden" name="id" value="<?php echo $vars->id; ?>" id="id" >
 	<input type="hidden" name="app_id" value="<?php echo $vars->id; ?>" id="app_id" >
 	<?php echo JHTML::_( 'form.token' ); ?>
-	
+
 <!-- Render form -->
 
 <?php

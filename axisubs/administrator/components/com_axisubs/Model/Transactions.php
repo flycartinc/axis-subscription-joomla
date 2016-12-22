@@ -43,7 +43,9 @@ class Transactions extends DataModel
 									'authorize',
 									'params',									
 									'created_on',
-									'modified_on' ];
+									'modified_on',
+									'subscription_ref_id',
+									'billing_cycle'];
 	}
 
 	/**

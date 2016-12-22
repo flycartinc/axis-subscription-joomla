@@ -24,9 +24,30 @@ class EmailTemplates extends DataModel {
 		// Always load the Filters behaviour
 		$this->addBehaviour('Filters');
 		$this->addBehaviour('RelationFilters');
+		$this->hasOne('emailtemplatecontent', 'EmailTemplateContents', 'axisubs_emailtemplate_id', 'emailtemplate_id');
 
 		// Not NULL fields which do accept 0 values should not be part of auto-checks
 		$this->fieldsSkipChecks = [  'type', 'event', 'ordering' ,'cc','bcc','params' ];
+	}
+
+	public function onAfterBuildQuery(\JDatabaseQuery $query, $overrideLimits = false)
+	{
+		$db = $this->getDbo();
+
+		$search = $this->getState('filter_search', null, 'string');
+		if ($search)
+			if ((int)$search) {
+				$query->where($db->qn('axisubs_emailtemplate_id') . ' = ' . $db->q($search));
+			} else {
+				$this->whereHas('emailtemplatecontent', function (\JDatabaseQuery $subQuery) use ($search, $db) {
+					$subQuery->where('(' . $db->qn('content') . ' LIKE ' . $db->q('%' . $search . '%') . ')');
+				});
+			}
+
+		$filter_event = $this->getState('filter_event', null, 'string');
+		if($filter_event){
+			$query->where($db->qn('event') . ' = ' . $db->q($filter_event));
+		}
 	}
 
 	public function getEmailContent( $emailtemplate_id  = 0 ){

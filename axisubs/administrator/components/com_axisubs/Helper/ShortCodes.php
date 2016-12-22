@@ -13,18 +13,23 @@ use Carbon\Carbon;
 use JFactory;
 use JText;
 use JHTML;
+use Flycart\Axisubs\Admin\Helper\Axisubs;
 /**
  * ShortTags helper
  */
 class ShortCodes{
 
-	public static $instance = null;	
+	public static $instance = null;
 
 	protected $subscription = '';
 
-	protected $customer = '';
+	protected $subscriptiondata = '';
 
+	protected $customer = '';
 	protected $plan = '';
+	protected $subscriptioninfo = '';
+	protected $transaction = '';
+
 
 	/**
 	 * get an instance
@@ -61,7 +66,7 @@ class ShortCodes{
 											'PLAN_QUANTITY', 
 											'STATUS', 
 											'START_DATE', 
-											'TRIAL_START', 
+											'TRIAL_START',
 											'TRIAL_END', 
 											'CURRENT_TERM_START', 
 											'CURRENT_TERM_END', 
@@ -76,11 +81,11 @@ class ShortCodes{
 											'PLAN_PRICE', 
 											'SETUP_FEE', 
 											'SUBTOTAL_EX_TAX', 
-											'TAX', 
+											'TAX',
+											'DISCOUNT',
+											'DISCOUNT_TAX',
 											/*'SHIPPING', 
-											'SHIPPING_TAX', 
-											'DISCOUNT', 
-											'DISCOUNT_TAX', 
+											'SHIPPING_TAX',
 											'SURCHARGE', 
 											'FEES' */ );
 		$subscription_info_shortcodes = array(  'SUBSCRIPTION_ID', 
@@ -146,8 +151,12 @@ class ShortCodes{
 	 * @param object $obj object
 	 * */
 	function bindSubscription($obj){
+
+		// check if a subscription object
+		if (! ($obj instanceof \Flycart\Axisubs\Admin\Model\Subscriptions || $obj instanceof \Flycart\Axisubs\Site\Model\Subscriptions) ) {
+			return '';
+		}
 		$this->subscription 	= $obj ;
-		
 		$this->subscriptiondata = $this->subscription->getFormatedShortCodes();
 
 		$this->customer 		= $obj->customer ;
@@ -161,6 +170,12 @@ class ShortCodes{
 	 * @param object $obj object
 	 * */
 	function bindCustomer($obj){
+		
+		// check if a object
+		if ( ! is_object($obj) ) {
+			return '';
+		}
+
 		$this->customer = $obj ;
 	}
 
@@ -169,6 +184,11 @@ class ShortCodes{
 	 * @param object $obj object
 	 * */
 	function bindPlan( $obj ){
+		// check if a object
+		if ( ! is_object($obj) ) {
+			return '';
+		}
+
 		$this->plan = $obj ;	
 	}
 
@@ -220,16 +240,73 @@ class ShortCodes{
 		if (!empty($objname) && $objname == 'subscription') {
 			$objname = 'subscriptiondata';
 		}
-
-		if ( !empty($objname) && isset($this->$objname) && !empty($varname) 
+		if ( !empty($objname) && isset($this->$objname) && !empty($varname)
 									&& isset($this->$objname->$varname) ){
 			$result = $this->$objname->$varname;
-		}elseif ( !empty($varname) && is_object($object) && isset( $object->$varname ) ) {
+			if($varname == 'period'){
+				$result = $this->getPlanPeriods($this->$objname->period, $this->$objname->period_unit);
+			}
+			if($varname == 'trial_period'){
+				$result = $this->getPlanPeriods($this->$objname->trial_period, $this->$objname->trial_period_unit);
+			}
+			if($varname == 'country' || $varname == 'billing_country'){
+				$result = $this->getCustomerCountry($this->$objname->$varname);
+			}
+			if($varname == 'state' || $varname == 'billing_state'){
+				if($varname == 'state') {
+					$result = $this->getCustomerZone($this->$objname->$varname, $this->$objname->country);
+				} else {
+					$result = $this->getCustomerZone($this->$objname->$varname, $this->$objname->billing_country);
+				}
+			}
+			if($varname == 'renew_url') {
+				$result = $this->getRenewalURL($this->$objname->slug);
+			}
+		} elseif ( !empty($varname) && is_object($object) && isset( $object->$varname ) ) {
 			$result = $object->$varname;
+			if($varname == 'period'){
+				$result = $this->getPlanPeriods($object->period, $object->period_unit);
+			}
+			if($varname == 'trial_period'){
+				$result = $this->getPlanPeriods($object->trial_period, $object->trial_period_unit);
+			}
+			if($varname == 'state' || $varname == 'billing_state'){
+				if($varname == 'state') {
+					$result = $this->getCustomerZone($object->$varname, $object->country);
+				} else {
+					$result = $this->getCustomerZone($object->$varname, $object->billing_country);
+				}
+			}
+			if($varname == 'country' || $varname == 'billing_country'){
+				$result = $this->getCustomerCountry($object->$varname);
+			}
+			if($varname == 'renew_url') {
+				$result = $this->getRenewalURL($object->slug);
+			}
 		}elseif ( is_array($object) && isset( $object [ $varname ] ) ) {
 			$result = $object [ $varname ];
+			if($varname == 'period'){
+				$result = $this->getPlanPeriods($object['period'], $object['period_unit']);
+			}
+			if($varname == 'trial_period'){
+				$result = $this->getPlanPeriods($object['trial_period'], $object['trial_period_unit']);
+			}
+			if($varname == 'state' || $varname == 'billing_state'){
+				if($varname == 'state') {
+					$result = $this->getCustomerZone($object [ $varname ], $object [ 'country' ]);
+				} else {
+					$result = $this->getCustomerZone($object [ $varname ], $object [ 'billing_country' ]);
+				}
+			}
+			if($varname == 'country' || $varname == 'billing_country'){
+				$result = $this->getCustomerCountry($object [ $varname ]);
+			}
+			if($varname == 'renew_url') {
+				$result = $this->getRenewalURL($object ['slug']);
+			}
 		}
 
+//		print_r($varname);exit;
 		if ( is_array($result) ) {
 			$result = implode(',', $result);
 		} elseif ( is_object($result) ){
@@ -237,6 +314,50 @@ class ShortCodes{
 		}
 
 		return $result;
+	}
+
+	/**
+	 * get Plan period in format
+	 * */
+	protected function getPlanPeriods($period, $period_unit){
+		$get_duration = Axisubs::duration();
+		return $get_duration->getDurationInFormat($period, $period_unit);
+	}
+
+	/**
+	 * get customer Zone in format
+	 * */
+	protected function getCustomerZone($state, $country){
+		$stateSelected = Select::getZones($country);
+		if(isset($stateSelected[$state])) {
+			return $stateSelected[$state];
+		} else {
+			return $state;
+		}
+	}
+
+	/**
+	 * get customer Zone in format
+	 * */
+	protected function getCustomerCountry($country){
+		return Select::decodeCountry($country);
+	}
+
+	/**
+	 * get date in format
+	 * */
+	protected function getRenewalURL($slug)
+	{
+		$app = JFactory::getApplication();
+		$siteApp = $app->getInstance('site');
+		$siteRouter = $siteApp->getRouter();
+		$newURI = 'index.php?option=com_axisubs&view=subscribe&plan='.$slug;
+		$baseURL = \JURI::base();
+		$baseURLNew = str_replace('/administrator', '', $baseURL);
+		$generatedURL = \JURI::root( false, $siteRouter->build($newURI));
+		$newURL = str_replace($baseURL, $baseURLNew, $generatedURL);
+
+		return $newURL;
 	}
 
 	/**
@@ -372,8 +493,8 @@ class ShortCodes{
 		// now get list of users from a user group
 		$query = $db->getQuery(true)
 				->select('u.email')
-				->from ('j_user_usergroup_map uugm')
-				->join('left','j_users u on u.id=uugm.user_id')
+				->from ('#__user_usergroup_map uugm')
+				->join('left','#__users u on u.id=uugm.user_id')
 				->where('uugm.group_id = '.$db->q($usergroup_id));
 		$db->setQuery($query,0,20);
 		$user_emails = $db->loadColumn();

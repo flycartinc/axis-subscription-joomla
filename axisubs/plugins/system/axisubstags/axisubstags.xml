@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_AXISUBSTAGS</name>
+	<author>Ashlin</author>
+	<authorEmail>support@flycart.org</authorEmail>
+	<authorUrl>http://flycart.org</authorUrl>
+	<copyright>Copyright (c)2015-2019 Flycart Technologies </copyright>
+	<license>GNU General Public License version 3, or later</license>
+	<creationDate>April 2016</creationDate>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_AXISUBSTAGS_XMLDESC</description>
+	<files>
+		<filename plugin="axisubstags">axisubstags.php</filename>
+	</files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_axisubstags.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_axisubstags.sys.ini</language>
+    </languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">			
+			</fieldset>
+		</fields>
+	</config>
+</extension>

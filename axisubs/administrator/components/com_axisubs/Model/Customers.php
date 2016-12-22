@@ -81,7 +81,7 @@ class Customers extends DataModel
 
 		// Not NULL fields which do accept 0 values should not be part of auto-checks
 		$this->fieldsSkipChecks = [ 'first_name', 'last_name', 'email', 'phone', 'address2', 'user_id',
-									'vat_number','auto_collection','allow_direct_debit','created_from_ip','params'];
+									'vat_number','auto_collection','allow_direct_debit','created_from_ip','params', 'notes'];
 	}
 
 	/**

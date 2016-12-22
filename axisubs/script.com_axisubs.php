@@ -42,7 +42,7 @@ class Com_AxisubsInstallerScript extends \FOF30\Utils\InstallScript
 	 *
 	 * @var string
 	 */
-	protected $componentTitle = 'Axisubs';
+	protected $componentTitle = 'Axis Subscriptions';
 
 	/**
 	 * The minimum PHP version required to install this extension
@@ -116,7 +116,25 @@ class Com_AxisubsInstallerScript extends \FOF30\Utils\InstallScript
 		if (!empty($sql)) {
 			$this->_sqlexecute($sql);
 		}
-	}
+		
+		$db = JFactory::getDbo ();
+        // get the table list
+        $tables = $db->getTableList ();
+        // get prefix
+        $prefix = $db->getPrefix ();
+        //category_message
+        if (in_array ( $prefix . 'axisubs_plans', $tables )) {
+            $fields = $db->getTableColumns ( '#__axisubs_plans' );
+            if (array_key_exists ( 'trial_period', $fields )) {
+				$query = "ALTER TABLE `#__axisubs_plans` CHANGE `trial_period` `trial_period` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0'";
+                $this->_sqlexecute ( $query );
+			}
+			if (array_key_exists ( 'period', $fields )) {
+				$query = "ALTER TABLE `#__axisubs_plans` CHANGE `period` `period` INT( 10 ) UNSIGNED NOT NULL DEFAULT '30'";
+				$this->_sqlexecute ( $query );
+			}
+        }
+	}	
 	
 	/**
 	 * Copies the CLI scripts into Joomla!'s cli directory

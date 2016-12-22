@@ -3,7 +3,7 @@
 
 	<fieldset id="basic_options" class="tab-pane active " name="basic_options"
 		label="AXISUBS_BASIC_OPTIONS">
-
+		<field name="invoice_prefix" type="text" label="COM_AXISUBS_ADDRESS_INVOICE_PREFIX" />
 		<field name="store_address_1" type="text" label="AXISUBS_ADDRESS_LINE1" />
 		<field name="store_address_2" type="text" label="AXISUBS_ADDRESS_LINE2" />
 		<field name="store_city" type="text" label="AXISUBS_ADDRESS_CITY" />
@@ -12,7 +12,7 @@
 		<field name="country_id" type="GenericList" id="axisubs_country_id"
 			source_file="admin://components/com_axisubs/Helper/Select.php"
 			source_class="Flycart\Axisubs\Admin\Helper\Select" source_method="getCountries"
-			sortable="true" tdwidth="15%" label="AXISUBS_COUNTRY_NAME" required="true" />
+			sortable="true" tdwidth="15%" label="AXISUBS_ADDRESS_COUNTRY" required="true" />
 		<field name="zone_id" type="GenericList" id="axisubs_zone_id" label="AXISUBS_ADDRESS_ZONE"
 			source_file="admin://components/com_axisubs/Helper/Select.php"
 			source_class="Flycart\Axisubs\Admin\Helper\Select" source_method="getZones"
@@ -20,6 +20,18 @@
 		<field name="datetime_format" type="text" default="Y-m-d H:i:s" id="datetime_format" label="AXISUBS_CONFIG_DATETIME_FORMAT"
 			description="AXISUBS_CONFIG_DATETIME_FORMAT_DESC"
 			/>
+		<field name="address1_required" type="radio"
+			   label="AXISUBS_CONFIG_ADDRESS1_REQUIRED" description="AXISUBS_CONFIG_ADDRESS1_REQUIRED_DESC" class="btn-group"
+			   filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="city_required" type="radio"
+			   label="AXISUBS_CONFIG_CITY_REQUIRED" description="AXISUBS_CONFIG_CITY_REQUIRED_DESC" class="btn-group"
+			   filter="intval" size="1" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset role="tabpanel" class="tab-pane" name="tax_settings"
 		label="AXISUBS_TAX_FIELDS">
@@ -29,7 +41,7 @@
 			key_field="currency_code" required="true" value_field="currency_title" />
 
 		<field name="config_currency_auto" type="radio"
-			label="AXISUBS_STORE_CURRENCY_AUTO_UPDATE_CURRENCY" class="inputbox"
+			label="AXISUBS_STORE_CURRENCY_AUTO_UPDATE_CURRENCY" class="btn-group"
 			filter="intval" size="1" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>

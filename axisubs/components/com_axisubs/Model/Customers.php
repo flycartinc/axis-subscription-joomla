@@ -31,8 +31,21 @@ class Customers extends DataModel
 		$this->with(['user']);
 
 		// Not NULL fields which do accept 0 values should not be part of auto-checks
-		$this->fieldsSkipChecks = [ 'first_name', 'last_name', 'email', 'phone', 'address2', 'user_id','company',
+		$this->fieldsSkipChecks = [ 'first_name', 'last_name', 'email', 'phone', 'address1', 'city', 'address2', 'user_id','company',
 									'notes','vat_number','auto_collection','allow_direct_debit','created_from_ip','params'];
+	}
+
+	function onAfterLoad($status, $keys){
+		$user = JFactory::getUser();
+		if(!$status && $user->id){
+			$userData['user_id'] = $user->id;
+			$userData['first_name'] = $user->name;
+			$userData['email'] = $user->email;
+			$result = $this->save($userData);
+			if($result) {
+				$keys = $this;
+			}
+		}
 	}
 
 	function validateAccountDetails($customer_data){
@@ -90,9 +103,17 @@ class Customers extends DataModel
 	public function validateAddress($data){
 		//  validation
 		$errors = [];
-		$user = JFactory::getUser();
 		// check reqiured fields first
-		$required = array('first_name','address1','city','zip','country','state');
+		$required = array('first_name','country','state','phone');
+		$config = Axisubs::config()->getInstance();
+		if($config->get('address1_required', 1)){
+			$required[] = 'address1';
+		}
+		if($config->get('city_required', 1)){
+			$required[] = 'city';
+		}
+		$user = JFactory::getUser();
+
 
 		foreach ($required as $key => $value) {
 			if (empty($data[$value])) {
@@ -100,9 +121,16 @@ class Customers extends DataModel
 			}
 		}
 
+		// For validating billing form fields though pligin if required
+		Axisubs::plugin()->event( 'ValidateBillingFields', array(&$errors, $data));
+
 		$ret = array();
 		foreach ($errors as $k=>$err) {
-			$ret['billing_address\\['.$k.'\\]'] = $err ;
+			if(in_array($k, array('country', 'state'))){
+				$ret['billing_address'.$k] = $err ;
+			} else {
+				$ret['billing_address\\['.$k.'\\]'] = $err ;
+			}
 		}
 		return $ret;
 	}

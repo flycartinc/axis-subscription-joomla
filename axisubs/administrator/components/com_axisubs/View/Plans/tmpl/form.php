@@ -33,7 +33,7 @@ $renderer = $this->container->renderer;
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="tab0">
-			<?php echo $renderer->renderForm($this->form, $this->getModel(), null,true); ?>	
+			<?php echo $renderer->renderForm($this->form, $this->getModel(), null,true); ?>
 		</div>			
 		<?php $n = 1;
 		if (is_array($all_plugin_fields) && !empty($all_plugin_fields)):
@@ -48,6 +48,27 @@ $renderer = $this->container->renderer;
 </form>
 
 <script type="text/javascript">
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "cancel")
+		{
+			Joomla.submitform(task, document.getElementById("adminForm"));
+		} else {
+			if(jQuery('input[name=plan_type]:checked').val()=="1") {
+				jQuery('#price').removeClass('invalid-data');
+				var price = jQuery('#price').val();
+				if (parseInt(price) > 0) {
+					Joomla.submitform(task, document.getElementById("adminForm"));
+				} else {
+					jQuery("li a[href$='#tab0']").click();
+					jQuery('#price').addClass('invalid-data').focus();
+				}
+			} else {
+				Joomla.submitform(task, document.getElementById("adminForm"));
+			}
+		}
+	};
+
 jQuery('#plantitle').change(function() {
       var title = jQuery(this).val();
       //alert(title); 
@@ -56,8 +77,10 @@ jQuery('#plantitle').change(function() {
 
 function name_to_url(name) {
     name = name.toLowerCase(); // lowercase
-    name = name.replace(/^s+|s+$/g, '-'); // remove leading and trailing whitespaces
-    name = name.replace(/s+/g, '-'); // convert (continuous) whitespaces to one -
+    /*name = name.replace(/^s+|s+$/g, '-'); // remove leading and trailing whitespaces
+    name = name.replace(/s+/g, '-'); // convert (continuous) whitespaces to one - */
+	name = name.replace(/ +(?= )/g,'');
+	name = name.replace(/\s/g,"-");
     name = name.replace(/[^a-z-]/g, ''); // remove everything that is not [a-z] or -
     return name;
 }

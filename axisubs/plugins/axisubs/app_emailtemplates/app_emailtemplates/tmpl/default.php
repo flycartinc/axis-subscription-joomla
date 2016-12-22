@@ -28,7 +28,13 @@ JHtml::_('formbehavior.chosen', 'select');
 		Joomla.submitform('view');
   }
 </script>
-
+<div class="hero-unit">
+	<p class="lead">
+		<?php echo JText::_('PLG_AXISUBS_APP_EMAILTEMPLATES_DETAILED_DESCRIPTION'); ?>
+		<br><br>
+		<a href="index.php?option=com_axisubs&view=EmailTemplates" class="btn btn-info btn-lg"> Email templates</a>
+	</p>
+</div>
 <form class="form-horizontal form-validate" id="adminForm" 	name="adminForm" method="post" action="index.php">
 	<input type="hidden" name="option" value="com_axisubs" >
 	<input type="hidden" name="view" value="Apps" >

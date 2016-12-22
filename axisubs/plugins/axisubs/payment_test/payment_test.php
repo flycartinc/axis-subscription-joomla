@@ -234,7 +234,7 @@ return $object; ///////////////////////////////////////
         $html = '';
         $subscription_id = $app->input->get('subscription_id');
         $subscription = $this->getSubscription( $subscription_id );
-        if (! $subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions){
+        if (! ($subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions || $subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions)){
         	$html = $this->params->get ( 'onerrorpayment', '' );
         	return $html; // throw error
         }

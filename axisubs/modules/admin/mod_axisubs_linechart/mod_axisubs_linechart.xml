@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="administrator" method="upgrade" position="axisubs-dashboard-chart1">
+    <name>Axis Subscriptions - Line Chart</name>
+    <creationDate>August 2016</creationDate>
+    <author>Ashlin</author>
+    <authorEmail>support@flycart.org</authorEmail>
+    <copyright>Copyright (c)2016-2020 Flycart Technologies</copyright>
+    <license>GNU GPL v3 or later</license>
+    <version>1.0.0</version>
+    <description>Chart module to display sales statistics in dashboard for Axis Subscription management system.</description>
+    <languages>
+        <language tag="en-GB">languages/en-GB.mod_axisubs_linechart.ini</language>
+        <language tag="en-GB">languages/en-GB.mod_axisubs_linechart.sys.ini</language>
+    </languages>
+    <!-- Installation / uninstallation PHP scripts -->
+    <scriptfile>script.mod_axisubs_linechart.php</scriptfile>
+    <!-- Media files -->
+    <media destination="mod_axisubs_linechart" folder="media/mod_axisubs_linechart">
+        <folder>js</folder>
+        <filename>index.html</filename>
+    </media>
+    <files>
+        <filename module="mod_axisubs_linechart">mod_axisubs_linechart.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <folder>tmpl</folder>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="plans" type="sql" default="0" label="MOD_AXISUBS_LINECHART_PLANS" query="SELECT axisubs_plan_id, name FROM #__axisubs_plans" multiple="multiple" key_field="axisubs_plan_id" value_field="name">
+                    <option value="0">MOD_AXISUBS_LINECHART_PLANS_SHOW_ALL</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

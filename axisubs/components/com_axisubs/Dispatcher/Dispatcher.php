@@ -10,6 +10,8 @@ namespace Flycart\Axisubs\Site\Dispatcher;
 use Flycart\Axisubs\Admin\Helper\ComponentParams;
 use JUri;
 
+require_once(JPATH_ADMINISTRATOR.'/components/com_axisubs/version.php');
+
 defined('_JEXEC') or die;
 
 class Dispatcher extends \FOF30\Dispatcher\Dispatcher
@@ -51,7 +53,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 
 		// Load common CSS and JavaScript
 		\JHtml::_('jquery.framework');
-
+		\JHtml::_('bootstrap.framework');
 		$doc = \JFactory::getDocument();
 		// admin css
 		$doc->addStyleSheet(JUri::root().'media/com_axisubs/css/font-awesome.min.css');

@@ -24,19 +24,22 @@ class CliActions extends Model
 		$date = Axisubs::date();
 		$current_date = $date->getCarbonDate();
 
-		$record_limit = 10;
+		//$record_limit = 10;
 
 		// 1. Process the expired subscriptions in confirmed state
 		$subsModel = Container::getInstance('com_axisubs')->factory->model('Subscriptions')->tmpInstance();
+
 		$exp_subs = $subsModel
 				->status('A')
 				->term_end($current_date)
-				->limit( $record_limit )
+				//->limit( $record_limit )
 				->get();
 
 		if ( count( $exp_subs ) > 0 ) {
 			foreach ($exp_subs as $sub) {
-				$sub->selfCheckStatus();
+				if($sub->plan->plan_type){
+					$sub->selfCheckStatus();
+				}
 			}
 		}
 
@@ -45,7 +48,7 @@ class CliActions extends Model
 		$future_subs = $subsModel
 				->status('F')
 				->term_start( $current_date )
-				->limit( $record_limit )
+				//->limit( $record_limit )
 				->get();
 
 		if ( count( $future_subs ) > 0 ) {
@@ -59,7 +62,7 @@ class CliActions extends Model
 		$trial_ended_subs = $subsModel
 				->status('T')
 				->trial_end( $current_date )
-				->limit( $record_limit )
+				//->limit( $record_limit )
 				->get();
 
 		if ( count( $trial_ended_subs ) > 0 ) {
@@ -74,7 +77,7 @@ class CliActions extends Model
 				->status('A')
 				->recurring( 1 )
 				->term_end($current_date)
-				->limit(10)
+				//->limit(10)
 				->get();
 
 		if ( count( $trial_ended_subs ) > 0 ) {

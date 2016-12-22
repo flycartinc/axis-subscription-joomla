@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+/*@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);*/
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700);
 
 /*************************************************************************************/
@@ -25,11 +26,9 @@
 max-width: 510px;
 font-family:Lato,Helvetica,Arial,sans-serif;
 font-weight:400;
- font-size:14px;
-
+font-size:14px;
 }
-
-.admin.com_axisubs .input-append .add-on, 
+.admin.com_axisubs .input-append .add-on,
 .admin.com_axisubs .input-prepend .add-on{
     height: 35px;
 }
@@ -38,12 +37,12 @@ font-weight:400;
     margin-top: 4px\9;
     margin-left: 4px;
 }
-.admin.com_axisubs input[type="text"], .admin.com_axisubs input[type="password"], 
+.admin.com_axisubs input[type="text"], .admin.com_axisubs input[type="password"],
 .admin.com_axisubs input[type="email"]{
     border: 1px solid #abadb3;
     border-radius: 0px;
     outline-width: 0;
-    height: 35px;
+    height: 34px;
     padding: 6px;
     width: 220px;
 }
@@ -122,7 +121,7 @@ width: 100%;
      font-family:Lato;
      font-style: italic;
 }
-.admin.com_axisubs .pactive{  
+.admin.com_axisubs .pactive{
     background: #68ac23;
     display: inline-block;
     text-align: center;
@@ -137,7 +136,7 @@ width: 100%;
     border-radius: 20px;
 }
 
-.admin.com_axisubs .pdeactive{  
+.admin.com_axisubs .pdeactive{
     background: #FF0000;
     display: inline-block;
     text-align: center;
@@ -151,7 +150,7 @@ width: 100%;
     -webkit-border-radius: 20px;
     border-radius: 20px;
 }
-.admin.com_axisubs .nonrenewal{  
+.admin.com_axisubs .nonrenewal{
     background: #575f77;
     display: inline-block;
     text-align: center;
@@ -165,7 +164,7 @@ width: 100%;
     -webkit-border-radius: 20px;
     border-radius: 20px;
 }
-.admin.com_axisubs .trail{  
+.admin.com_axisubs .trail{
     background: #dea928;
     display: inline-block;
     text-align: center;
@@ -182,7 +181,7 @@ width: 100%;
 
 .admin.com_axisubs dt{
     font-weight:normal;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 /*table in plans mainpage*/
@@ -196,12 +195,12 @@ width: 100%;
 .admin.com_axisubs .ptable .dl-horizontal {
     margin-bottom: 0;
     overflow: visible;
-    
+
 }
 .admin.com_axisubs .planpadding
 {
-border-top: 1px solid #dfe8ed;
-text-align:left;
+    text-align:left;
+    padding-top: 15px;
 }
 
 .admin.com_axisubs dt, .admin.com_axisubs dd {
@@ -211,10 +210,10 @@ text-align:left;
 
 .admin.com_axisubs .pcolor
 {
-	
+
     color: #6f6f6f;
     }
-    
+
 /*help desk*/
 .admin.com_axisubs .snackbar-darkbg, .admin.com_axisubs a.snackbar-darkbg {
     padding: 10px 20px;
@@ -262,7 +261,7 @@ text-align:left;
 }
 .admin.com_axisubs .panel-info > .panel-heading {
     color: #3a87ad;
-    
+
 }
 .admin.com_axisubs .panel-heading {
     padding: 7px 10px;
@@ -277,28 +276,21 @@ text-align:left;
 
 .admin.com_axisubs .table-options {
     width: 60px;
-    border-left: 1px solid #f5f8fa;
-    background: #fcfdfd;
+    background: transparent;
     vertical-align: middle;
 }
 .admin.com_axisubs .table-col {
     display: table-cell;
     vertical-align: top;
-   
+
 }
 .admin.com_axisubs .table-col {
-    padding: 25px;
+    padding: 0;
 }
 .admin.com_axisubs .table-col1 {
     display: table-cell;
     vertical-align: top;
-   
-}
-.admin.com_axisubs .table-col1 {
-    padding: 15px;
-}
-.admin.com_axisubs .aview{
- background: #fcfdfd;
+
 }
 
 /*************************************************************************************/
@@ -380,14 +372,14 @@ text-align:left;
 }
 
 .admin.com_axisubs .axisubs-status{
-    font-size: 110%;
+    font-size: 100%;
 }
 
 .admin.com_axisubs .plan_amount{
-    font-size: 140%;   
+    font-size: 140%;
 }
- 
-.admin.com_axisubs  .viewh{
+
+.admin.com_axisubs .viewh{
     font-weight: 400px;
     font-size: 16px;
 }
@@ -400,7 +392,7 @@ text-align:left;
 }
 
 .admin.com_axisubs .viewhighlight-container {
-   
+
     position: relative;
     top: 0;
     right: 0;
@@ -438,7 +430,7 @@ text-align:left;
 }
 
 
-	
+
 
 .admin.com_axisubs .viewbody dl {
   width: 100%;
@@ -699,7 +691,7 @@ list-style: none;
 }
 
 .admin.com_axisubs  .viewtimeline-container > ul > li {
-    
+
     padding: 15px 15px;
 }
 .admin.com_axisubs .viewtimeline-container > ul > li:last-child {
@@ -727,7 +719,7 @@ float:left;
     vertical-align: middle;
 }
 
-   
+
 .admin.com_axisubs .viewplan-sidebar {
     float: right;
 
@@ -768,7 +760,6 @@ float:left;
 /******************************dropdown******************************************/
 
 .admin.com_axisubs .dropbtn {
-   
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -779,15 +770,24 @@ float:left;
 .admin.com_axisubs  .dropplan{
 list-style: none;
 }
-
-
 .admin.com_axisubs .dropplan {
     position: relative;
     display: inline-block;
     font-family:sans-serif;
     font-size: 13px;
+		margin-top: 10px;
 }
-
+.admin.com_axisubs .dropplan .dropdown-menu{
+	padding: 0px;
+}
+.admin.com_axisubs .dropplan .dropdown-menu li a{
+	padding: 10px 20px;
+}
+.admin.com_axisubs .dropplan .dropdown-menu li a:hover, .admin.com_axisubs .dropplan .dropdown-menu li a:focus, .admin.com_axisubs .dropplan .dropdown-menu li a:active{
+	background-color: #009688;
+	color: #ffffff;
+	background-image: none;
+}
 .admin.com_axisubs .pull-right {
     right: 0;
     left: auto;
@@ -798,8 +798,6 @@ list-style: none;
 .admin.com_axisubs .searchcustom{
     height: 25px;
 }
-
-
 .axisubs-bs3 .conwidth {
     width: 1140px;
 }
@@ -807,42 +805,6 @@ list-style: none;
 {
 padding-top:15px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ADMIN Menu CSS */
 .axisubs-bs3 .wrapper {
@@ -896,10 +858,6 @@ padding-bottom:10px;
   -webkit-transition: all .5s ease;
   transition: all .5s ease;
   min-height: 62px;
-}
-.axisubs-bs3 .menud1:hover{
-    color: #3bafda;
-    background-color: transparent;
 }
 .axisubs-bs3 .menud:hover{
     color: #3bafda;
@@ -1250,14 +1208,14 @@ list-style: none;
 .axisubs-bs3  .cardselect {
    width:0px;
 }
-.axisubs-bs3 .widget-chart ul li 
+.axisubs-bs3 .widget-chart ul li
 {
     width: 31.5%;
     display: inline-block;
     padding: 0px;
     }
-    
-.axisubs-bs3 .widget-simple-chart .circliful-chart 
+
+.axisubs-bs3 .widget-simple-chart .circliful-chart
 {
   float: left;
   margin-top: -5px;
@@ -1698,7 +1656,7 @@ list-style: none;
   padding-top: 20px !important;
 }
 .axisubs-bs3 .p-t-40 {
-  padding-top: 40px !important;
+  padding-top: 20px !important;
 }
 .axisubs-bs3 .m-0 {
   margin: 0px !important;
@@ -2006,7 +1964,7 @@ display:block !important;
     z-index: 90;
 }
 .axisubs-bs3 .tab-content{
-padding-top:30px;
+    padding-top: 15px;
 }
 
 
@@ -2026,12 +1984,8 @@ display:block !important;
 }
 .axisubs-bs3  .chzn-container-single .chzn-single {
     line-height: 20px;
+		border-radius: 0px;
 }
-
-
-
-
-
 /****************************choose customer********************************/
 .axisubs-bs3 .choose-customer {
     padding: 15px;
@@ -2045,9 +1999,8 @@ display:block !important;
     font-size:x-large;
     font-family: Lora;
 }
-
-
 /****************************Taxes text box width********************************/
+
 .admin.com_axisubs .tax-box-width > input[type="text"]
 {
     width:100px !important;
@@ -2079,4 +2032,638 @@ display:block !important;
 }
 #j-main-container-buttons .col-md-12 {
     margin: 0 0 10px 20px;
+}
+#adminForm input.invalid-data{
+    border-color: #DD0000 !important;
+}
+.transaction-history-c {
+    padding: 0 10px;
+    text-align: left;
+}
+.transaction-history-text {
+    font-weight: bold;
+}
+#datatoload{
+    display: none;
+}
+.transaction-history-item {
+    padding: 5px 0;
+}
+.margin0 {
+    margin: 0 !important;
+}
+ul.viewsubscriptionTab{
+    margin-top: 15px !important;
+}
+.datatoload-con{
+    width: 100%;
+    overflow: scroll;
+}
+.load_more_subscriptions {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+.more_subscriptions-data{
+    display: none;
+    z-index: 5;
+    background-color: #fff;
+    border: 1px solid #ddc4dd;
+    left: 100%;
+    min-width: 300px;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.more_subscriptions-data-left-arrow {
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #ddc4dd;
+    border-top: 8px solid transparent;
+    display: none;
+    height: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 5;
+}
+.more_subscriptions-data .item {
+    border-bottom: 1px solid #ddc4dd;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+.more_subscriptions-data .item:last-child {
+    border-bottom: 0px solid #ddd;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+.viewtitle-text.viewh.actionsub {
+    padding: 10px;
+}
+.subscribed-item-con .item{
+    margin: 5px 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+		line-height: 2.5;
+}
+.settings-icon {
+    float: right;
+    position: relative;
+    top: 10px;
+    z-index: 10;
+}
+.email_template_listing{
+    padding: 10px 0;
+}
+.email_template_listing .item-content{
+    margin-top: 10px;
+}
+.caret.uparrow{
+    border-top: 0 solid #000 !important;
+    border-bottom: 4px solid #000;
+}
+.search-tools-more{
+    display: none;
+}
+.search-tools-more.active{
+    display: block;
+}
+.search-tools-more{
+    background: #eeeeee none repeat scroll 0 0;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    padding: 12px 0;
+}
+.email_template_td_sub {
+    padding: 30px 0 !important;
+}
+.axisubs_list_items_table{
+    width: 100%;
+}
+.view-EmailTemplates #j-main-container{
+	padding-right: 5px;
+}
+.axisubs-bs3 table.axisubs_list_items_table thead {
+    background-color:transparent;
+}
+.axisubs-bs3 table.axisubs_list_items_table thead tr th{
+    color: #333;
+    font-size: 14px;
+    padding: 12px;
+    text-transform: uppercase;
+}
+.axisubs-bs3 table.axisubs_list_items_table tbody tr:nth-of-type(2n+2) {
+    background: #eff3f3 none repeat scroll 0 0;
+}
+.axisubs-bs3 table.axisubs_list_items_table tbody tr {
+    background: #fff none repeat scroll 0 0;
+		border-top:1px solid #dddddd;
+}
+.axisubs-bs3 table.axisubs_list_items_table tbody tr td {
+    line-height: 2.6;
+    padding: 8px 12px;
+}
+.search-item-container{
+    display: inline-block;
+    padding: 5px;
+    vertical-align: middle;
+}
+.search-item-container label{
+    bottom: 5px;
+    position: relative;
+}
+.search-item-container .btn-success, .search-item-container .btn-info{
+    margin-top: 5px !important;
+}
+.user-guide-desc {
+    margin-bottom: 10px;
+}
+.panel-body-dashboard {
+    background: #03a9f4 none repeat scroll 0 0;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px;
+}
+.panel-body-dashboard > h3 {
+    margin-top: 10px !important;
+}
+
+.axisubs_plan_price-bold{
+    font-size: 18px;
+}
+
+.axisubs_active_subs {
+    background-color: #ddd;
+    color: #000;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 2px 10px;
+}
+.axisubs_active_subs_count{
+    font-weight: bold;
+}
+
+/* 	Dashboard  Menu*/
+.com_axisubs #j-sidebar-container{
+	font-family: 'Noto Sans', sans-serif;;
+}
+.com_axisubs #j-sidebar-container .navbar-default {
+	background-color:transparent;
+	margin-right: 15px;
+}
+#j-sidebar-container .navbar-default .nav-pills li{
+	display: block;
+	width: 100%;
+}
+#j-sidebar-container .navbar-default .nav-pills .nav-header h2 a{
+	font-size: 18px;
+	color: #333;
+	font-weight: bold;
+}
+#j-sidebar-container .navbar-default .sidebar-collapse #side-menu{
+	margin-left: 0;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav li a{
+	background-color: transparent;
+	font-size: 14px;
+	padding: 15px 15px;
+	margin-top: 0px;
+	font-weight: 500;
+	color: #4c4c4c;
+	font-weight: bold;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav li a .menud1 i{
+	margin-right: 10px;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .dropdow .dropdown-menu {
+	position: relative;
+	display: block !important;
+	opacity: 1 !important;
+	float: none;
+	box-shadow: none;
+	margin-left: 20px;
+	border: none;
+	max-width: 95%;
+	background-color: transparent;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .dropdow .dropdown-menu ul li{
+	padding: 5px 0;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .dropdow .dropdown-menu ul li i{
+	margin-right: 10px;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .dropdow .dropdown-menu ul .active a{
+	color: #009688;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav li a:hover{
+	background-color: #ffffff;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .active a{
+	color: #009688;
+}
+#j-sidebar-container .navbar-default .nav-pills .navbar-nav .active a:hover{
+	color: #009688;
+}
+#j-main-container-create{
+	background-color: #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	margin-left: -20px;
+	margin-top: 20px;
+}
+#j-main-container{
+	background-color: #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	margin-left: -20px;
+	margin-top: 20px;
+}
+#j-main-container .moduletable h3{
+	text-transform: uppercase;
+	font-size: 20px;
+	margin-top: 40px;
+	margin-bottom: 25px;
+}
+#j-main-container .panel-body-dashboard{
+		margin-top: 45px;
+}
+#j-main-container #filter-bar{
+	//background: #eeeeee none repeat scroll 0 0;
+	border-radius: 5px;
+	padding: 15px 15px 48px;
+}
+#j-main-container #filter-bar a:hover{
+	text-decoration: none;
+}
+#j-main-container #filter-bar .btn-group .chzn-container-single{
+	top: 5px;
+}
+#j-main-container #filter-bar .filter-search .input-small{
+	margin-left: 0px !important;
+}
+/****** Subscription ********/
+#j-main-container #filter-bar .search-each-container .search-tools-filter{
+	margin-left: 15px;
+	background-color: #03A9F4;
+	border-color: #03A9F4;
+}
+#j-main-container .search-tools-more{
+	margin: 0 !important;
+}
+#j-main-container .search-tools-more .search-item-container .input-append .btn{
+	background-color: #03A9F4;
+	border-color: #03A9F4;
+}
+#j-main-container .search-tools-more .chzn-single:hover{
+	text-decoration: none;
+}
+/****** Nav tabs *******/
+#adminForm .tabbable{
+	padding: 10px;
+}
+#j-main-container .tabbable .nav-tabs li a{
+	border-radius: 0px !important;
+	font-size: 14px;
+	color: #03A9F4;
+}
+/* ****** App ****** */
+#j-main-container .apps h2.app-heading{
+	margin: 20px 15px;
+}
+#j-main-container .apps .app-search{
+	margin-top: 15px;
+	margin-left: 15px;
+}
+#j-main-container .apps .app-search .btn-success{
+	background-color: #ffffff;
+	border: 1px solid #555555;
+	border-radius: 0;
+	color: #555555;
+	padding: 6px 6px 6px 8px;
+}
+#j-main-container .apps .app-search .btn-info{
+background-color: #555555;
+border: 1px solid #555555;
+border-radius: 0;
+color: #ffffff;
+font-weight: normal;
+padding: 6px 6px 6px 10px;
+text-shadow: none;
+margin-left: -4px;
+}
+#j-main-container .apps .app-search .input-large{
+	margin-bottom: 0px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel{
+	margin-bottom: 0px;
+	border: 1px solid #ddd;
+	padding: 5px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-body .app-image{
+	text-align: center;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-body .app-image img{
+	max-height: 100px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-body .app-name h3{
+	font-size: 18px;
+	margin: 10px 0;
+	text-align: center;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-body .app-description{
+	min-height: 80px;
+	padding-top: 5px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer{
+	border-top: 1px solid transparent;
+	text-align: center;
+	margin-bottom: 10px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .app-footer{
+	font-size: 14px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .app-footer .author{
+	font-weight: bold;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer .app-action{
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer .app-action .app-button{
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    margin-right: 10px;
+    padding: 9px 14px;
+    text-decoration: none;
+    text-transform: uppercase;
+		border-radius: 3px;
+    border-width: 3px;
+    color: #ffffff;
+    height: 30px;
+    max-width: 100%;
+    width: 100px;
+    transition: all 0.2s ease-in-out 0s;
+		display: block;
+		margin: 0 auto 10px;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer .app-action .app-button-open{
+	background-color: #2ebc9a;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer .app-action .app-button-unpublish{
+	background-color: #FFB53E;
+}
+#j-main-container .axisubs-apps-row .app-container .panel .panel-footer .app-action .app-button-publish{
+	background-color: #337ab7;
+}
+.com_axisubs .axisubs-bs3 #adminForm{
+	padding: 10px;
+}
+/* ******* view-Payments ********* */
+.view-Payments{
+	margin-top: 25px;
+}
+/* ********* view-EmailTemplates ******** */
+.view-EmailTemplates #j-main-container #filter-bar .filter_event_emailtemplate .chzn-container-single{
+	margin-left: 10px;
+	top: 6px;
+}
+/* ******** view-Taxes *********** */
+.view-Taxes #j-main-container{
+	margin-top: 25px;
+}
+.view-Taxes #j-main-container .new_btn{
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+/* ********** plans *********** */
+#j-main-container #planList  .axisubs_active_subs{
+	border-radius: 3px;
+}
+#j-main-container #planList tbody tr td.order .planpadding{
+	margin-left: 10px;
+	margin-top: 8px;
+}
+#j-main-container #planList tbody tr.row1{
+	background-color: #ffffff;
+}
+#j-main-container #planList tbody tr.row1 td{
+	background-color: transparent;
+}
+#j-main-container #planList tbody tr.row0{
+	//background-color: #e1e9f3;
+	background-color: #eff3f3;
+}
+/* ********** New, Edit ******** */
+.com_axisubs .tab-pane .input-append .media-preview{
+	height: 34px;
+	line-height: 2.2;
+	width: 38px;
+	border-color: #abadb3;
+}
+.com_axisubs .tabbable .tab-content .tab-pane .input-append .media-preview span i{
+	margin-right: 0px;
+}
+.com_axisubs .tabbable .tab-content .tab-pane .input-append .btn{
+	box-shadow: none;
+}
+.control-group .input-append .btn-primary{
+	background-color: #03A9F4;
+	border-color: #03A9F4;
+}
+.control-group .input-append .btn{
+	box-shadow: none;
+	margin: 0;
+}
+/* ********** filter-bar ******** */
+#j-main-container #filter-bar .btn-group .btn:nth-child(1){
+	background-color: #ffffff;
+	border: 1px solid #555555;
+	border-radius: 0px;
+	color: #555555;
+	padding: 6px 6px 6px 8px;
+}
+#j-main-container #filter-bar .btn-group .btn:nth-child(2){
+	background-color: #555555;
+	border: 1px solid #555555;
+	border-radius: 0px;
+	color: #ffffff;
+	font-weight: normal;
+	padding:6px 6px 6px 10px;
+	text-shadow: none;
+}
+.axisubs-bs3 .label{
+	padding: 4px 8px;
+}
+.axisubs-bs3 .list-image > img {
+    max-width: 100px;
+}
+
+/* ************ view-Subscriptions ************ */
+.com_axisubs #j-main-container #filter-bar{
+	margin-left:0px;
+}
+.view-Subscriptions #j-main-container .panel .panel-heading{
+	border-bottom-color: transparent;
+}
+.com_axisubs #j-main-container .panel .row.row-item{
+	border-top: 1px solid #ddd;
+	margin:0;
+}
+.com_axisubs #j-main-container .panel .row-item:nth-child(odd){
+background-color: #eff3f3;
+}
+.com_axisubs #j-main-container .panel .row-item:nth-child(even){
+	background-color: #fff;
+}
+.view-Subscriptions #j-main-container .panel .row-item .planpadding dl dt.plan{
+	font-size: 16px;
+}
+.view-Subscriptions #j-main-container .panel .row-item .planpadding .table-options{
+	background-color: transparent;
+}
+
+.view-Subscriptions .axisubs-bs3 .viewbody #customer-details .panel .table tbody tr .tbl_head{
+	font-weight: bold;
+}
+.view-Subscriptions .axisubs-bs3 .viewbody #customer-details .panel .table tbody tr .well{
+	padding:15px;
+	line-height: 2;
+}
+
+/* *********** Plan ************* */
+.com_axisubs #planList .row .planpadding{
+    border-top: 0px solid transparent !important;
+}
+.com_axisubs #planList tbody.ui-sortable tr.dndlist-sortable .order{
+	border-top: 1px solid #ddd;
+}
+.com_axisubs #planList .ui-sortable .dndlist-sortable td{
+	background-color: transparent;
+}
+.com_axisubs #planList .ui-sortable .dndlist-sortable:nth-child(odd){
+	background-color: #fff !important;
+}
+.com_axisubs #planList .ui-sortable .dndlist-sortable:nth-child(even){
+	background-color: #f5f3eb !important;
+}
+.com_axisubs #planList .dndlist-sortable .order .planpadding{
+	padding-top: 23px;
+	text-align:center;
+}
+
+/* ************ view Apps ********* */
+.view-apps #j-main-container h3{
+	margin-bottom: 20px;
+}
+.view-apps .axisubs-coupons-list-block #adminForm .axisubs-coupons-list .table thead{
+	background-color: #ffffff;
+}
+.view-apps .axisubs-coupons-list-block #adminForm .axisubs-coupons-list .table thead tr th{
+	color: #555555;
+}
+.view-apps .axisubs-coupons-list-block #adminForm .axisubs-coupons-list .table tbody tr:nth-child(even){
+	background-color: #F5F3EB;
+}
+.view-apps .axisubs-coupons-list-block #adminForm .axisubs-coupons-list .table tbody tr:nth-child(odd){
+	background-color: #fff;
+}
+.view-apps #j-main-container .axisubs-bs3 .axisubs-coupons-con{
+	padding-right: 5px;
+}
+.com_axisubs #j-main-container .axisubs-bs3 .axisubs-coupon_form-con #adminFormCoupon .control-group .input-append .btn{
+	background-color: #03A9F4;
+	border-color: #03A9F4;
+}
+/* ******** reports ********* */
+.view-Reports .akeeba-bootstrap .axisubs-bs3 .well{
+	border-color: transparent;
+}
+/* ****** Global ******** */
+#system-message-container, #j-main-container{
+	padding: 10px;
+}
+#j-main-container .table-options .dropdown ul.dropdown-menu{
+	border-radius: 0px;
+}
+#j-main-container .table-options .btn-small{
+	border: 1px solid #40b0a6;
+	padding: 5px 10px;
+	margin-bottom: 10px;
+	background-color: #40b0a6;
+	color: #fff;
+	text-decoration: none;
+	font-size: 13px;
+	border-radius: 0px;
+}
+#j-main-container .table-options .dropdown-toggle.btn{
+	border: 1px solid #40b0a6;
+	padding: 5px 10px;
+	background-color: #40b0a6;
+	color: #fff;
+	text-shadow: none;
+	font-size: 13px;
+	border-radius: 0px;
+}
+.view-Customers .axisubs-bs3 {
+    margin-right: 10px;
+    padding: 10px;
+}
+.axisubs-bs3 #adminForm .tab-content .editor textarea{
+	width: 100% !important;
+	min-height: 500px;
+}
+.view-EmailTemplate .axisubs-bs3 #adminForm .tab-content .toggle-editor .btn-group .btn{
+	background-color: #03A9F4;
+	border-color: #03A9F4;
+	color: #fff;
+}
+.email_template_td_sub .email_template_field_con input, .email_template_td_sub .email_template_field_con textarea{
+	width: 72% !important;
+}
+.com_axisubs .btn{
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+.com_axisubs .btn-toolbar{
+	margin-bottom: 20px;
+}
+.com_axisubs .btn-toolbar .btn {
+    border-radius: 3px;
+    padding: 5px 12px;
+}
+.com_axisubs .btn-toolbar .btn.btn-success{
+	background-color: #40b0a6;
+	background-image: none;
+	border-color: #40b0a6;
+}
+.com_axisubs .container-fluid.container-main{
+	padding-left: 0;
+	padding-right: 0;
+}
+.com_axisubs .header{
+	background: #009688 none repeat scroll 0 0;
+}
+.com_axisubs .header .container-title .page-title{
+	padding: 15px 0px 10px;
+}
+.com_axisubs .header .container-title .page-title small{
+	color: #eee;
+}
+.com_axisubs .subhead-collapse{
+	margin-bottom: 0;
+}
+.com_axisubs .subhead-collapse .subhead{
+	background: #009688 none repeat scroll 0 0;
+border-bottom: 1px solid #009688;
+}
+.com_axisubs{
+	background-color: #edecec;
+}
+/* ***** Configuration ******** */
+.com_axisubs.view-Configuration .axis-configuration {
+	padding: 15px;
+}
+.app-container {
+    margin-bottom: 10px;
 }

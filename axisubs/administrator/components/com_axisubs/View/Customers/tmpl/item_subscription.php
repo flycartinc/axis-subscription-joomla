@@ -11,8 +11,26 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 $this->current_customer = $this->item->customer ;
 $curr = Axisubs::currency();
 $status_helper = Axisubs::status();
+$subscriptions = $this->item->subscriptions;
+
 ?>
-                            <div class="row">
+<div class="subscribed-item-con">
+    <?php
+    if(count($subscriptions)){
+        foreach($subscriptions as $key => $value){
+            echo '<div class="item">';
+            echo '<span class="transaction-history-text">'.JText::_('COM_AXISUBS_PLAN_NAME').': </span>'.$value->plan->name.' ';
+            echo '<span class="transaction-history-text">'.JText::_('COM_AXISUBS_PLAN_PRICE').': </span>'. $curr->format( $value->total, $value->currency_code).' ';
+            echo '<span class="transaction-history-text">'.JText::_('AXISUBS_SUBSCRIPTION_STATUS').': </span>'. $status_helper->get_text( $value->status).' ';
+            echo '</div>';
+        }
+    } else {
+        echo JText::_('COM_AXISUBS_NO_DATA');
+    }
+    ?>
+</div>
+
+                           <!-- <div class="row">
                                 <div class="col-md-6 ">
                                         <div class="text-right padbot">
                                             <?php echo JText::_('COM_AXISUBS_TITLE_SUBSCRIPTIONS_ID');?>
@@ -89,3 +107,4 @@ $status_helper = Axisubs::status();
                                     </div>
                                 </div>
                             </div>
+-->

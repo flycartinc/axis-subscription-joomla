@@ -14,6 +14,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 use Carbon\Carbon;
 use FOF30\Model\DataModel;
 use JLoader;
+use Flycart\Axisubs\Admin\Helper\Tax;
 
 /**
  * Model class for Axisubs Plan data
@@ -78,7 +79,7 @@ class Plans extends DataModel
 		$this->fieldsSkipChecks = [ 'image', 'taxprofile_id', 'ordertext','orderurl',
 									'canceltext','cancelurl','only_once','recurring',
 									'forever','access', 'fixed_date','payment_plugins',
-									'renew_url', 'content_url','params'];
+									'renew_url', 'content_url','params','period_unit','trial_period_unit'];
 		$this->blacklistFilters(['only_once']);
 	}
 
@@ -90,6 +91,17 @@ class Plans extends DataModel
 				$dataObject->payment_plugins = implode(',', $app->input->get("payment_plugins"));
 			else
 				$dataObject->payment_plugins = '';
+			if($app->input->get("trial_period") == ''){
+				$dataObject->trial_period = '0';
+			}
+			if($app->input->get("plan_type") == '0'){
+				$dataObject->trial_period = '0';
+				$dataObject->only_once = 1;
+				$dataObject->period = 0;
+			}
+			if($app->input->get("recurring") == '0'){
+				$dataObject->billing_cycles = '0';
+			}
 		}
 		return $dataObject->payment_plugins;
 	}
@@ -126,6 +138,21 @@ class Plans extends DataModel
 
 		$this->container->platform->importPlugin('axisubs');
 		 // trigger 'onAKUserSaveData', array(&$pluginData) ;
+	}
+
+	/**
+	 * Map state variables from their old names to their new names, for a modicum of backwards compatibility
+	 *
+	 * @param   \JDatabaseQuery  $query
+	 */
+	protected function onBeforeBuildQuery(\JDatabaseQuery &$query)
+	{
+		$this->addKnownField('subs_count');
+		$query->select('subs_c.subs_count');
+		$query->leftJoin('(SELECT s.plan_id, count( s.axisubs_subscription_id ) as subs_count
+					FROM `#__axisubs_subscriptions` AS s
+					WHERE s.status = \'A\'
+					GROUP BY s.plan_id) as subs_c ON subs_c.plan_id = #__axisubs_plans.axisubs_plan_id');
 	}
 
 	/**
@@ -279,13 +306,14 @@ class Plans extends DataModel
 			$query->where($db->qn('axisubs_levelgroup_id') . ' = ' . (int) $levelgroup);
 		}
 
-		$order = $this->getState('filter_order', 'axisubs_plan_id', 'cmd');
+//		$order = $this->getState('filter_order', 'axisubs_plan_id', 'cmd');
+		$order = $this->getState('filter_order', 'enabled', 'cmd');
 
 		if (!in_array($order, array_keys($this->getData())))
 		{
-			$order = 'axisubs_plan_id';
+//			$order = 'axisubs_plan_id';
+			$order = 'enabled';
 		}
-
 		$dir = $this->getState('filter_order_Dir', 'DESC', 'cmd');
 		$query->order($order . ' ' . $dir);
 
@@ -319,7 +347,7 @@ class Plans extends DataModel
 	protected function onBeforeBind(&$data)
 	{
 		$app = \JFactory::getApplication();
-		$input_data = $app->input->getArray($_POST);
+		$input_data = $app->input->post->getArray();
 
 		if (!is_array($data))
 		{
@@ -421,7 +449,8 @@ class Plans extends DataModel
 	 * */
 	function getPeriodInDays(){
 		if ( isset( $this->period) && !empty( $this->period ) ){
-			return $this->period;
+			//return $this->period;
+			return $this->getCalculatedDays($this->period, $this->period_unit);
 		}else {
 			return 0;
 		}
@@ -432,10 +461,30 @@ class Plans extends DataModel
 	 * */
 	function getTrialPeriodInDays(){
 		if ( isset( $this->trial_period) && !empty( $this->trial_period ) ){
-			return $this->trial_period;
+			//return $this->trial_period;
+			return $this->getCalculatedDays($this->trial_period, $this->trial_period_unit);
 		}else {
 			return 0;
 		}
+	}
+
+	/**
+	 * Calculate the days from Month,week or Year
+	 **/
+	function getCalculatedDays($period, $unit){
+		$days = $period;
+		switch($unit){
+			case 'W':
+				$days = $period*7;
+				break;
+			case 'M':
+				$days = $period*30;
+				break;
+			case 'Y':
+				$days = $period*365;
+				break;
+		}
+		return $days;
 	}
 
 	function hasFixedEndDate(){
@@ -567,4 +616,18 @@ class Plans extends DataModel
 		return $this->setup_cost;
 	}
 
+	/**
+	 * Tax types and percent
+	 * */
+	function getTaxPercent(){
+		$tax_class = 'standard';
+		$shop_tax_rates = Tax::get_base_tax_rates( $tax_class );
+		$tax_rates = Tax::get_rates( $tax_class );
+		$rate = 0;
+		foreach ($tax_rates as $tax){
+			$rate += $tax['rate'];
+		}
+
+		return $rate;
+	}
 }

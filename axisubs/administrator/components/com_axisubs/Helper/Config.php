@@ -49,6 +49,32 @@ class Config extends JObject {
 		return true;
 	}
 
+	/**
+	 * Insert / update
+	 * */
+	public function update($namekey, $value=null){
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$columns = array('config_meta_key', 'config_meta_value');
+		$values = array($db->quote($namekey), $db->quote($value));
+		if(!isset($this->_data[$namekey])){
+			$query
+				->insert($db->quoteName('#__axisubs_configurations'))
+				->columns($db->quoteName($columns))
+				->values(implode(',', $values));
+		} else {
+			$fields = array(
+				$db->quoteName('config_meta_value') . ' = ' . $db->quote($value)
+			);
+			$conditions = array(
+				$db->quoteName('config_meta_key') . ' = ' . $db->quote($namekey)
+			);
+			$query->update($db->quoteName('#__axisubs_configurations'))->set($fields)->where($conditions);
+		}
+		$db->setQuery($query);
+		return $db->execute();
+	}
+
 	public function get($property, $default=null) {
 		if(isset($this->_data[$property])) {			
 			return $this->_data[$property]->config_meta_value;

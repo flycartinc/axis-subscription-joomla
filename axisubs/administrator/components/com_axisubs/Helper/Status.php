@@ -45,6 +45,10 @@ class Status{
 		}
 	}
 
+	function get_transactionStatusText($status){
+		return JText::_( 'AXISUBS_TRANSACTION_STATUS_'.strtoupper($status) );
+	}
+
 	function get_label($status){
 		$labels = array(
 						'N' => 'warning',

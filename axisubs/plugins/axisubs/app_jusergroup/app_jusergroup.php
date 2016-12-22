@@ -49,6 +49,60 @@ class plgAxisubsApp_JUsergroup extends App
 	protected $removeGroups = array();
 
 	/**
+	 * Overriding
+	 *
+	 * @param $options
+	 * @return unknown_type
+	 */
+	function onAxisubsGetAppView( $row )
+	{
+
+		if (!$this->_isMe($row))
+		{
+			return null;
+		}
+
+		$html = $this->viewList();
+
+		return $html;
+	}
+
+	/**
+	 * Validates the data submitted based on the suffix provided
+	 * A controller for this plugin, you could say
+	 *
+	 * @param $task
+	 * @return html
+	 */
+	function viewList()
+	{
+		$app = JFactory::getApplication();
+		$option = 'com_axisubs';
+		$ns = $option.'.app';
+		$html = "";
+		JToolBarHelper::title(JText::_('AXISUBS_APP').'-'.JText::_('PLG_AXISUBS_'.strtoupper($this->_element)),'axisubs-logo');
+		//JToolBarHelper::apply('apply');
+		//JToolBarHelper::save();
+
+		$vars = new JObject();
+		$this->includeCustomModel('AppJUsergroup');
+
+		$container = \FOF30\Container\Container::getInstance('com_axisubs');
+		$model = new AxisubsModelAppJUsergroup( $container, $config = array('name'=>'AxisubsModelAppJUsergroup') );
+
+		$data = $this->params->toArray();
+		$newdata = array();
+		$newdata['params'] = $data;
+		$form = $model->getForm($newdata);
+		$vars->form = $form;
+
+		$id = $app->input->getInt('id', '0');
+		$vars->id = $id;
+		$html = $this->_getLayout('default', $vars);
+		return $html;
+	}
+
+	/**
 	 * Method to integrate the plan form 
 	 * */
 	function onAxisubsPlanAfterFormRender($plan){

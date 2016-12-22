@@ -102,6 +102,17 @@ else
 }
 require_once JPATH_LIBRARIES . '/cms.php';
 
+// Import the configuration.
+require_once JPATH_BASE . '/configuration.php';
+
+// Load the configuration
+require_once JPATH_CONFIGURATION . '/configuration.php';
+
+require_once JPATH_BASE . '/includes/framework.php';
+
+// System configuration.
+//$config = new JConfig;
+
 JLoader::import('joomla.application.cli');
 JLoader::import('joomla.application.component.helper');
 JLoader::import('cms.component.helper');
@@ -147,9 +158,10 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 				if ($cgiMode)
 				{
 					$query = "";
-					if (!empty($_GET))
+					$app = JFactory::getApplication();
+					if (!empty($app->input->get->getArray()))
 					{
-						foreach ($_GET as $k => $v)
+						foreach ($app->input->get->getArray() as $k => $v)
 						{
 							$query .= " $k";
 							if ($v != "")
@@ -209,11 +221,11 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 		$this->set('cwd', getcwd());
 	}
 
-    public function flushAssets()
-    {
-        // This is an empty function since JInstall will try to flush the assets even if we're in CLI (!!!)
-        return true;
-    }
+	public function flushAssets()
+	{
+		// This is an empty function since JInstall will try to flush the assets even if we're in CLI (!!!)
+		return true;
+	}
 
 	/**
 	 * The main entry point of the application
@@ -243,13 +255,15 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 			die('FOF 3.0 is not installed');
 		}
 
+		include_once JPATH_COMPONENT_ADMINISTRATOR . '/vendor/autoload.php';
+
 		// Load the version.php file
 		include_once JPATH_COMPONENT_ADMINISTRATOR . '/version.php';
 
 		// Load language strings
-        $jlang = JFactory::getLanguage();
-        $jlang->load('com_axisubs', JPATH_ADMINISTRATOR);
-        $jlang->load('com_axisubs.override', JPATH_ADMINISTRATOR);
+		$jlang = JFactory::getLanguage();
+		$jlang->load('com_axisubs', JPATH_ADMINISTRATOR);
+		$jlang->load('com_axisubs.override', JPATH_ADMINISTRATOR);
 
 		// Display banner
 		$year			 = gmdate('Y');
@@ -279,15 +293,15 @@ class AxiSubsExpiryControlApp extends JApplicationCli
 			@set_time_limit(0);
 		}
 
-        $this->out("Checking for new versions");
+		$this->out("Checking for new versions");
 
 		$container = \FOF30\Container\Container::getInstance('com_axisubs');
 		/** @var \Akeeba\Subscriptions\Admin\Model\Updates $updateModel */
 		$cliModel = $container->factory->model('CliActions')->tmpInstance();
 
-        $result = $cliModel->expiryControl(); 
+		$result = $cliModel->expiryControl();
 
-        echo implode("\n", $result['message']);
+		echo implode("\n", $result['message']);
 
 		$this->out("Peak memory usage: " . $this->peakMemUsage());
 	}

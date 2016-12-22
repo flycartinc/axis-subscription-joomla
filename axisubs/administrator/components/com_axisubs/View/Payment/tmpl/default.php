@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 \JHtml::_('behavior.multiselect');
 \JHtml::_('dropdown.init');
 \JHtml::_('formbehavior.chosen', 'select');
+use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $sortFields = array(
 		'id'				=> JText::_('JGRID_HEADING_ID'),
@@ -25,7 +26,7 @@ $sidebar = \JHtmlSidebar::render();
 $model = $this->getModel();
 
 $total = count($model->get('items')); $counter = 0;
-$col = 4;
+$col = 3;
 ?>
 <script type="text/javascript">
 		Joomla.orderTable = function() {
@@ -70,8 +71,8 @@ $col = 4;
 				placeholder="<?php echo JText::_('AXISUBS_APP_NAME'); ?>"
 				/>
 				<nobr>
-				<button class="btn btn-success" type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-				<button class="btn btn-info" type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+				<button class="btn btn-success hasTooltip" data-original-title="Search" type="submit"><i class="icon-search"></i></button>
+				<button class="btn btn-info hasTooltip" type="button" data-original-title="Clear" onclick="document.id('search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 				</nobr>
 
 	</div>
@@ -85,7 +86,6 @@ $col = 4;
 		$app->published = $app->enabled;
 		//load the language files
 		\JFactory::getLanguage()->load('plg_axisubs_'.$app->element, JPATH_ADMINISTRATOR);
-	//var_dump($app->manifest_cache);
 		$params = new JRegistry;
 		$params->loadString($app->manifest_cache);
 	?>
@@ -94,7 +94,7 @@ $col = 4;
 			<?php $row = $counter / $col; ?>
 			<div class="axisubs-apps-row <?php echo 'row-'.$row; ?> row-fluid">
 		<?php endif;?>
-		<div class="span<?php echo round((12 / $col));?>">
+		<div class="col-md-4 col-sm-6 col-xd-12">
 			<div class="app-container">
 				<div class="panel panel-warning">
 					<div class="panel-body">
@@ -169,6 +169,33 @@ $col = 4;
 </div>
 </div>
 
+<?php if ( ! Axisubs::isPro() ) { ?>
+<div class="payment-content inline-content">
+	<div class="row-fluid">
+		<div class="span4">
+			<div class="" style="padding:20px; border: 1px solid #bbb; ">
+				<img src="https://www.flycart.org/images/axisubs/authorize.net.png" alt="" style="height: 70px">
+				<h4> Authorize.NET </h4>
+				<p> Collect payments though credit / debit card and increase your subscription sales. Supports Authorize.NET card payment option and Authorize.NET Recurring Billing. <br> <br> </p>
+				<div class="pull-right">
+					<a target="_blank" class="app-button app-button-open j2-flat-button" href="<?php echo Axisubs::buildHelpLink('products/joomla/axis-subscriptions', 'apps'); ?>"><?php echo JText::_('AXISUBS_GO_PRO'); ?></a>
+				</div>
+				<br><br>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="hero-unit">
+				<h2> Looking for other payment options ? </h2>
+				<p class="lead">
+					Explore other payment apps available for Axisubs. Upgrade to Axisubs PRO and unleash access to more payment options.
+				</p>
+				<a target="_blank" class="app-button app-button-open j2-flat-button" href="<?php echo Axisubs::buildHelpLink('products/joomla/axis-subscriptions', 'apps'); ?>"><?php echo JText::_('AXISUBS_GO_PRO'); ?></a>
+			</div>
+		</div>
+		<div class="span1"></div>
+	</div>
+</div>
+<?php } ?>
 <style>
 .btn-toolbar > .btn-group{
 margin-left: 14px !important;

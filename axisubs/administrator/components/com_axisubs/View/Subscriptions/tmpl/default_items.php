@@ -7,6 +7,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
+use Flycart\Axisubs\Admin\Helper\Select;
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $curr = Axisubs::currency();
@@ -17,11 +18,11 @@ $date_helper = Axisubs::date();
 	<div class="panel-heading"></div>
 
 	<?php foreach($this->items as $k => $item){ ?>
-		<div class="row">
+		<div class="row row-item">
 		<div class="col-md-1 planpadding" >
 			<dl>
 				<dt>
-					<?php echo $this->readable_items[$k]->axisubs_subscription_id; ?> 
+					<?php echo $this->readable_items[$k]->axisubs_subscription_id; ?>
 				</dt>
 			</dl>
 		</div>
@@ -29,15 +30,14 @@ $date_helper = Axisubs::date();
 			<dl>
 				<dt>
 					<span class="pcolor">
-						<?php echo JText::_('COM_AXISUBS_TITLE_SUBSCRIPTIONS_ID');?>:
-					</span> 
-					<a href="<?php echo JRoute::_('index.php?option=com_axisubs&view=Subscriptions&id='.$item->axisubs_subscription_id.'&task=read');?>">
-					<?php echo $item->axisubs_subscription_id; ?> </a>
+						<a href="<?php echo JRoute::_('index.php?option=com_axisubs&view=Subscriptions&id='.$item->axisubs_subscription_id.'&task=read');?>">
+								<?php echo JText::_('COM_AXISUBS_TITLE_SUBSCRIPTIONS_ID');?><?php echo $item->axisubs_subscription_id; ?> </a>
+					</span>
 				</dt>
-				<dt>
-					<span class="pcolor">
+				<dt class="plan">
+					<span class="pcolor plan_name">
 						<?php echo JText::_('COM_AXISUBS_PLAN_NAME');?>:
-					</span> 
+					</span>
 					<?php echo $item->plan->name; ?>
 				</dt>
 				<dt>
@@ -46,43 +46,43 @@ $date_helper = Axisubs::date();
 					</span>
 					<?php echo $this->readable_items[$k]->status; ?>
 				</dt>
-				
+
 				<dt class="hide">
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_TITLE_SUBSCRIPTIONS_REFERENCES');?>:
-					</span> 
+					</span>
 					<?php echo $item->references; ?>
 				</dt>
 			</dl>
 		</div>
 
-		<div class="col-md-4 planpadding">
+		<div class="col-md-3 planpadding">
 			<dl>
 				<dt>
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_CUSTOMERSS_NAME');?>:
-					</span> 
+					</span>
 					<?php  echo $item->subscriptioninfo->billing_first_name.$item->subscriptioninfo->billing_last_name; ?>
 				</dt>
 				<dt>
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_USERS_FIELD_EMAIL');?>:
 					</span>
-					<?php  echo  $item->subscriptioninfo->billing_email; ?>
+					<a href="mailto:<?php  echo  $item->subscriptioninfo->billing_email; ?>"><?php  echo  $item->subscriptioninfo->billing_email; ?></a>
 				</dt>
 				<dt>
 					<span class="pcolor">
-						<?php echo JText::_('COM_AXISUBS_CUSTOMER_COMPANY');?>:
+						<?php echo JText::_('AXISUBS_ADDRESS_COMPANY_NAME');?>:
 					</span>
 					<?php echo  $item->subscriptioninfo->billing_company; ?>
 				</dt>
 				<dt class="hide">
 					<span class="pcolor">
-						<?php echo JText::_('COM_AXISUBS_CUSTOMER_PHONE');?>:
+						<?php echo JText::_('AXISUBS_ADDRESS_PHONE');?>:
 					</span>
 					<?php  echo $item->subscriptioninfo->billing_phone; ?>
 				</dt>
-			</dl>		
+			</dl>
 		</div>
 		<div class="col-md-3 planpadding">
 			<dl>
@@ -103,12 +103,18 @@ $date_helper = Axisubs::date();
 	                    <span class="pcolor">
 	                        <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_ENDS_ON');?>
 	                    </span>
-	                    <?php echo $date_helper->get_formatted_date ( $item->current_term_end ); ?>
+	                    <?php
+						if($item->plan->plan_type){
+							echo $date_helper->get_formatted_date ( $item->current_term_end );
+						} else {
+							echo JText::_('COM_AXISUBS_PLAN_RECURRING_UNLIMIT');
+						}
+						?>
 	                </dt>
 	                <dt>
 	                    <span class="pcolor">
-	                    	 <?php 
-	                            $now = $date_helper->getCarbonDate(); 
+	                    	 <?php
+	                            $now = $date_helper->getCarbonDate();
 	                            $term_start = $date_helper->getCarbonDate( $item->current_term_start );
 	                            $term_end = $date_helper->getCarbonDate( $item->current_term_end );
 	                            if ( $term_start->gte($now) ){
@@ -117,19 +123,19 @@ $date_helper = Axisubs::date();
 	                            ?>
 	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_DAYS_TO_START'); ?>
 	                                <?php echo $no_of_days_to_start; ?> Days
-	                            <?php 
+	                            <?php
 	                            }elseif ( $term_start->lte($now) && $term_end->gte($now)){
 	                                // trial is running - show no of days remaining
 	                                $no_of_days_to_end = $term_end->diffInDays( $now ) ;
 	                            ?>
-	                                <?php echo $no_of_days_to_end; ?> 
+	                                <?php echo $no_of_days_to_end; ?>
 	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_DAYS_REMAINING'); ?>
 	                            <?php
 	                            }else {
 	                                // Trial period ended
 	                            ?>
 	                                <?php echo JText::_('COM_AXISUBS_TERM_STATUS_ENDED'); ?>
-	                            <?php    
+	                            <?php
 	                            }
 	                        ?>
 	                    </span>
@@ -139,28 +145,28 @@ $date_helper = Axisubs::date();
 					<span class="pcolor">
 						<?php echo JText::_('COM_AXISUBS_PLAN_PRICE');?>:
 					</span>
-					<?php echo $curr->format( $item->total, $item->currency); ?>
+					<span class="axisubs_plan_price-bold"><?php echo $curr->format( $item->total, $item->currency); ?></span>
 				</dt>
 			</dl>
 		</div>
-		<div class="col-md-1 planpadding">
+		<div class="col-md-2 planpadding">
 			<div class="table-col table-options">
 				<dl>
 					<dt>
-						<a href="<?php echo JRoute::_('index.php?option=com_axisubs&view=Subscriptions&id='.$item->axisubs_subscription_id.'&task=read');?>"class="aview">
-							<i class="fa fa-align-justify"></i>
+						<a class="btn-small hasTooltip" data-original-title="View" href="<?php echo JRoute::_('index.php?option=com_axisubs&view=Subscriptions&id='.$item->axisubs_subscription_id.'&task=read');?>">
+							<i class="fa fa-search"></i> <?php echo JText::_('COM_AXISUBS_VIEW_DETAILS');?></a>
 						</a>
 					</dt>
-			
+
 					<dt>
 						<div class="dropdown dropplan">
-							<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-							<span class="icon-cog"></span>
+							<a class="dropdown-toggle btn" href="#" data-toggle="dropdown">
+							<span class="icon-cog"></span> <?php echo JText::_('COM_AXISUBS_OPTION_DETAILS');?>
 							</a>
 							<ul class="dropdown-menu pull-right">
 								<li>
 								<a href="index.php?option=com_axisubs&view=Subscription&id=<?php echo $item->axisubs_subscription_id; ?>"><?php echo JText::_('COM_AXISUBS_CUSTOMER_ACTION_CHANGE_SUBSCRIPTION');?></a>
-								</li>	
+								</li>
 								<li>
 									<a href="#"><?php echo JText::_('COM_AXISUBS_CUSTOMER_ACTION_CHANGE_CUSTOMER_DETAILS');?></a>
 								</li>
@@ -174,17 +180,6 @@ $date_helper = Axisubs::date();
 	<?php }  ?>
 
 </div>
-<script>
-jQuery(document).ready(function(){
-	jQuery('div.dropdown').hover(function() {
-	  jQuery(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
-	}, function() {
-	  jQuery(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(300);
-	});
-});
-</script>
-
-
 <style>
 .chzn-container-single .chzn-single{
 margin-bottom:10px;

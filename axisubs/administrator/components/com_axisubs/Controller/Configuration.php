@@ -36,7 +36,7 @@ class Configuration extends DataController {
 	public function cancel(){
 		$app = \JFactory::getApplication();
 		$url  ='index.php?option=com_axisubs';
-		$app->redirect($url,$msg,$msgType='');
+		$app->redirect($url);
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class Configuration extends DataController {
 
 		$app = \JFactory::getApplication();
 		$model = $this->getModel('configurations');
-		$data = $app->input->getArray($_POST);
+		$data = $app->input->post->getArray();
 		$task = $this->getTask();
 		$token = \JSession::getFormToken();
 

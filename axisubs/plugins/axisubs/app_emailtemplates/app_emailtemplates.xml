@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="axisubs" method="upgrade">
-    <name>Email Sender app for Axisubs</name>
+    <name>Email Sender</name>
     <version>1.0</version>
     <creationDate>April 2016</creationDate>
     <author>Sasi varna kumar</author>

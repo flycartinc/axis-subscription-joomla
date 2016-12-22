@@ -12,9 +12,9 @@ $doc->addStyleSheet(JUri::root().'media/com_axisubs/css/font-awesome.min.css');
 $icons = array (
 		'COM_AXISUBS_MAINMENU_DASHBOARD' => 'fa fa-th-large',
 		'COM_AXISUBS_MAINMENU_CUSTOMERS' => 'fa fa-user',
-		'COM_AXISUBS_MAINMENU_SUBSCRIPTIONS' => 'fa fa-rss',
+		'COM_AXISUBS_MAINMENU_SUBSCRIPTIONS' => 'fa fa-usd',
 		'COM_AXISUBS_MAINMENU_PLANS' => 'fa fa-file-powerpoint-o',
-		'COM_AXISUBS_MAINMENU_REPORTS' => 'fa fa-sticky-note',
+		'COM_AXISUBS_MAINMENU_REPORTS' => 'fa fa-signal',
 		'COM_AXISUBS_MAINMENU_APPS' => 'fa fa-th',
 		'COM_AXISUBS_MAINMENU_SETUP' => 'fa fa-cubes',
 		'Payments' => 'fa fa-money',
@@ -39,7 +39,7 @@ $menus =  array (
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_SUBSCRIPTIONS' ),
 				'viewname' => 'Subscriptions',
-				'icon' => 'fa fa-rss'
+				'icon' => 'fa fa-usd'
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_PLANS' ),
@@ -49,7 +49,7 @@ $menus =  array (
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_REPORTS' ),
 				'viewname' => 'Reports',
-				'icon' => 'fa fa-sticky-note'
+				'icon' => 'fa fa-signal'
 		),
 		array (
 				'name' => JText::_ ( 'COM_AXISUBS_MAINMENU_APPS' ),
@@ -100,7 +100,7 @@ $menus =  array (
                   </li>
                  <?php else:?>
                   <li>
-						<a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo 'index.php?option=com_axisubs&view='.$value['viewname']; ?>">							
+						<a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo 'index.php?option=com_axisubs&view='.$value['viewname']; ?>">
 							<i class="<?php echo isset($value['icon']) ? $value['icon'] : '';?>"></i>
                   			<span class="submenu-title"><?php echo $value['name'];?></span>
 						</a>

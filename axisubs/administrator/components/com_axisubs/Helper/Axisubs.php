@@ -18,6 +18,8 @@ use Flycart\Axisubs\Admin\Helper\Currency;
 use Flycart\Axisubs\Admin\Helper\Plugin;
 use Flycart\Axisubs\Admin\Helper\PaymentFactory;
 use Flycart\Axisubs\Admin\Helper\Date;
+use Flycart\Axisubs\Admin\Helper\Duration;
+use Flycart\Axisubs\Admin\Helper\SetSessionData;
 use Carbon\Carbon;
 /**
  * Axisubs helper.
@@ -68,4 +70,28 @@ class Axisubs
 	public static function shortcodes(){
 		return ShortCodes::getInstance();
 	}
+
+	public static function duration(){
+		return Duration::getInstance();
+	}
+
+	public static function setSessionData() {
+		return SetSessionData::getInstance();
+	}
+
+	public static function isPro() {
+		$isPro = defined('AXISUBS_PRO') ? AXISUBS_PRO : 0;
+		return $isPro;
+	}
+
+	public static function buildHelpLink($url, $content='app') {
+
+		$source = 'axisubs';		
+		$utm_query ='?utm_source='.$source.'&utm_medium=component&utm_campaign=inline&utm_content='.$content;
+		$domain = 'https://flycart.org';
+
+		$fullurl = $domain.'/'.$url.$utm_query;
+		return $fullurl;
+	}
+
 }

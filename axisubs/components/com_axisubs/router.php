@@ -124,8 +124,18 @@ class AxisubsRouter extends JComponentRouterBase {
 				break;	
 			case 'Subscribe' :
 			case 'subscribe' :
+				$qoptions = array (
+							'option' => 'com_axisubs',
+							'view' => ucfirst( $view )
+							);
+				$subs_menu = Router::findMenu($qoptions);
+				if (!empty($subs_menu)) {
+					$Itemid = $subs_menu->id;
+					$query ['Itemid'] = $Itemid;
+				}
+
 				$plan_slug = Router::getAndPop ( $query, 'plan' );
-				// Is it a mycart menu?
+				// Is it a Subscribe menu?
 				if ($Itemid) {
 					$menu = $menus->getItem ( $Itemid );
 					$mView = isset ( $menu->query ['view'] ) ? $menu->query ['view'] : 'subscribe';
@@ -154,10 +164,9 @@ class AxisubsRouter extends JComponentRouterBase {
 						$segments [] = $task;
 					}
 					
-					if (isset ( $plan_slug )) {
+					if (!empty( $plan_slug )) {
 						$segments [] = $plan_slug;
 					}
-
 					// Joomla! will let the menu item naming work its magic
 					$query ['Itemid'] = $Itemid;
 				}
@@ -201,16 +210,12 @@ class AxisubsRouter extends JComponentRouterBase {
 
 
 	public function parse(&$segments) {
-		//var_dump($segments);
 		$query = array ();
 		$menus = JMenu::getInstance ( 'site' );
 		$menu = $menus->getActive ();
 		$vars = array ();
 		$total = count ( $segments );
-		/*for($i = 0; $i < $total; $i ++) {
-			$segments [$i] = preg_replace ( '/-/', ':', $segments [$i], 1 );
-		}*/
-		$subs_tasks = array( 'paySubscription', 'subscribeUser','confirmPayment', 'renew' );
+		$subs_tasks = array( 'paySubscription', 'loginUser', 'subscribeUser','confirmPayment', 'renew', 'removeSubscription' );
 
 		if (is_null ( $menu ) && count ( $segments )) {
 			if ($segments [0] == 'Plans' || $segments [0] == 'plans') {

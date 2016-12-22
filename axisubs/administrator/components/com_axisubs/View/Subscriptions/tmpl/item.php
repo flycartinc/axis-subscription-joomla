@@ -12,6 +12,12 @@ $this->subscriptioninfo = $this->item->subscriptioninfo ;
 $curr = Axisubs::currency();
 $date_helper = Axisubs::date();
 $status_helper = Axisubs::status();
+
+JHTML::_('behavior.modal');
+
+//To trigger plugin for loading additional buttons
+$plugin_helper = Axisubs::plugin();
+$this->additionalButtons = $plugin_helper->eventWithHtml('LoadButtonsInSubscriptionDetail', array($this, $this->item));
 ?>
 
 <div class="axisubs-bs3">
@@ -59,6 +65,83 @@ $status_helper = Axisubs::status();
                                         </span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="">
+                                        <?php echo JText::_('AXISUBS_CODE_SUBSCRIPTION_PLAN_PRICE');?>
+                                    </td>
+                                    <td class="">
+                                        <span class="plan_amount">
+                                            <?php echo $curr->format( $this->item->plan_price, $this->item->currency); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <?php if($this->item->setup_fee > 0){ ?>
+                                    <tr>
+                                        <td class="">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_SETUP_FEE');?>
+                                        </td>
+                                        <td class="">
+                                            <span class="plan_amount">
+                                                <?php echo $curr->format( $this->item->setup_fee, $this->item->currency); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php } if($this->item->tax > 0){ ?>
+                                    <?php
+                                    $paramsArray = $this->item->params;
+                                    if(isset($paramsArray['tax_details']) && !empty($paramsArray['tax_details'])){
+                                        foreach($paramsArray['tax_details'] as $taxDetail){
+                                            ?>
+                                            <tr>
+                                                <td class="">
+                                                    <?php echo $taxDetail['label']; ?>(<?php echo $taxDetail['rate']; ?>%)
+                                                </td>
+                                                <td class="">
+                                                    <span class="plan_amount">
+                                                        <?php echo $curr->format( $taxDetail['price'], $this->item->currency); ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td class="">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TOTAL_TAX');?>
+                                        </td>
+                                        <td class="">
+                                            <span class="plan_amount">
+                                                <?php echo $curr->format( $this->item->tax, $this->item->currency); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php }
+                                if($this->item->discount > 0){ ?>
+                                    <tr>
+                                        <td class="">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_DISCOUNT_AMOUNT');?>
+                                        </td>
+                                        <td class="">
+                                            <span class="plan_amount">
+                                                <?php echo $curr->format( $this->item->discount, $this->item->currency); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php }
+                                if($this->item->discount_tax > 0){ ?>
+                                    <tr>
+                                        <td class="">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TOTAL_DISCOUNT_TAX');?>
+                                        </td>
+                                        <td class="">
+                                            <span class="plan_amount">
+                                                <?php echo $curr->format( $this->item->discount_tax, $this->item->currency); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php }
+                                ?>
                             </table>
                         </div>
                         <div class="col-md-6">
@@ -77,6 +160,11 @@ $status_helper = Axisubs::status();
                                             </tr>
                                         </table>
                                     </div> 
+                                </div>
+                                <div class="viewdetail">
+                                    <div class="viewdetail-buttons_con">
+                                        <?php echo $this->additionalButtons; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +254,12 @@ $status_helper = Axisubs::status();
                                         <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_ENDS_ON');?>
                                     </td>
                                     <td class="">
-                                    <?php echo $date_helper->get_formatted_date ( $this->item->current_term_end ); ?>
+                                    <?php
+                                    if($this->item->plan->plan_type){
+                                    echo $date_helper->get_formatted_date ( $this->item->current_term_end );
+                                    } else {
+                                        echo JText::_('COM_AXISUBS_PLAN_RECURRING_UNLIMIT');
+                                    } ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -209,33 +302,122 @@ $status_helper = Axisubs::status();
             </div>
 <!--END OF CUSTOMER DETAILS -->
 
-<!-- Current term Charges -->
-            <h2 class="viewtitle-text viewh">
-               <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_CHARGES');?>
-            </h2>
-            <div class="viewcontent2">No Charges found for current term</div>
-<!--Current term Charges -->
-
 <!-- NAVIGATION TAB -->
             <ul class="nav nav-tabs  viewsubscriptionTab">
-                    <li role="presentation" class="active">
-                        <a data-toggle="tab" href="#view-invoice"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_INVOICES');?></a>
-                    </li>
-                    <li role="presentation">
-                        <a data-toggle="tab" href="#view-credit-note"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CREDIT_NOTE');?></a>
-                    </li>
-                    <li role="presentation">
-                        <a data-toggle="tab" href="#view-transactions"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TRANSACTIONS');?></a>
-                    </li>
-                    <li role="presentation">
-                        <a data-toggle="tab" href="#view-eventLogs"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_EVENTS');?></a>
-                    </li>
-                    <li role="presentation">
-                    <a data-toggle="tab" href="#view-email"><?php echo JText::_('COM_AXISUBS_USERS_FIELD_EMAIL');?></a>
-                    </li>
-                </ul>
+                <li role="presentation" class="active">
+                    <a data-toggle="tab" href="#view-transactions"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TRANSACTIONS');?></a>
+                </li>
+                <!--<li role="presentation">
+                    <a data-toggle="tab" href="#view-invoice"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_INVOICES');?></a>
+                </li>-->
+                <li role="presentation">
+                    <a data-toggle="tab" href="#view-credit-note"><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_OTHERS');?></a>
+                </li>
+            </ul>
                 <div class="tab-content">
-                    <div id="view-invoice" class="tab-pane fade in active">
+                    <div id="view-transactions" class="tab-pane fade in active">
+                        <div class="view-no-result view-blank-space">
+                            <?php if(!isset($this->item->transaction->axisubs_transaction_id)){ ?>
+                            <span><?php echo JText::_('COM_AXISUBS_NO_TRANSACTION_AVAILABLE'); ?></span>
+                            <?php } else {
+                                $transactionAvailable = 0;
+                                ?>
+                                <div class="transaction-history-c">
+                                    <?php if($this->item->transaction->transaction_status){ ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_NO_TRANSACTION_STATUS'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <?php
+                                            $transactionAvailable = 1;
+                                            echo $status_helper->get_transactionStatusText($this->item->transaction->transaction_status);
+                                            ?>
+                                        </span>
+                                    </div>
+                                    <?php }
+                                    if($this->item->transaction->payment_processor != ''){
+                                    ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_PAYMENT_TYPE'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <?php
+                                            $transactionAvailable = 1;
+                                            echo JText::_('COM_AXISUBS_'.strtoupper($this->item->transaction->payment_processor));
+                                            ?>
+                                        </span>
+                                    </div>
+                                    <?php }
+                                    if($this->item->transaction->processor_status != ''){
+                                    ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PAYMENT_STATUS'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <?php
+                                            $transactionAvailable = 1;
+                                            echo strtoupper($this->item->transaction->processor_status);
+                                            ?>
+                                        </span>
+                                    </div>
+                                    <?php }
+                                    if($this->item->transaction->transaction_ref_id != ''){
+                                    ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PAYMENT_TRANSACTION_REFFERENCE_ID'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <?php
+                                            $transactionAvailable = 1;
+                                            echo strtoupper($this->item->transaction->transaction_ref_id);
+                                            ?>
+                                        </span>
+                                    </div>
+                                    <?php }
+                                    if($this->item->transaction->transaction_currency != ''){
+                                    ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_TRANSACTION_PAID_AMOUNT'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <?php
+                                            $transactionAvailable = 1;
+                                            echo strtoupper($this->item->transaction->transaction_amount).' '.$this->item->transaction->transaction_currency;
+                                            ?>
+                                        </span>
+                                    </div>
+                                    <?php }
+                                    if($this->item->transaction->postpayment != ''){
+                                        $transactionAvailable = 1;
+                                    ?>
+                                    <div class="transaction-history-item">
+                                        <span class="transaction-history-text">
+                                            <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PAYMENT_RESPONSE'); ?>
+                                        </span>
+                                        <span class="transaction-history-data">
+                                            <a href="#datatoload" class="modal"><?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PAYMENT_RESPONSE_BUTTON'); ?></a>
+                                            <div id="datatoload">
+                                                <h3><?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PAYMENT_RESPONSE'); ?></h3>
+                                                <div class="datatoload-con">
+                                                    <?php echo $this->item->transaction->postpayment; ?>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                                <?php if(!$transactionAvailable){?>
+                                    <span><?php echo JText::_('COM_AXISUBS_NO_TRANSACTION_AVAILABLE'); ?></span>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <!--<div id="view-invoice" class="tab-pane fade in active">
                         <div class="view-bootstrap-filter">
                             <form class="form-inline" action="/invoices/tab" data-view-table-option-form="form">    
                             </form>
@@ -243,41 +425,15 @@ $status_helper = Axisubs::status();
                         <div class="view-no-result view-blank-space">
                             <span>No <a>invoices</a> found for this subscription</span>
                         </div>
-                    </div>
-                    <div id="view-transactions" class="tab-pane fade">
-                        <div class="view-bootstrap-filter">
-                            <form class="form-inline" action="/transactions/tab" data-view-table-option-form="form">    
-                            </form>
-                        </div>
-                        <div class="view-no-result view-blank-space">
-                            <span>No <a>transactions</a> found for this subscription</span>
-                        </div>
-                    </div>
+                    </div>-->
+
                     <div id="view-credit-note" class="tab-pane fade">
                         <div class="view-bootstrap-filter">
-                            <form class="form-inline" action="/credit_notes/tab" data-view-table-option-form="form">    
+                            <form class="form-inline" action="/others/tab" data-view-table-option-form="form">
                             </form>
                         </div>
                         <div class="view-no-result view-blank-space">
-                            <span>No <a>credit notes</a> found for this subscription</span>
-                        </div>
-                    </div>
-                    <div id="view-eventLogs" class="tab-pane fade">
-                        <div class="view-bootstrap-filter">
-                            <form class="form-inline" action="/events/tab" data-view-table-option-form="form">    
-                            </form>
-                        </div>
-                        <div class="view-no-result view-blank-space">
-                            <span>No <a>events</a> found for this customer</span>
-                        </div>
-                    </div>
-                    <div id="view-email" class="tab-pane fade">
-                        <div class="view-bootstrap-filter">
-                            <form class="form-inline" action="/events/tab" data-view-table-option-form="form">    
-                            </form>
-                        </div>
-                        <div class="view-no-result view-blank-space">
-                            <span>No <a>emails</a> found for this customer</span>
+                            <span>No <a>data</a> found for this subscription</span>
                         </div>
                     </div>
                 </div>
@@ -400,9 +556,21 @@ $status_helper = Axisubs::status();
     <div class="viewtimeline-container">
         <h3><?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TIMELINE');?></h3>
         <ul>
-            <li>Signed up on 23-Oct-2014 12:55</li>
-            <li>Started on 23-Oct-2014 12:55</li>
-            <li>Trial Ends on 07-Nov-2014 12:55</li>
+            <?php
+            echo "<li>";
+            echo JText::_('COM_AXISUBS_SUBSCRIBE_TIMELINE_SIGNEDUP_ON').' <b>'.$date_helper->format($this->item->created_on);
+            echo "</b></li>";
+            echo "<li>";
+            echo JText::_('COM_AXISUBS_SUBSCRIBE_TIMELINE_STARTED_ON').' <b>'.$date_helper->format($this->item->current_term_start);
+            echo "</b></li>";
+            echo "<li>";
+            echo JText::_('COM_AXISUBS_SUBSCRIBE_TIMELINE_END_ON').' <b>'.$date_helper->format($this->item->current_term_end);
+            echo "</b></li>";
+            if($this->item->trial_end != '0000-00-00 00:00:00'){ 
+                echo "<li>";
+                echo JText::_('COM_AXISUBS_SUBSCRIBE_TIMELINE_TRIAL_STARTS_ON').' <b>'.$date_helper->format($this->item->trial_end);
+                echo "</b></li>";
+            } ?>
         </ul>
     </div>
 </div>

@@ -175,6 +175,22 @@ class PaymentFactory
 	}
 
 	/**
+	 * Validate Address for process payment */
+	function validateAddressForPayment($payment_plugin, $customer){
+		$app = JFactory::getApplication ();
+		JPluginHelper::importPlugin ( 'axisubs' );
+		$results = $app->triggerEvent( "onAxisubsAddressValidation_".$payment_plugin, array (
+			$payment_plugin,
+			$customer
+		) );
+		if(isset($results[0])){
+			return $results[0];
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	 * Method to validate the selected Payment method and its form values
 	 * */
 	//function validatePaymentForm( $payment_plugin, $values ) {

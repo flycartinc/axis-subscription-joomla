@@ -96,7 +96,7 @@ class App extends Base
 	}
 
 	/**
-	 * Get a variable from the JRequest object
+	 * Get a variable from the post object
 	 * @param unknown_type $name
 	 */
 	public function getAppVar( $name )
@@ -143,8 +143,9 @@ class App extends Base
 
 		foreach ( $state->getProperties( ) as $key => $value )
 		{
-			$new_value = JRequest::getVar( $key );
-			$value_exists = array_key_exists( $key, JRequest::get( 'post' ) );
+			$app = JFactory::getApplication();
+			$new_value = $app->input->get($key);
+			$value_exists = array_key_exists( $key, $app->input->post->getArray());
 			if ( $value_exists && !empty( $key ) )
 			{
 				$state->$key = $new_value;

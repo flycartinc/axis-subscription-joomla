@@ -12,6 +12,7 @@ use Carbon\Carbon;
 /**
  * Trait for check() method assertions
  */
+
 trait CarbonHelper
 {
 	/**

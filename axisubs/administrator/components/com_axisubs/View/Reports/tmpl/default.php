@@ -15,8 +15,8 @@ $sidebar = JHtmlSidebar::render();
     <?php endif;?>
     <div id="j-main-container" class="col-md-12 ">
         <h2>Reports</h2>
-    </div>
-    <div class="well">
-    	<h2 class="center">Under Construction</h2>
+        <div class="well">
+        	<h2 class="center">Under Construction</h2>
+        </div>
     </div>
 </div>

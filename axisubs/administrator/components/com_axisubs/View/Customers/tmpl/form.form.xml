@@ -7,10 +7,10 @@
     >
         <field name="new_or_existing_customer" type="NewExistingCustomer" 
                 label="COM_AXISUBS_CUSTOMER_DUMMY" class=" btn-group "
-                onchange="switchUserFields()" onclick="switchUserFields()"
+                default="existing"
                 >
-                <option value="new">New</option>
-                <option value="existing">Existing</option>
+                <option onclick="switchUserFields(this.value)" value="new">New</option>
+                <option onclick="switchUserFields(this.value)" value="existing">Existing</option>
         </field>
         <field
             name="user_id"
@@ -18,15 +18,15 @@
             label="COM_AXISUBS_SUBSCRIPTION_USER"
             class="existing"
         />
-		<field name="first_name" type="Text" label="COM_AXISUBS_CUSTOMER_FIRST_NAME"
+		<field name="first_name" type="Text" label="AXISUBS_ADDRESS_FIRST_NAME"
                 data-field-group="new" />
-        <field name="last_name" type="Text" label="COM_AXISUBS_CUSTOMER_LAST_NAME"
+        <field name="last_name" type="Text" label="AXISUBS_ADDRESS_LAST_NAME"
                 data-field-group="new" />
 
 		<field
         name="company"
         type="Text"
-        label="COM_AXISUBS_USERS_FIELD_COMPANY"
+        label="AXISUBS_ADDRESS_COMPANY_NAME"
         class="new"
 		/>
 		<field
@@ -35,10 +35,22 @@
         label="COM_AXISUBS_USERS_FIELD_EMAIL"
         class="new"
 		/>
+        <field
+                name="password"
+                type="password"
+                label="COM_AXISUBS_CUSTOMER_PASSWORD1"
+                class="new"
+        />
+        <field
+                name="password2"
+                type="password"
+                label="COM_AXISUBS_CUSTOMER_PASSWORD2"
+                class="new"
+        />
 		<field
         name="phone"
         type="Text"
-        label="COM_AXISUBS_USERS_FIELD_PHONE"
+        label="AXISUBS_ADDRESS_PHONE"
         
 		/>
 		
@@ -46,25 +58,25 @@
         <field
             name="address1"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_ADDRESS1"
+            label="AXISUBS_ADDRESS_LINE1"
         />
 
         <field
             name="address2"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_ADDRESS2"
+            label="AXISUBS_ADDRESS_LINE2"
         />
 
         <field
             name="city"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_CITY"
+            label="AXISUBS_ADDRESS_CITY"
         />
 
         <field
             name="zip"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_ZIP"
+            label="AXISUBS_ADDRESS_ZIP"
         />
     
         <field
@@ -72,7 +84,7 @@
             type="GenericList"
             source_class="\Flycart\Axisubs\Admin\Helper\Select"
             source_method="getCountries"
-            label="COM_AXISUBS_USERS_FIELD_COUNTRY"
+            label="AXISUBS_ADDRESS_COUNTRY"
         />
 
         <field
@@ -80,19 +92,19 @@
             type="GenericList"
             source_class="\Flycart\Axisubs\Admin\Helper\Select"
             source_method="getStates"
-            label="COM_AXISUBS_USERS_FIELD_STATE"
+            label="AXISUBS_ADDRESS_STATE"
         />
 
         <field
             name="company"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_COMPANY"
+            label="AXISUBS_ADDRESS_COMPANY_NAME"
         />
 
         <field
             name="vat_number"
             type="Text"
-            label="COM_AXISUBS_USERS_FIELD_VATNUMBER"
+            label="AXISUBS_ADDRESS_TAX_NUMBER"
         />
 
         <field

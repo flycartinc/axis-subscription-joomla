@@ -15,9 +15,7 @@ use JFactory;
 use JFile;
 use JPlugin;
 use JSession;
-use JRequest;
 use JLoader;
-use JUtility;
 
 if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
@@ -206,9 +204,10 @@ class Base extends JPlugin
 	 */
 	function _checkToken( $suffix='', $method='post' )
 	{
-		$token  = JUtility::getToken();
+		$app = JFactory::getApplication();
+		$token  = JSession::getFormToken();
 		$token .= ".".strtolower($suffix);
-		if (JRequest::getVar( $token, '', $method, 'alnum' ))
+		if ($app->input->get($token))
 		{
 			return true;
 		}
@@ -240,7 +239,8 @@ class Base extends JPlugin
 	 */
 	function _getTokenSuffix( $method='post' )
 	{
-		$suffix = JRequest::getVar( 'tokenSuffix', '', $method );
+		$app = JFactory::getApplication();
+		$suffix = $app->input->get('tokenSuffix');
 		if (!$this->_checkToken($suffix, $method))
 		{
 			// what to do if there isn't this suffix's token in the request?
@@ -341,7 +341,7 @@ class Base extends JPlugin
 		$isLog = $this->params->get('debug',0);
 		if ($isLog) {
 			$file = JPATH_ROOT . "/cache/{$this->_element}.txt";
-			$date = JFactory::getDate();
+			$date = \JDate::getInstance();
 
 			$f = fopen($file, 'a');
 			fwrite($f, "\n\n" . $date->format('Y-m-d H:i:s'));

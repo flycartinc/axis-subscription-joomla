@@ -15,6 +15,7 @@
 .axisubs-bs3 #p-main-content {
     line-height: 22px;
 }
+.axisubs-bs3 #axisub-login-form,
 .axisubs-bs3 #p-main-content,
 .axisubs-bs3 #p-billing,
 .axisubs-bs3 #p-shipping,
@@ -27,8 +28,8 @@
     -webkit-border-radius: 5px;
     margin-bottom: 15px;
     padding: 15px;
-    background-color: #F5F5F5;
-    border: 1px solid #e3e3e3;
+    background-color: #fff;
+    border: 1px solid #ddd;
 }
 .axisubs-bs3 #p-main-content h3 {
     border-radius: 5px 5px 0 0;
@@ -36,11 +37,13 @@
     -webkit-border-radius: 5px 5px 0 0;
     margin: -16px -16px 9px -16px;
     padding: 9px 15px;
-    background: #352d45;
-    color: #ffffff;
+    background: #ffffff;
+    color: #c1c1c1;
+    border: 1px solid #ddd;
+    font-size: 18px;
 }
 .axisubs-bs3 #p-main-content strong {
-    font-weight: normal;
+    font-weight: bold;
 }
 .axisubs-bs3 #p-main-content ul {
     margin-bottom: 0;
@@ -73,15 +76,15 @@
     color: #000000;
 }
 .axisubs-bs3 .j2error{
-    font-size: 12px;    
+    font-size: 12px;
     color: red;
 }
 
-.axisubs-bs3 input[type="text"], 
-.axisubs-bs3 input[type="password"], 
-.axisubs-bs3 input[type="search"], 
-.axisubs-bs3 input[type="email"], 
-.axisubs-bs3 select, 
+.axisubs-bs3 input[type="text"],
+.axisubs-bs3 input[type="password"],
+.axisubs-bs3 input[type="search"],
+.axisubs-bs3 input[type="email"],
+.axisubs-bs3 select,
 .axisubs-bs3 textarea {
     border-radius: 0px;
 }
@@ -89,7 +92,359 @@
 .axisubs-bs3 label{
     font-weight: 10;
 }
+/************** Checkout view-Subscribe ***************************/
+#axisubs_subscribe_form .axisubs-bs3 .head-title {
+  text-transform: capitalize;
+  margin-bottom: 20px;
+  float: left;
+  text-align: left;
+}
+#axisubs_subscribe_form .axisubs-bs3 .help {
+  text-align: right;
+  float: right;
+  line-height: 6;
+}
+#axisubs_subscribe_form .axisubs-bs3 .help a {
+  color: #0052CC;
+  box-shadow: 0 1px 0 0 #0052CC;
+}
+#axisubs_subscribe_form .axisubs-bs3 .help a:hover {
+  box-shadow: none;
+  text-decoration: none;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .btn-primary {
+  background: #0052CC;
+  color: #fff;
+  border-color: #0052CC;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .btn-primary:hover,
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .btn-primary:focus {
+  background: #003d99;
+}
+.axisubs-bs3 #p-main-content {
+  padding: 0;
+  background-color: #fff;
+  overflow: hidden;
+  border-radius: 0px;
+  margin-bottom: 30px;
+}
+ #p-main-content #p-order .list-unstyled.header-list {
+  border-bottom: 1px solid #ddd;
+  margin-left: 0px;
+}
+#p-main-content #p-order .list-unstyled .product_price{
+  font-weight: bold;
+}
+#p-main-content #p-order #p-order-summary-main-list .list-unstyled .text-right{
+    padding: 5px;
+}
+#p-main-content #p-order #p-order-summary-main-list .list-unstyled .row{
+  display: flex;
+}
+#p-main-content #p-order #p-order-summary-main-list .list-unstyled .text-right div{
+  margin: 8px 0;
+}
+.axisubs-bs3 #p-main-content #p-order .list-unstyled.header-list div {
+  color: #c1c1c1;
+  font-size: 16px;
+  line-height: 3;
+}
+@media(max-width: 389px){
+  .axisubs-bs3 #p-main-content #p-order .list-unstyled.header-list div{
+    line-height: 1.5;
+  }
+  .axisubs-bs3 #p-main-content #p-order .list-unstyled.header-list .summary-list{
+    line-height: 3;
+  }
+}
+.axisubs-bs3 #p-main-content #p-order .list-unstyled {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 0px;
+}
+.axisubs-bs3 #p-main-content #p-order .list-unstyled .summary-list {
+  display: inline-flex;
+  border-right: 1px solid #ddd;
+  line-height: 2.3;
+    padding: 5px;
+}
+@media(max-width: 478px){
+  .axisubs-bs3 #p-main-content #p-order .list-unstyled .summary-list{
+    display: block;
+  }
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp #p-main-content #p-order .list-unstyled .summary-list .list-image {
+  max-width: 100px;
+  margin-top: 15px;
+}
+.axisubs-bs3 #p-main-content #p-order .list-unstyled .summary-list .list-content{
+  padding-left: 10px;
+}
+.axisubs-bs3 #p-main-content #p-order .list-unstyled .summary-list .list-content span.product-title {
+  display: block;
+  font-size: 18px;
+}
+.axisubs-bs3 #p-main-content #p-order #p-order-total {
+  margin: 0;
+  border-top: 1px solid #ddd;
+  line-height: 3;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp #p-main-content .coupon-form{
+  padding: 10px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp #p-main-content .coupon-form input[type="text"]{
+  max-width: 150px;
+  margin-bottom: 0px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li a {
+  background: transparent !important;
+  border-bottom: 3px solid #999999;
+  color: #292d33 !important;
+  font-weight: bold;
+  border-radius: 0;
+  text-transform: uppercase;
+  margin-right: 0;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li a:hover,
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li a:focus {
+  background: transparent;
+  color: #292d33;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li a span {
+  color: #292d33 !important;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li.active a {
+  border-bottom: 3px solid #0052CC;
+  background: transparent;
+  color: #292d33;
+  margin-bottom: -3px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li.active a:hover,
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .axisubs_tab li.active a:focus {
+  background: transparent;
+  color: #292d33;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content {
+  padding: 30px 0;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content .form-group label {
+  font-weight: normal;
+  font-size: 18px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content .form-group input {
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  box-shadow: none;
+  width: 100%;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content h3 {
+  margin-bottom: 20px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-login {
+  border-radius: 0px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-login #axisub-login-form {
+  background-color: #fff;
+  tab-content: 0px;
+  border-radius: 0px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-login #axisub-login-form #l-main-form .unstyled {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 20px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-login #axisub-login-form #l-main-form .unstyled li {
+  display: inline-block;
+  padding: 10px;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-login #axisub-login-form #l-main-form .unstyled li a {
+  color: #0052CC;
+  display: inline-block;
+}
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-createuser #p-main-form #p-account,
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-createuser #p-main-form #p-billing,
+#axisubs_subscribe_form .axisubs-bs3 #p-wrapper-hp .tab-content #axis-subscribeform-createuser #p-main-form #p-payment {
+  background-color: #fff !important;
+  border-radius: 0px;
+}
+/************** Payment ***************************/
 
+@media(max-width: 585px){
+.task-paySubscription .axisubs-bs3 #p-main-content #p-order #p-order-summary-main-list.main-content .list-unstyled .summary-list{
+//  line-height: 2.3 !important;
+}
+}
+@media(max-width: 312px){
+  .task-paySubscription .axisubs-bs3 #p-main-content #p-order #p-order-summary-main-list.main-content .list-unstyled .text-right{
+  //  line-height: 2 !important;
+  }
+}
+.task-paySubscription .axisubs-bs3 #p-main-content #p-order #p-order-summary-main-list.main-content .list-unstyled .summary-list{
+  //line-height: 4.7;
+}
+.task-paySubscription .axisubs-bs3 #p-main-content #p-order #p-order-summary-main-list.main-content .list-unstyled .text-right{
+  //line-height: 6.5;
+}
+.user-info tbody tr td{
+  //line-height: 2 !important;
+}
+.user-info tbody tr td:nth-child(1){
+  font-weight: bold;
+  font-size: 14px;
+}
+.payment .pay-method{
+  font-size: 16px;
+  font-weight: bold;
+}
+.payment .pay-type{
+  font-weight: normal;
+}
+.payment .pay-button {
+  margin-top: 10px;
+  padding: 0 !important;
+}
+.payment .pay-button .btn{
+
+}
+/**************View Profile ***********************/
+.view-Profile .axisubs-bs3 .nav-tabs li a {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+  border-bottom: 3px solid #999999;
+  border-radius: 0;
+  color: #292d33 !important;
+  font-weight: bold;
+  margin-right: 0;
+  text-transform: uppercase;
+}
+.view-Profile .axisubs-bs3 .nav-tabs .active a {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border-bottom: 3px solid #0052cc !important;
+  color: #292d33;
+  margin-bottom: -3px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable {
+  margin-left: 30px;
+  margin-top: 20px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable td,
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable tr td {
+  border-top: 0px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable tr td {
+  padding: 15px 0;
+  text-align: center;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable tr td a {
+  text-decoration: none;
+  background-color: #0052cc;
+  border: 1px solid #0052cc;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 12px 15px;
+  text-transform: uppercase;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable tr .button4 {
+  width: 150px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .adminTable tr .button4 .readon {
+  background-color: #282937;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 12px 15px;
+  position: relative;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in 0s;
+  z-index: 1;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile {
+  padding-top: 30px;
+  padding-left: 0px; padding-right: 0px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info {
+  border-color: #ddd;
+  border-radius: 0px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .panel-heading {
+  background-color: #ffffff;
+  border-color: #ddd;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .panel-heading .panel-title {
+  color: #333333;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .panel-heading .panel-title i,
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .panel-heading .panel-title em {
+  color: #0052cc;
+  margin-right: 5px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour {
+  background-color: #ffffff;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td {
+  line-height: 2.3;
+  padding: 8px 0;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td i,
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td em {
+  color: #0052cc;
+  margin-right: 5px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td .btn-primary {
+  background: #0052cc;
+  color: #ffffff;
+  border: 1px solid #0048b3;
+  border-radius: 3px;
+  padding: 8px 15px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td .btn-primary:hover {
+  background: #0048b3;
+  color: #0052cc;
+  border: 1px solid #0044a8;
+  color: #ffffff;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr td .axisubs-active-subscr-list a {
+  color: #0052cc;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane .axisubs-profile .panel-info .pbgcolour .table tbody tr .axisubs-active-subscr-title {
+  color: #555555;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop{
+  padding-top: 30px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .subscriptions .table{
+  margin-bottom: 0px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .subscriptions .table tr td {
+  line-height: 2.4 !important;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .subscriptions .table tr td .label{
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .subscriptions .table tr td .btn-info {
+  background-color: #0052cc;
+  border-color: #0052cc;
+  border-radius: 3px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .subscriptions .table tr td .btn-success {
+  background-color: #0088CC;
+  border-color: #0088CC;
+  border-radius: 3px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .axisubs-past-subscription-lists .axisubs-past-subscription-lists-c h3{
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .axisubs-past-subscription-lists .axisubs-past-subscription-lists-c .axisubs-past-subscription-list .axisubs-text-b{
+  font-size: 14px;
+}
+.view-Profile .axisubs-bs3 .tab-content .tab-pane form .padtop .axisubs-past-subscription-lists .axisubs-past-subscription-lists-c .axisubs-past-subscription-list .btn{
+  border-radius: 3px;
+}
 /**************Card design**************************/
 #as-cards,
 #as-cvv,
@@ -210,81 +565,72 @@
 
 .axisubs-bs3 .padbot
 {
-padding-top:10px;
-padding-bottom:10px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 .axisubs-bs3 .padtop
 {
-padding-top:50px;
-padding-bottom:50px;
+    padding-top:50px;
+    padding-bottom:50px;
 }
 .axisubs-bs3 .padntop
 {
-padding-top:20px;
-padding-bottom:10px;
+    padding-top:50px;
+    padding-bottom:10px;
 }
 .axisubs-bs3 .jqpadding
 {
-padding: 8px 2px;
-border-radius: 4px;
-text-decoration: none !important;
-outline: none !important;
+    padding: 8px 2px;
+    border-radius: 4px;
+    text-decoration: none !important;
+    outline: none !important;
 }
 .axisubs-bs3 .outlne{
-outline: none !important;
+    outline: none !important;
 }
 
 .axisubs-bs3 .jqcollpadding
 {
-padding-top: 18px;
-padding-right: 2px;
-padding-left: 2px;
+    padding-top: 18px;
+    padding-right: 2px;
+    padding-left: 2px;
 }
 
 .axisubs-bs3 .jqpadding:hover {
-   
+
     text-decoration: none !important;
 }
 .axisubs-bs3 .blocknxt
 {
-display:block;
+    display:block;
 }
 .axisubs-bs3 .subspadtop
 {
-padding-top: 50px;
-padding-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 10px;
 }
 .axisubs-bs3 .subsnpadtop
 {
-padding-top: 20px;
-padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
 }
 .axisubs-bs3 .phead
 {
-padding-top: 15px !important;
-padding-bottom: 15px !important;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
 }
 .axisubs-bs3 .bordless
 {
-border-top: 0px !important;
+    border-top: 0px !important;
 }
 .axisubs-bs3 .pbgcolour
 {
-background-color: #EFFBFB;
+    background-color: #EFFBFB;
 }
 .axisubs-bs3 .p-main-content-botbord
 {
-margin-bottom: 50px!important;
+    margin-bottom: 50px!important;
 }
-.axisubs-bs3 .subsformwidth > select
-{
-width: 205px !important;
-}
-
-
-
-
-
 .axisubs-bs3 .viewhighlight-container > .viewdetail-box {
     line-height: 19px;
     color: #676767;
@@ -312,18 +658,89 @@ width: 205px !important;
 }
 .axisubs-bs3 .subsnpadbot
 {
-padding-bottom: 10px;
-padding-right:25px;
-padding-left:25px;
+    padding-bottom: 10px;
+    padding-right:25px;
+    padding-left:25px;
 }
 .axisubs-bs3 .subsnfont
 {
-font-size:16px;
+    font-size:16px;
 }
 .axisubs-bs3 .pcolor
 {
     color: #6f6f6f;
- }
-    .axisubs-bs3 .profpad{
+}
+.axisubs-bs3 .profpad{
     padding-bottom:10px;
-    }
+}
+.axisubs-postpayment-message{
+    padding: 10px;
+    margin: 10px 0;
+}
+.axisubs-bs3 ul.axisubs_tab li.active a,
+.axisubs-bs3 ul.axisubs_tab li.active a:hover,
+.axisubs-bs3 ul.axisubs_tab li.active a:focus,
+.axisubs-bs3 ul.axisubs_tab li.active a:visited{
+    background-color: #e3e3e3;
+}
+.axisubs-subscription-status {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    border-radius: 4px;
+    color: #fff;
+    margin: 5px 0;
+    padding: 10px;
+}
+.axisubs-subscription-status-header {
+    font-size: 15px;
+    font-weight: bold;
+}
+.axisubs-past-subscription-list {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+.axisubs-text-b {
+    font-weight: bold;
+}
+.axisubs-profile .bordless .fa{
+    color: #31708f;
+}
+.axisubs-active-subscr-title {
+    color: #31708f;
+    font-size: 16px;
+}
+.axisubs-active-subscr-list {
+    margin: 0 10px;
+}
+.axisubs-bs3 .row .col-md-4:nth-child(4n) {
+    clear: both;
+}
+.axisubs-bs3 .pagination {
+    vertical-align: middle;
+}
+/******** view plans *********/
+.view-Plans .axisubs-bs3 .well{
+  text-align: center;
+}
+.view-plans .axisubs-bs3 .well h2{
+  text-transform: capitalize;
+  margin :10px 0;
+  font-size: 26px;
+}
+.view-Plans .axisubs-bs3 .well p{
+  margin-bottom: 0px;
+}
+.view-Plans .axisubs-bs3 .well > hr{
+  margin: 10px 0;
+}
+.view-Plans .axisubs-bs3 .well h3{
+  font-size: 20px;
+  margin: 5px 0 10px;
+}
+.axisubs-bs3 .list-image {
+    padding: 10px;
+}
+.subsformwidth select {
+    width: 100%;
+}

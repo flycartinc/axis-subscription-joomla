@@ -290,9 +290,9 @@
         <query><![CDATA[
           CREATE TABLE IF NOT EXISTS `#__axisubs_taxratelocations` (
           `axisubs_taxratelocation_id` bigint(20) NOT NULL AUTO_INCREMENT,
-          `location_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `location_code` varchar(255)  NOT NULL,
           `tax_rate_id` bigint(20) NOT NULL,
-          `location_type` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+          `location_type` varchar(40)  NOT NULL,
           PRIMARY KEY (`axisubs_taxratelocation_id`),
           KEY `tax_rate_id` (`tax_rate_id`),
           KEY `location_type` (`location_type`),
@@ -305,15 +305,15 @@
         <query><![CDATA[            
           CREATE TABLE IF NOT EXISTS `#__axisubs_taxrates` (
             `axisubs_taxrate_id` bigint(20) NOT NULL AUTO_INCREMENT,
-            `tax_rate_country` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-            `tax_rate_state` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-            `tax_rate` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-            `tax_rate_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate_country` varchar(200)  NOT NULL DEFAULT '',
+            `tax_rate_state` varchar(200)  NOT NULL DEFAULT '',
+            `tax_rate` varchar(200)  NOT NULL DEFAULT '',
+            `tax_rate_name` varchar(200)  NOT NULL DEFAULT '',
             `tax_rate_priority` bigint(20) NOT NULL,
             `tax_rate_compound` int(1) NOT NULL DEFAULT '0',
             `tax_rate_shipping` int(1) NOT NULL DEFAULT '1',
             `tax_rate_order` bigint(20) NOT NULL,
-            `tax_rate_class` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+            `tax_rate_class` varchar(200)  NOT NULL DEFAULT '',
             PRIMARY KEY (`axisubs_taxrate_id`),
             KEY `tax_rate_country` (`tax_rate_country`(191)),
             KEY `tax_rate_state` (`tax_rate_state`(191)),
@@ -359,6 +359,36 @@
               PRIMARY KEY (`axisubs_zone_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
         ]]></query>
+    </action>
+    <action table="#__axisubs_plans" canfail="0">
+        <condition type="missing" value="plan_type" />
+        <query><![CDATA[
+            ALTER TABLE `#__axisubs_plans` ADD `plan_type` INT( 1 ) NOT NULL AFTER `locked_by` ;
+        ]]></query>
+    </action>
+    <action table="#__axisubs_plans" canfail="0">
+        <condition type="missing" value="period_unit" />
+        <query><![CDATA[
+        ALTER TABLE `#__axisubs_plans` ADD `period_unit` CHAR( 2 ) NOT NULL AFTER `period`;
+    ]]></query>
+    </action>
+    <action table="#__axisubs_plans" canfail="0">
+        <condition type="missing" value="trial_period_unit" />
+        <query><![CDATA[
+        ALTER TABLE `#__axisubs_plans` ADD `trial_period_unit` CHAR( 2 ) NOT NULL AFTER `trial_period`;
+    ]]></query>
+    </action>
+    <action table="#__axisubs_transactions" canfail="0">
+        <condition type="missing" value="subscription_ref_id" />
+        <query><![CDATA[
+    ALTER TABLE `#__axisubs_transactions` ADD `subscription_ref_id` VARCHAR( 255 ) NOT NULL AFTER `processor_status` ;
+    ]]></query>
+    </action>
+    <action table="#__axisubs_transactions" canfail="0">
+        <condition type="missing" value="billing_cycle" />
+        <query><![CDATA[
+    ALTER TABLE `#__axisubs_transactions` ADD `billing_cycle` INT( 10 ) NOT NULL AFTER `transaction_ref_id` ;
+    ]]></query>
     </action>
     </sql>
 </schema>

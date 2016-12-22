@@ -741,6 +741,9 @@ abstract class Select
 		asort($countries);
 
 		// Parse show / hide options
+		if ( empty($selected) || $selected == 'XX' ) {
+			$selected = Axisubs::config()->get('country_id'); 
+		}
 
 		// -- Initialisation
 		$show = array();
@@ -1142,6 +1145,19 @@ abstract class Select
 		}
 
 		return $container;
+	}
+
+	public static function plans($selected = null, $name = 'plan_id', $id = 'plan_id', $attribs = array())
+	{
+		$options   = array();
+		$options[] = JHtml::_('select.option', null, JText::_('COM_AXISUBS_DATE_FILTER_SELECT'));
+		$planModel = Container::getInstance('com_axisubs')->factory->model('Plans')->tmpInstance();
+		$plans = $planModel->get();
+		foreach ($plans as $key => $plan){
+			$options[] = JHtml::_('select.option', $plan->axisubs_plan_id, $plan->name);
+		}
+
+		return self::genericlist($options, $name, $attribs, $selected, $id);
 	}
 }
 

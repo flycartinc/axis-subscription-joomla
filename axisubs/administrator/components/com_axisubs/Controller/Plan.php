@@ -14,8 +14,22 @@ use FOF30\Container\Container;
 use JFactory;
 
 class Plan extends DataController
-{	
+{
+	// this function is for testing
+	public function exp(){
+		if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			throw new RuntimeException('FOF 3.0 is not installed', 500);
+		}
+		
+		$container = \FOF30\Container\Container::getInstance('com_axisubs');
+		$cliModel = $container->factory->model('CliActions')->tmpInstance();
 
+		$result = $cliModel->expiryControl();
+		print_r($result);echo "Success";
+		//echo implode("\n", $result['message']);
+		exit;
+	}
 	/**
 	 * A delete prompt to warn the users before deletion of a plan
 	 * After confirmation a soft delete is performed
@@ -50,6 +64,20 @@ class Plan extends DataController
 		$app->redirect('index.php?option=com_axisubs&view=Plans',\JText::_('COM_AXISUBS_LBL_PLAN_DELETED'),'warning');
 	}
 
+	function saveOrderAjax(){
+		$app = JFactory::getApplication();
+		$cids = $app->input->get('cid');
+		$order = $app->input->get('order');
+		foreach ($cids as $key => $val){
+			$plan = $this->getModel();
+			$plan->load($val);
+			$plan->ordering = $order[$key]; // change ordering
+			//$plan->ordering = $key; // change ordering
+			$plan->store();
+		}
+		echo 1;exit;
+	}
+
 	public function onBeforeRemove(){
 		$app = JFactory::getApplication();		
 		$plan_id = $app->input->get('id',0);
@@ -63,5 +91,20 @@ class Plan extends DataController
 			return ;
 		}
 
-	}	
+	}
+
+	/**
+	 * Load layout based on plan type
+	 * */
+	public function loadPlanTypeForm(){
+		$app = JFactory::getApplication();
+		$plan = $this->getModel();
+		$view = $this->getView();
+		$plan->load(0);
+		$view->plan = $plan;
+		$view->setLayout('plantype');
+
+		$view->display();
+		exit;
+	}
 }

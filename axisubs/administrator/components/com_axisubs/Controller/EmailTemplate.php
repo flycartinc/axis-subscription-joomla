@@ -16,7 +16,6 @@ use JText;
 
 class EmailTemplate extends DataController
 {
-
 	function onBeforeApply(){
 		// save the email contents fields
 		$app = \JFactory::getApplication();
@@ -26,6 +25,27 @@ class EmailTemplate extends DataController
 
 		$model->saveEmailContent($emailcontent);
 
-	}	
+	}
+	
+	function onBeforeSave(){
+		// save the email contents fields
+		$app = \JFactory::getApplication();
+		$model = $this->getModel();
 
+		$emailcontent  = $app->input->post->get('emailcontent', array(), 'array');
+
+		$model->saveEmailContent($emailcontent);
+
+	}
+
+	function onBeforeSavenew(){
+		// save the email contents fields
+		$app = \JFactory::getApplication();
+		$model = $this->getModel();
+
+		$emailcontent  = $app->input->post->get('emailcontent', array(), 'array');
+
+		$model->saveEmailContent($emailcontent);
+
+	}
 }

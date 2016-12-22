@@ -8,6 +8,6 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.modal');
 $row = $this->item;?>
-	<?php $results = J2Store::plugin()->eventWithHtml('GetAppView', array($row)); ?>
+	<?php $results = Axisubs::plugin()->eventWithHtml('GetAppView', array($row)); ?>
 	<h3><?php echo JText::_($row->name); ?></h3>
 	<?php echo $results; ?>

@@ -37,7 +37,7 @@ class AppController extends Controller {
     
     function save() {
     	$app = JFactory::getApplication ();
-    	$data = $app->input->getArray ( $_POST );
+    	$data = $app->input->post->getArray();
 
     	$save_params = new JRegistry ();
     	$save_params->loadArray ( $data ['params'] );
@@ -52,13 +52,27 @@ class AppController extends Controller {
     	$query = $db->getQuery ( true )->update ( $db->qn ( '#__extensions' ) )->set ( $db->qn ( 'params' ) . ' = ' . $db->q ( $json ) )->where ( $db->qn ( 'element' ) . ' = ' . $db->q ( $this->_element ) )->where ( $db->qn ( 'folder' ) . ' = ' . $db->q ( 'axisubs' ) )->where ( $db->qn ( 'type' ) . ' = ' . $db->q ( 'plugin' ) );
     
     	$db->setQuery ( $query );
-    	$db->execute ();
+    	$result = $db->execute ();
     	if ($data ['appTask'] == 'apply' && isset ( $data ['app_id'] )) {
     		$url = 'index.php?option=com_axisubs&view=apps&task=view&id=' . $data ['app_id'];
+			if(isset($data ['app_layout']) && $data ['app_layout'] != ''){
+				$url .= '&app_layout='.$data ['app_layout'];
+			}
     	} else {
     		$url = 'index.php?option=com_axisubs&view=apps';
+			if(isset($data ['app_layout']) && $data ['app_layout'] != ''){
+				$url .= '&task=view';
+			}
+			if(isset($data ['app_id']) && $data ['app_id'] != ''){
+				$url .= '&id='.$data ['app_id'];
+			}
     	}
-    	$this->setRedirect ( $url );
+		if($result){
+			$this->setRedirect ( $url , \JText::_('COM_AXISUBS_SAVE_SUCCESS'));
+		} else {
+			$this->setRedirect ( $url , \JText::_('COM_AXISUBS_SAVE_FAILED'), 'error');
+		}
+    	
     }
 
     /**

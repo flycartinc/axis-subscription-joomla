@@ -145,10 +145,6 @@ class User
 			$return = '';
 		}
 	
-		// $credentials = array();
-		// $credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
-		// $credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
-	
 		$options = array();
 		$options['remember'] = (boolean)$remember;
 		//$options['return'] = $return;
@@ -281,12 +277,14 @@ class User
 		return $success;
 	}
 	
-	function getLienitnowUser($user_id){
-		$db = \JFactory::getDbo();
-		$query = "SELECT * FROM #__lienitnow_users as u 
-				LEFT JOIN #__j2store_addresses as ja ON u.j2store_address_id = ja.j2store_address_id 
-				where u.user_id =".$user_id; 
+	//get All user groups
+	function getAllUserGroups(){
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('*')->from( '#__usergroups' );
 		$db->setQuery($query);
-		return $db->loadObject();
+		$result = $db->loadAssocList('id', 'title');
+
+		return $result;
 	}
 }

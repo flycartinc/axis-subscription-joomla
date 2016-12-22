@@ -767,7 +767,7 @@ HTML;
 			$html .= "\t</div>\n\n";
 			$html .= "\t" . '<div class="clearfix"> </div>' . "\n\n";
 		}
-		
+
 		try {
 			$html .= $view->loadAnyTemplate('admin:com_axisubs/'.$view->getName().'/default_filters');
 		} catch (\Exception $e) {
@@ -833,7 +833,7 @@ HTML;
 				$fields = $tmpFields;
 				ksort($fields, SORT_NUMERIC);
 
-				
+
 
 				/** @var FieldInterface $field */
 				foreach ($fields as $field)
@@ -862,7 +862,7 @@ HTML;
 				$items[$k]->readable = $one_readable_row ;
 				$readable_items[$k] = $one_readable_row ;
 				$one_readable_row = null;
-				
+
 				$rowsHtml .= "\t\t\t\t<tr class=\"$rowClass\">\n" . $rowHtml . "\t\t\t\t</tr>\n";
 
 				$i++;
@@ -875,7 +875,7 @@ HTML;
 			} catch (\Exception $e) {
 				$default_items_html ='';
 			}
-			
+
 			$html .= empty($default_items_html) ? $rowsHtml : $default_items_html ;
 
 		}
@@ -897,7 +897,7 @@ HTML;
 		// Render the pagination bar, if enabled, on J! 3.0+
 
 		$html .= $pagination->getListFooter();
-		
+
 		$view->paginationfooter = $pagination->getListFooter();
 
 		// Close the wrapper element div on Joomla! 3.0+

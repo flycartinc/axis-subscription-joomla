@@ -5,6 +5,7 @@
  * @license   GNU General Public License version 3, or later
  */
 defined('_JEXEC') or die();
+use Flycart\Axisubs\Admin\Helper\Select;
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 $subscription = $this->subscription;
 $this->subscriptioninfo = $this->subscription->subscriptioninfo ;
@@ -43,7 +44,7 @@ $status_helper = Axisubs::status();
                             <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_PLAN');?>
                         </td>
                         <td>
-                            <a href="index.php?option=com_axisubs&view=Plans&id=<?php echo $this->subscription->plan->axisubs_plan_id; ?>&task=read" class="tu" id="plans.details">
+                            <a href="index.php?option=com_axisubs&view=plan&slug=<?php echo $this->subscription->plan->slug; ?>" class="tu" id="plans.details">
                                 <?php echo  $this->subscription->plan->name; ?>
                             </a>
                         </td>
@@ -58,6 +59,83 @@ $status_helper = Axisubs::status();
                             </span>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="">
+                            <?php echo JText::_('AXISUBS_CODE_SUBSCRIPTION_PLAN_PRICE');?>
+                        </td>
+                        <td class="">
+                            <span class="plan_amount">
+                                <?php echo $curr->format( $this->subscription->plan_price, $this->subscription->currency); ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php if($this->subscription->setup_fee > 0){ ?>
+                        <tr>
+                            <td class="">
+                                <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_SETUP_FEE');?>
+                            </td>
+                            <td class="">
+                            <span class="plan_amount">
+                                <?php echo $curr->format( $this->subscription->setup_fee, $this->subscription->currency); ?>
+                            </span>
+                            </td>
+                        </tr>
+                    <?php } if($this->subscription->tax > 0){ ?>
+                        <?php
+                        $paramsArray = $this->subscription->params;
+                        if(isset($paramsArray['tax_details']) && !empty($paramsArray['tax_details'])){
+                            foreach($paramsArray['tax_details'] as $taxDetail){
+                                ?>
+                                <tr>
+                                    <td class="">
+                                        <?php echo $taxDetail['label']; ?>(<?php echo $taxDetail['rate']; ?>%)
+                                    </td>
+                                    <td class="">
+                                        <span class="plan_amount">
+                                            <?php echo $curr->format( $taxDetail['price'], $this->subscription->currency); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        ?>
+                        <tr>
+                            <td class="">
+                                <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TOTAL_TAX');?>
+                            </td>
+                            <td class="">
+                                <span class="plan_amount">
+                                    <?php echo $curr->format( $this->subscription->tax, $this->subscription->currency); ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php }
+                    if($this->subscription->discount > 0){ ?>
+                        <tr>
+                            <td class="">
+                                <?php echo JText::_('COM_AXISUBS_SUBSCRIPTION_DISCOUNT_AMOUNT');?>
+                            </td>
+                            <td class="">
+                            <span class="plan_amount">
+                                <?php echo $curr->format( $this->subscription->discount, $this->subscription->currency); ?>
+                            </span>
+                            </td>
+                        </tr>
+                    <?php }
+                    if($this->subscription->discount_tax > 0){ ?>
+                        <tr>
+                            <td class="">
+                                <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_TOTAL_DISCOUNT_TAX');?>
+                            </td>
+                            <td class="">
+                            <span class="plan_amount">
+                                <?php echo $curr->format( $this->subscription->discount_tax, $this->subscription->currency); ?>
+                            </span>
+                            </td>
+                        </tr>
+                    <?php }
+                    ?>
                 </table>
             </div>
             <div class="col-md-6">
@@ -76,6 +154,11 @@ $status_helper = Axisubs::status();
                                 </tr>
                             </table>
                         </div> 
+                    </div>
+                    <div class="viewdetail-box">
+                        <div class="viewdetail-buttons_con">
+                            <?php echo $this->additionalButtons; ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,7 +248,13 @@ $status_helper = Axisubs::status();
                             <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_CURRENT_TERM_ENDS_ON');?>
                         </td>
                         <td class="">
-                        <?php echo $date_helper->get_formatted_date ( $this->subscription->current_term_end ); ?>
+                        <?php
+                        if($this->subscription->plan->plan_type){
+                            echo $date_helper->get_formatted_date ( $this->subscription->current_term_end );
+                        } else {
+                            echo JText::_('COM_AXISUBS_PLAN_RECURRING_UNLIMIT');
+                        }
+                        ?>
                         </td>
                     </tr>
                     <tr>
@@ -228,7 +317,7 @@ $status_helper = Axisubs::status();
             <?php if (!empty($this->subscription->subscriptioninfo->billing_company)): ?>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_AXISUBS_CUSTOMER_COMPANY'); ?>
+                    <?php echo JText::_('AXISUBS_ADDRESS_COMPANY_NAME'); ?>
                 </td>
                 <td>
                     <?php echo $this->subscription->subscriptioninfo->billing_company; ?>
@@ -251,8 +340,12 @@ $status_helper = Axisubs::status();
                     <?php echo $this->subscription->subscriptioninfo->billing_address1; ?>
                     <?php echo $this->subscription->subscriptioninfo->billing_address2; ?>,
                     <?php echo $this->subscription->subscriptioninfo->billing_city; ?>, <br>
-                    <?php echo $this->subscription->subscriptioninfo->billing_state; ?>
-                    <?php echo $this->subscription->subscriptioninfo->billing_country; ?> <br>
+                    <?php
+                    $stateSelected = Select::getZones($this->subscription->subscriptioninfo->billing_country);
+                    if(isset($stateSelected[$this->subscription->subscriptioninfo->billing_state])){
+                        echo $stateSelected[$this->subscription->subscriptioninfo->billing_state].', ';
+                    } ?>
+                    <?php echo Select::decodeCountry($this->subscription->subscriptioninfo->billing_country); ?> <br>
                     <?php echo $this->subscription->subscriptioninfo->billing_zip; ?>
                 </td>
             </tr>

@@ -80,84 +80,6 @@ class plgAxisubsPayment_paypal extends Payment
      * @param $data     array       form post data
      * @return string   HTML to display
      */
-    function _prePaymentOld( $data )
-    {
-        //get subscription data
-        $subcription = $data->getData();
-        //get subscription info data
-        $subcription_info = $data->subscriptioninfo->getData();
-
-        // get component params
-        $params = Axisubs::config();
-
-        //get currency
-        $currency = Axisubs::currency();
-
-        // prepare the Payment form
-        $vars = new JObject();
-        $vars->subscription_id = $subcription['axisubs_subscription_id'];
-        $currency_values = $this->getCurrency($data);
-        $vars->currency_code = $currency_values['currency_code'];
-        $vars->orderpayment_amount = $currency->format($subcription['total'], $currency_values['currency_code'], $currency_values['currency_value'], false);
-        $vars->orderpayment_type = $this->_element;
-        $vars->cart_session_id = JFactory::getSession()->getId();
-        $vars->display_name = $this->params->get('display_name', 'PAYMENT_PAYPAL');
-        $vars->onbeforepayment_text = $this->params->get('onbeforepayment', '');
-        $vars->button_text = $this->params->get('button_text', 'AXISUBS_PLACE_ORDER');
-        $vars->image = $this->params->get('display_image', '');
-        //sub total
-        $products = array();
-        $products['name'] = $data->plan->name;
-        $products['price'] = $currency->format($data->total, $currency_values['currency_code'], $currency_values['currency_value'], false);
-        $products['number'] = $data->plan_id;
-        $products['quantity'] = $data->plan_quantity;
-        //$products['options'] = array();
-        $vars->products = array();
-        $vars->products[] = $products;
-        // tax cart
-        $vars->tax_cart = $currency->format($subcription['tax'], $currency_values['currency_code'], $currency_values['currency_value'], false);
-        // discount
-        $vars->discount_amount_cart = $currency->format($subcription['discount'], $currency_values['currency_code'], $currency_values['currency_value'], false);
-
-        //get sandbox
-        $environment = $this->getEnvironment();
-
-        // set Payment plugin variables
-        if($environment){
-            $vars->merchant_email = trim($this->_getParam( 'sandbox_merchant_email' ));
-        }else{
-            $vars->merchant_email = trim($this->_getParam( 'merchant_email' ));
-        }
-
-        $rootURL = rtrim(JURI::base(),'/');
-        $subpathURL = JURI::base(true);
-        if(!empty($subpathURL) && ($subpathURL != '/')) {
-            $rootURL = substr($rootURL, 0, -1 * strlen($subpathURL));
-        }
-
-        $vars->post_url = $this->_getPostUrl();
-        $vars->return_url = JURI::root()."index.php?option=com_axisubs&view=Subscribe&task=confirmPayment&orderpayment_type=".$this->_element."&paction=display";
-        $vars->cancel_url = JURI::root()."index.php?option=com_axisubs&view=Subscribe&task=confirmPayment&orderpayment_type=".$this->_element."&paction=cancel";
-        $vars->notify_url = JURI::root()."index.php?option=com_axisubs&view=Subscribe&task=confirmPayment&orderpayment_type=".$this->_element."&paction=process&tmpl=component";
-
-        $vars->first_name   = $subcription_info['billing_first_name'];
-        $vars->last_name    = $subcription_info['billing_last_name'];
-        $vars->email        = $subcription_info['billing_email'];
-        $vars->address_1    = $subcription_info['billing_address1'];
-        $vars->address_2    = $subcription_info['billing_address2'];
-        $vars->city         = $subcription_info['billing_city'];
-        $vars->country      = $subcription_info['billing_state'];
-        $vars->region       = $subcription_info['billing_country'];
-        $vars->postal_code  = $subcription_info['billing_zip'];
-        $vars->invoice = $subcription['axisubs_subscription_id'];
-        $html = $this->_getLayout('prepayment', $vars);
-        return $html;
-    }
-
-    /**
-     * @param $data     array       form post data
-     * @return string   HTML to display
-     */
     function _prePayment( $data )
     {
         //get subscription data
@@ -220,8 +142,10 @@ class plgAxisubsPayment_paypal extends Payment
 
         if ( $data->plan->hasTrial() ) {
             $vars->a1 = $currency->format($data->setup_fee, $currency_values['currency_code'], $currency_values['currency_value'], false);;
-            $vars->p1 = $data->plan->getTrialPeriodInDays();
-            $vars->t1 = 'D';
+            //$vars->p1 = $data->plan->getTrialPeriodInDays();
+            //$vars->t1 = 'D';
+            $vars->p1 = $data->plan->trial_period;
+            $vars->t1 = $data->plan->trial_period_unit;
         }
 
         if ( $data->plan->isRecurring() ) {
@@ -229,14 +153,16 @@ class plgAxisubsPayment_paypal extends Payment
             // send the price without setup fee
             $vars->a3 = $currency->format($data->plan_price, $currency_values['currency_code'], $currency_values['currency_value'], false); 
             // TODO: fix it to recurring_total at of now this includes setup fee as well
-            $vars->p3 = $data->plan->getPeriodInDays();
-            $vars->t3 = 'D';
+            //$vars->p3 = $data->plan->getPeriodInDays();
+            //$vars->t3 = 'D';
+            $vars->p3 = $data->plan->period;
+            $vars->t3 = $data->plan->period_unit;
             $vars->billing_cycles = $data->remaining_billing_cycles;
             $vars->recurring_total = $data->recurring_total;
             $vars->sra = 1 ; // failiure reattempt flag
         }
-
-         $vars->total = $currency->format($data->total, $currency_values['currency_code'], $currency_values['currency_value'], false);
+        $sub_total = $data->total-$data->tax;
+         $vars->total = $currency->format($sub_total, $currency_values['currency_code'], $currency_values['currency_value'], false);
         //////////////////////////////////////
 
         $vars->post_url = $this->_getPostUrl();
@@ -253,7 +179,7 @@ class plgAxisubsPayment_paypal extends Payment
         $vars->country      = $subcription_info['billing_state'];
         $vars->region       = $subcription_info['billing_country'];
         $vars->postal_code  = $subcription_info['billing_zip'];
-        $vars->invoice = $subcription['axisubs_subscription_id'];
+        $vars->invoice = $data->getInvoiceNumber(); //$subcription['axisubs_subscription_id'];
         $vars->plan = $data->plan;
         $html = $this->_getLayout('prepayment', $vars);
         return $html;
@@ -262,7 +188,7 @@ class plgAxisubsPayment_paypal extends Payment
     function _process()
     {
         $app = JFactory::getApplication();
-        $data = $app->input->getArray($_POST);
+        $data = $app->input->post->getArray();
 
         $params = Axisubs::config();
         $errors = array();
@@ -275,8 +201,8 @@ class plgAxisubsPayment_paypal extends Payment
 
         if($subscription_id && $subscription_id > 0){
             $subscription = $this->getSubscription($subscription_id);
-            if (! $subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions){
-                $errors [] = JText::_('AXISUBS_SUBSCRIPTION_NOT_FOUND');
+            if (! ($subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions || $subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions)){
+                $errors[] = JText::_('AXISUBS_SUBSCRIPTION_NOT_FOUND');
                 $this->_log($errors);
             }
             // prepare some data
@@ -286,11 +212,13 @@ class plgAxisubsPayment_paypal extends Payment
                 if($subscription && ($subscription->axisubs_subscription_id == $subscription_id) ) {
                     // validate the IPN info
 
-                    $errors[]= $validation_result = $this->_validateIPN($data, $subscription);
+                    $validation_result = $this->_validateIPN($data, $subscription);
                     if (!empty($validation_result))
                     {
                         // ipn Validation failed
                         $data['ipn_validation_results'] = $validation_result;
+                        $errors[] = $validation_result;
+                        $this->_log($errors);
                     }
 
                 }
@@ -387,7 +315,7 @@ class plgAxisubsPayment_paypal extends Payment
                             'transaction_amount' => $mc_gross,
                             'transaction_currency' => $data['mc_currency'],
                             'prepayment' => "",
-                            'postpayment' => "",
+                            'postpayment' => $data['transaction_details'],
                             'authorize' => "",
                             'params' => "",
                             'processor_status' =>$data ['payment_status']
@@ -613,7 +541,7 @@ class plgAxisubsPayment_paypal extends Payment
         $isLog = $this->params->get('debug',0);
         if ($isLog) {
             $file = JPATH_ROOT . "/cache/{$this->_element}.txt";
-            $date = JFactory::getDate();
+            $date = \JDate::getInstance();
 
             $f = fopen($file, 'a');
             fwrite($f, "\n\n" . $date->format('Y-m-d H:i:s'));

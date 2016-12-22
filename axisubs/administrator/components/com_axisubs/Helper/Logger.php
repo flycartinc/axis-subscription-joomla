@@ -56,7 +56,7 @@ class Logger extends JObject {
 		$message_obj->is_admin = (int)$app->isAdmin();
 
 		$log_data = new stdClass();
-		$log_data->log_time = JFactory::getDate()->toSql();
+		$log_data->log_time = \JDate::getInstance()->toSql();
 		$log_data->event = $event ;
 		$log_data->message = json_encode($message_obj) ;		
 		

@@ -42,7 +42,7 @@ class Router
 		// Convert $qoptions to an object
 		if(empty($qoptions) || !is_array($qoptions)) $qoptions = array();
 
-		$menus =JMenu::getInstance('site');
+		$menus =\JMenu::getInstance('site');
 		$menuitem = $menus->getActive();
 		// First check the current menu item (fastest shortcut!)
 		if(is_object($menuitem)) {
@@ -97,7 +97,7 @@ class Router
 			}
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = \JFactory::getLanguage();
 		if($lang->getTag() == $menu->language) {
 			return true;
 		}if($menu->language == '*') {

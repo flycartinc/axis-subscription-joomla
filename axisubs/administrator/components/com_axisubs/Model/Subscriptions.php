@@ -170,6 +170,8 @@ class Subscriptions extends DataModel
 		{
 			$this->setState('filter_order', $this->getIdFieldName());
 			$this->setState('filter_order_Dir', 'DESC');
+//			$this->setState('filter_order', '`status`');
+//			$this->setState('filter_order_Dir', 'ASC');
 		}
 	}
 
@@ -279,37 +281,25 @@ class Subscriptions extends DataModel
 		}
 		*/
 
-		$this->filterByTermDates( $query );		
+		$this->filterByTermDates( $query );
 
-	/*	$search = $this->getState('filter_search', null, 'string');
-
-		if ($search)
+		$search = $this->getState('filter_search', null, 'string');
+		if($search)
+		if ((int)$search)
 		{
-			$search = '%' . $search . '%';
-			$query->where(
-				'(' .
-				'(' . $db->qn('ap.name') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ap.slug') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ap.description') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ap.price') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ac.first_name') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ac.last_name') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ac.company') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ac.email') .
-				' LIKE ' . $db->q($search) . ') OR ' .
-				'(' . $db->qn('ap.setup_cost') .
-				' LIKE ' . $db->q($search) . ')'
-				. ')'
-			);
+			$query->where( $db->qn('axisubs_subscription_id') . ' = '. $db->q($search));
+		} else {
+			$this->whereHas('subscriptioninfo', function(\JDatabaseQuery $subQuery) use($search, $db) {
+				$subQuery->where('('.$db->qn('billing_first_name') . ' LIKE ' . $db->q('%' . $search . '%').') OR '.
+					'('.$db->qn('billing_last_name') . ' LIKE ' . $db->q('%' . $search . '%').')');
+			});
 		}
-*/
+		$payment_processor = $this->getState('payment_processor', null, 'string');
+		if($payment_processor){
+			$this->whereHas('transaction', function(\JDatabaseQuery $subQuery) use($payment_processor, $db) {
+				$subQuery->where($db->qn('payment_processor') . ' = ' . $db->q($payment_processor));
+			});
+		}
 
 		$is_recurring = $this->getState('recurring', 0, 'int');
 		if ( $is_recurring > 0 ) {
@@ -321,8 +311,9 @@ class Subscriptions extends DataModel
 			$query->where(
 					'(' .
 					'(' . $db->qn('total') . ' >= ' .$db->q($price_from) .' ) OR ' .
-					'(' . $db->qn('subtotal') . ' >= ' .$db->q($price_from) .' ) OR ' .
-					'(' . $db->qn('tax') . ' >= ' .$db->q($price_from) .' )  ' 
+					'(' . $db->qn('subtotal') . ' >= ' .$db->q($price_from) .' ) '
+					//'(' . $db->qn('subtotal') . ' >= ' .$db->q($price_from) .' ) ' .
+					//'(' . $db->qn('tax') . ' >= ' .$db->q($price_from) .' )  '
 					. ')'
 					);
 		}
@@ -332,8 +323,9 @@ class Subscriptions extends DataModel
 			$query->where(
 					'(' .
 					'(' . $db->qn('total') . ' <= ' .$db->q($price_to) .' ) OR ' .
-					'(' . $db->qn('subtotal') . ' <= ' .$db->q($price_to) .' ) OR ' .
-					'(' . $db->qn('tax') . ' <= ' .$db->q($price_to) .' )  ' 
+					'(' . $db->qn('subtotal') . ' <= ' .$db->q($price_to) .' ) '
+					//'(' . $db->qn('subtotal') . ' <= ' .$db->q($price_to) .' ) OR ' .
+					//'(' . $db->qn('tax') . ' <= ' .$db->q($price_to) .' )  '
 					. ')'
 					);
 		}
@@ -428,7 +420,7 @@ class Subscriptions extends DataModel
 		$app = JFactory::getApplication();
 
 		// check if plan relation is set, else load the plan record 
-		if ( ! (isset($this->plan) && $this->plan instanceof Plans) ){
+		if ( ! (isset($this->plan) && ($this->plan instanceof \Flycart\Axisubs\Admin\Model\Plans || $this->plan instanceof \Flycart\Axisubs\Site\Model\Plans)) ){
 			// maybe try to load it ourself
 			$plan = $this->getContainer()->factory->model('Plans');
 
@@ -452,8 +444,9 @@ class Subscriptions extends DataModel
 
 		// new subscription then bind subscription dates and calculate rates
 		$oldPk = $this->getId();
-		if ( isset($this->plan) && $this->plan instanceof Plans && $start_date instanceof Carbon && empty($oldPk) ){
-			
+		
+		if ( isset($this->plan) && ($this->plan instanceof \Flycart\Axisubs\Admin\Model\Plans || $this->plan instanceof \Flycart\Axisubs\Site\Model\Plans) && $start_date instanceof Carbon && empty($oldPk) ){
+		//if (( isset($this->plan) && $this->plan instanceof Plans && $start_date instanceof Carbon && empty($oldPk)) || ( isset($this->plan) && $this->plan instanceof Plans && $start_date instanceof Carbon && $couponCode != '')){
 			$this->start_date = $start_date->toDateTimeString();
 	
 			$this->created_on = $this->getCurrentDate()->toDateTimeString();
@@ -466,10 +459,8 @@ class Subscriptions extends DataModel
 			}
 
 			$this->calculateTermDates();
-
-			$this->calculateTotals(); 
+			$this->calculateTotals();
 		}
-
 	}
 
 	/**
@@ -521,10 +512,9 @@ class Subscriptions extends DataModel
 		if ( $this->user_id <=0 || $this->axisubs_subscription_id <=0 ){
 			return ;
 		}
-		
-		Axisubs::plugin()->event( 'SubscriptionCreated', array($this) );
-
 		$this->updateSubscriptionInfo();
+
+		Axisubs::plugin()->event( 'SubscriptionCreated', array($this) );
 	
 	}
 
@@ -533,6 +523,21 @@ class Subscriptions extends DataModel
 	 * */
 	function onAfterSave(){
 		// save the totals 
+		//$this->calculateDiscountTotals();
+		$this->calculateTotals();
+	}
+
+	function updateFreeSubscription($data, $id){
+		$subscription_model = $this->getModel('Subscriptions');
+		$subscription_model->load( array( 'axisubs_subscription_id' => $id ) );
+		try {
+			$result = $subscription_model->save( $data );
+			//trigger event after update
+			Axisubs::plugin()->event('AfterSubscriptionStatusUpdate', array($subscription_model, 'N'));
+			return $result;
+		} catch (\Exception $e) {
+			echo  $e->getMessage();exit;
+		}
 	}
 
 	/**
@@ -572,7 +577,6 @@ class Subscriptions extends DataModel
 	 */
 
 	public function calculateTotals($taxes=true) {
-		
 		$this->order_discount = 0;
 		$this->subtotal = 0;
 
@@ -583,16 +587,17 @@ class Subscriptions extends DataModel
 		$this->setSubscriptionInformation();
 
 		// calculate plan and add on totals
-		$this->calculateSubscriptionTotals(); 
+		$this->calculateSubscriptionTotals();
 
+		// then calculate the tax
+		$this->calculateTaxTotals();
 		// discount
 		$this->calculateDiscountTotals();
 		
 		// Trigger the fees API where developers can add fees or additional cost to order
 		$this->calculateFeeTotals();
 
-		// then calculate the tax
-		$this->calculateTaxTotals();
+
 
 		// sum totals
 		$total =	$this->subtotal
@@ -602,7 +607,6 @@ class Subscriptions extends DataModel
 					;
 		// set object properties
 		$this->total      = $total;
-
 		// We fire just a single plugin event here and pass the entire order object
 		Axisubs::plugin()->event("CalculateSubscriptionTotals", array( &$this ) );
 
@@ -644,7 +648,7 @@ class Subscriptions extends DataModel
 
 		// check only once flag / renewal applicable flag
 		// if renewals are not allowed, then throw exception
-		if ( $this->plan->only_once == 1 && $has_active_subscription ){
+		if ( $this->plan->only_once == 1 && $has_active_subscription && $this->user_id){
 			//$this->throwError( 'COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_RENEW' );
 			\JError::raiseWarning( 100, JText::_('COM_AXISUBS_SUBSCRIPTION_ERR_CANNOT_RENEW') );
 		}
@@ -735,6 +739,16 @@ class Subscriptions extends DataModel
 		return null;
 	}
 
+	/**
+	 * Method to get the invoice number of the subscription record
+	 * */
+	function getInvoiceNumber(){
+		$invoice_prefix = Axisubs::config()->get('invoice_prefix','');
+		$invoice_number = '';
+		$invoice_number = $invoice_prefix.''.$this->axisubs_subscription_id ;
+		return $invoice_number;
+	}
+
 	function calculateSubscriptionTotals(){
 		$this->plan_price	= $this->plan->getPrice() ;
 		// check if setup fee is applicable
@@ -775,7 +789,129 @@ class Subscriptions extends DataModel
 	}
 
 	function calculateDiscountTotals(){
+		$app = JFactory::getApplication();
+		$session = $app->getSession();
+		$couponCode = $session->get('axisubs_coupon_code');
+		$total_price = $this->subtotal;
+		if($couponCode != ''){
+			if($this->plan_id){
+				Axisubs::plugin()->event( 'GetDiscountFromCouponCode', array($couponCode, $this->plan_id, $this->axisubs_subscription_id, $total_price));
+				$couponCodeVal = $session->get('axisubs_coupon_code_value');
+				if($couponCodeVal!=''){
+					//$this->subtotal        	= $total_price - $couponCodeVal;
+					$this->subtotal_ex_discount 	= $total_price;
+					$this->discount 				= $couponCodeVal;
+				} else {
+					$session->set('axisubs_coupon_code', '');
+					//$this->subtotal        	= $total_price;
+					$this->subtotal_ex_discount = $total_price;
+					$this->discount = 0;
+				}
+				if($this->discount > 0) {
+					$this->calculateTaxDiscounts();
+				} else {
+					$this->discount_tax = 0;
+				}
 
+				if($this->axisubs_subscription_id){
+					Axisubs::plugin()->event( 'ApplyCouponCodeInSubscription', array($couponCode, $this->plan_id, $this->axisubs_subscription_id, $this->discount, $this->discount_tax));
+				}
+			}
+		} else {
+			$session->set('axisubs_coupon_code', '');
+			$this->subtotal_ex_discount = $total_price;
+			$this->discount = 0;
+			$this->discount_tax = 0;
+		}
+	}
+
+	function calculateTaxDiscounts(){
+
+		$config = Axisubs::config();
+		// get the tax rates
+		$tax_rates      = array();
+		$store_tax_rates = array();
+
+		$this->tax_class = 'standard';
+
+		$is_including_tax = $config->get('config_including_tax',0);
+
+		$is_tax_enabled = $config->get('enable_tax',0);
+		if ( ! $is_tax_enabled ) {
+			return ; // do not perform tax calcualtions
+		}
+
+		$line_price = $this->discount;
+		if ( ! $this->isTaxable() ) {
+			// just return an empty amount
+
+			$line_subtotal 		= $line_price;
+			$line_subtotal_tax  = 0;
+
+		}elseif ( $is_including_tax ) {
+			// include tax
+
+			// Get base tax rates
+			if ( empty( $shop_tax_rates[ $this->tax_class ] ) ) {
+				$shop_tax_rates[ $this->tax_class ] = Tax::get_base_tax_rates( $this->tax_class );
+			}
+
+			// Get item tax rates
+			if ( empty( $tax_rates[ $this->tax_class ] ) ) {
+				$tax_rates[ $this->tax_class ] = Tax::get_rates( $this->tax_class );
+			}
+
+			$base_tax_rates = $shop_tax_rates[ $this->tax_class ];
+			$item_tax_rates = $tax_rates[ $this->tax_class ];
+
+			/**
+			 * ADJUST TAX - Calculations when base tax is not equal to the item tax.
+			 *
+			 * The woocommerce_adjust_non_base_location_prices filter can stop base taxes being taken off when dealing with out of base locations.
+			 * e.g. If a product costs 10 including tax, all users will pay 10 regardless of location and taxes.
+			 * This feature is experimental @since 2.4.7 and may change in the future. Use at your risk.
+			 */
+			if ( $item_tax_rates !== $base_tax_rates ) {
+
+				// Work out a new base price without the shop's base tax
+				$taxes                 = Tax::calc_tax( $line_price, $base_tax_rates, true, true );
+
+				// Now we have a new item price (excluding TAX)
+				$line_subtotal         = $line_price - array_sum( $taxes );
+
+				// Now add modified taxes
+				$tax_result            = Tax::calc_tax( $line_subtotal, $item_tax_rates );
+				$line_subtotal_tax     = array_sum( $tax_result );
+
+				/**
+				 * Regular tax calculation (customer inside base and the tax class is unmodified.
+				 */
+			} else {
+
+				// Calc tax normally
+				$taxes                 = Tax::calc_tax( $line_price , $item_tax_rates, true );
+				$line_subtotal_tax     = array_sum( $taxes );
+				$line_subtotal         = $line_price - array_sum( $taxes );
+			}
+		}else{
+			// exluding tax
+			if ( ! empty( $this->tax_class ) ) {
+
+			}
+			$tax_rates[ $this->tax_class ]  = Tax::get_rates( $this->tax_class );
+			$item_tax_rates        = $tax_rates[ $this->tax_class ];
+
+
+			// Base tax for line before discount - we will store this in the order data
+			$taxes                 = Tax::calc_tax( $line_price, $item_tax_rates );
+			$line_subtotal_tax     = array_sum( $taxes );
+			$line_subtotal         = $line_price;
+			$this->subtotal        	= $this->subtotal + $line_subtotal_tax;
+		}
+		// Add to main subtotal
+
+		$this->subtotal_ex_discount_tax 	= $this->subtotal;
+		$this->discount_tax 				= $line_subtotal_tax;
 	}
 
 	function calculateFeeTotals(){
@@ -785,7 +921,8 @@ class Subscriptions extends DataModel
 	function calculateTaxTotals(){
 
 		$config = Axisubs::config();
-/*
+
+		/*
 		// get the store address
 		$address = new Address();
 		$store_address = $address
@@ -809,9 +946,7 @@ class Subscriptions extends DataModel
 		$context = new Context($customer_address, $store_address);
 
 		$taxable = new Taxable();
-
 		// get the resolver
-
 		$taxTypeRepository = new TaxTypeRepository();
 		$chainTaxTypeResolver = new ChainTaxTypeResolver();
 		$chainTaxTypeResolver->addResolver(new CanadaTaxTypeResolver($taxTypeRepository));
@@ -822,17 +957,35 @@ class Subscriptions extends DataModel
 		$resolver = new TaxResolver($chainTaxTypeResolver, $chainTaxRateResolver);
 
         // get the rates and amounts
-		
+
 		$types = $resolver->resolveTypes($taxable, $context);
 
 		$rates = $resolver->resolveRates($taxable, $context);
 
 		$amounts = $resolver->resolveAmounts($taxable, $context);
-		
 		// compute the array
 
 		// calculate the tax totals
-		*/
+*/
+
+		// check if tax calculation needed
+		$is_tax_enabled = $config->get('enable_tax',0);
+		if ( ! $is_tax_enabled ) {
+			return ; // do not perform tax calcualtions 
+		}
+
+		// For checking tax is applicable or not
+		$enableTax = 1;
+		Axisubs::plugin()->event( 'CheckTaxIsApplicable', array(&$enableTax, $this));
+		if(!$enableTax){
+			$this->tax = 0;
+			$params = $this->tax_details = array();
+			if(isset($params['tax_details'])){
+				$params['tax_details'] = array();
+				$this->params = $params;
+			}
+			return ;
+		}
 
 		// get the tax rates
 		$tax_rates      = array();
@@ -843,7 +996,6 @@ class Subscriptions extends DataModel
 		$is_including_tax = $config->get('config_including_tax',0);
 
 		$line_price = $this->subtotal;
-
 		if ( ! $this->isTaxable() ) {
 			// just return an empty amount
 		
@@ -883,7 +1035,15 @@ class Subscriptions extends DataModel
 
 				// Now add modified taxes
 				$tax_result            = Tax::calc_tax( $line_subtotal, $item_tax_rates );
+
+				//To display each tax price in front end
+				foreach($tax_result as $k => $tax_rates){
+					$item_tax_rates[$k]['price'] = $tax_rates;
+				}
+				$this->tax_details = $item_tax_rates;
+
 				$line_subtotal_tax     = array_sum( $tax_result );
+				$line_subtotal         = $line_price - $line_subtotal_tax;
 
 			/**
 			 * Regular tax calculation (customer inside base and the tax class is unmodified.
@@ -892,6 +1052,13 @@ class Subscriptions extends DataModel
 
 				// Calc tax normally
 				$taxes                 = Tax::calc_tax( $line_price , $item_tax_rates, true );
+
+				//To display each tax price in front end
+				foreach($taxes as $k => $tax_rates){
+					$item_tax_rates[$k]['price'] = $tax_rates;
+				}
+				$this->tax_details = $item_tax_rates;
+
 				$line_subtotal_tax     = array_sum( $taxes );
 				$line_subtotal         = $line_price - array_sum( $taxes );
 			}
@@ -904,9 +1071,15 @@ class Subscriptions extends DataModel
 			$tax_rates[ $this->tax_class ]  = Tax::get_rates( $this->tax_class );
 			$item_tax_rates        = $tax_rates[ $this->tax_class ];
 
-
 			// Base tax for line before discount - we will store this in the order data
 			$taxes                 = Tax::calc_tax( $line_price, $item_tax_rates );
+
+			//To display each tax price in front end
+			foreach($taxes as $k => $tax_rates){
+				$item_tax_rates[$k]['price'] = $tax_rates;
+			}
+			$this->tax_details = $item_tax_rates;
+
 			$line_subtotal_tax     = array_sum( $taxes );
 			$line_subtotal         = $line_price;
 		}
@@ -915,6 +1088,10 @@ class Subscriptions extends DataModel
 		$this->subtotal        	= $line_subtotal + $line_subtotal_tax;
 		$this->subtotal_ex_tax 	= $line_subtotal;
 		$this->tax 				= $line_subtotal_tax;
+		$params = '';
+		$params['tax_details'] = $this->tax_details;
+		$this->params = json_encode($params);
+
 	}
 
 	/**
@@ -997,7 +1174,7 @@ class Subscriptions extends DataModel
 
 		$this->plan_id = $plan_id ;
 
-		if ( ! isset($this->plan) && $this->plan instanceof Plans ){
+		if ( ! isset($this->plan) && ($this->plan instanceof \Flycart\Axisubs\Admin\Model\Plans || $this->plan instanceof \Flycart\Axisubs\Site\Model\Plans) ){
 			// maybe try to load it ourself
 			$plan = $this->getContainer()->factory->model('Plans');
 			if ( !empty($this->plan_id) ){
@@ -1145,7 +1322,7 @@ class Subscriptions extends DataModel
 		// then not allowed
 		$subs_model = $this->getModel('Subscriptions');
 
-		if ( $this->plan->only_once == 1 ){
+		if ( $this->user_id && $this->plan->only_once == 1 ){
 			// check if there is any active subscription
 			$active_subscription_count = $subs_model->user_id( $this->user_id )
 						->plan_id( $this->plan_id)
@@ -1446,12 +1623,12 @@ class Subscriptions extends DataModel
 		
 		$current_sub = '';
 
-		if ( $subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions ) {
+		if ( $subscription instanceof \Flycart\Axisubs\Admin\Model\Subscriptions || $subscription instanceof \Flycart\Axisubs\Site\Model\Subscriptions) {
 			$current_sub = $subscription ;
 		}else{
 			$subscription_id = (int) $subscription ;
 			if ($subscription_id > 0) {
-				$sub = $this->getModel('Subscription');
+				$sub = clone ($this);
 				$sub->load( $subscription_id ) ;
 				if ( $sub->axisubs_subscription_id > 0 ) {
 					$current_sub = $sub;
@@ -1460,10 +1637,10 @@ class Subscriptions extends DataModel
 		}
 
 		// validate if a valid subscription record is available
-		if ( !($current_sub instanceof \Flycart\Axisubs\Admin\Model\Subscriptions ) ) {
+		if ( !($current_sub instanceof \Flycart\Axisubs\Admin\Model\Subscriptions || $current_sub instanceof \Flycart\Axisubs\Site\Model\Subscriptions) ) {
 			return false;
 		}
-
+		
 		if ( empty( $current_sub->ref_subscription_id ) || $current_sub->ref_subscription_id > 0 ) {
 			if (empty( $current_sub->transaction->transaction_ref_id )) {
 				return $current_sub;
@@ -1480,9 +1657,12 @@ class Subscriptions extends DataModel
 								->sortByDesc( 'current_term_end' )
 								->first();
 
-		if ( !isset($latest_pending_sub->transaction) || count($latest_pending_sub->transaction) == 0 ){
-			// no transaction record or same transaction reference, then this is the subscription to be processed
-			return $latest_pending_sub ;
+		if ($latest_pending_sub instanceof \Flycart\Axisubs\Admin\Model\Subscriptions || $latest_pending_sub instanceof \Flycart\Axisubs\Site\Model\Subscriptions)
+		{
+			if ( !isset($latest_pending_sub->transaction) || count($latest_pending_sub->transaction) == 0 ){
+				// no transaction record or same transaction reference, then this is the subscription to be processed
+				return $latest_pending_sub ;
+			}
 		}
 		
 		$new_subscription = $current_sub->createRenewalSubscription();
@@ -1624,17 +1804,35 @@ class Subscriptions extends DataModel
 		}
 
 		$formatted_shortcodes[ 'status' ] 		= $status_helper->get_text( $formatted_shortcodes[ 'status' ] );
-		$formatted_shortcodes[ 'trial_start' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'trial_start' ] ) ;
-		$formatted_shortcodes[ 'trial_end' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'trial_end' ] ) ;
-		$formatted_shortcodes[ 'current_term_start' ] = $date_helper->get_formatted_date ( $formatted_shortcodes[ 'current_term_start' ] ) ;
-		$formatted_shortcodes[ 'current_term_end' ] = $date_helper->get_formatted_date ( $formatted_shortcodes[ 'current_term_end' ] ) ;
-		$formatted_shortcodes[ 'created_on' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'created_on' ] ) ;
+		if($formatted_shortcodes[ 'trial_start' ] != '0000-00-00 00:00:00')
+			$formatted_shortcodes[ 'trial_start' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'trial_start' ] ) ;
+		else
+			$formatted_shortcodes[ 'trial_start' ] 	= '-';
+		if($formatted_shortcodes[ 'trial_end' ] != '0000-00-00 00:00:00')
+			$formatted_shortcodes[ 'trial_end' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'trial_end' ] ) ;
+		else
+			$formatted_shortcodes[ 'trial_end' ] 	= '-';
+		if($formatted_shortcodes[ 'current_term_start' ] != '0000-00-00 00:00:00')
+			$formatted_shortcodes[ 'current_term_start' ] = $date_helper->get_formatted_date ( $formatted_shortcodes[ 'current_term_start' ] ) ;
+		else
+			$formatted_shortcodes[ 'current_term_start' ] 	= '-';
+		if($formatted_shortcodes[ 'current_term_end' ] != '0000-00-00 00:00:00')
+			$formatted_shortcodes[ 'current_term_end' ] = $date_helper->get_formatted_date ( $formatted_shortcodes[ 'current_term_end' ] ) ;
+		else
+			$formatted_shortcodes[ 'current_term_end' ] 	= '-';
+		if($formatted_shortcodes[ 'created_on' ] != '0000-00-00 00:00:00')
+			$formatted_shortcodes[ 'created_on' ] 	= $date_helper->get_formatted_date ( $formatted_shortcodes[ 'created_on' ] ) ;
+		else
+			$formatted_shortcodes[ 'created_on' ] 	= '-';
 		$formatted_shortcodes[ 'total' ] 		= $curr_helper->format( $this->total, $this->currency_code);
 		$formatted_shortcodes[ 'subtotal' ] 		= $curr_helper->format( $this->subtotal, $this->currency_code);
 		$formatted_shortcodes[ 'plan_price' ] 	= $curr_helper->format( $this->plan_price, $this->currency_code);
 		$formatted_shortcodes[ 'setup_fee' ] 	= $curr_helper->format( $this->setup_fee, $this->currency_code);
 		$formatted_shortcodes[ 'subtotal_ex_tax' ] = $curr_helper->format( $this->subtotal_ex_tax, $this->currency_code);
 		$formatted_shortcodes[ 'tax' ] 			= $curr_helper->format( $this->tax, $this->currency_code);
+		$formatted_shortcodes[ 'discount' ] 			= $curr_helper->format( $this->discount, $this->currency_code);
+		$formatted_shortcodes[ 'discount_tax' ] 			= $curr_helper->format( $this->discount_tax, $this->currency_code);
+
 
 		$formatted_shortcodes_obj = (object) $formatted_shortcodes;
 		return $formatted_shortcodes_obj;

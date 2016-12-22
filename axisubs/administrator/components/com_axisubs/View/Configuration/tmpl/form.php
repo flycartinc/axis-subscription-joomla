@@ -8,7 +8,7 @@
 defined('_JEXEC') or die('Restricted access');
 use Flycart\Axisubs\Admin\Helper\Axisubs;
 ?>
-<div class="j2store-configuration ">
+<div class="axis-configuration ">
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal form-validate">
 	<input type="hidden" name="option" id="option" value="com_axisubs">
 	<input type="hidden" name="view" id="view" value="Configurations">
@@ -28,7 +28,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 	            }
 	            echo JHtml::_('bootstrap.addTab', 'configuration', $attr->name, JText::_($attr->label, true));
 	            ?>
-	       
+
 
 	            <div class="row-fluid">
 	                <div class="span12">
@@ -42,11 +42,11 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 	                    ?>
 	                        <div class="control-group <?php echo $layout; ?>" <?php echo $style; ?>>
 	                            <div class="control-label"><?php echo $field->label; ?></div>
-	                            
+
 	                            	<div class="controls"><?php echo $field->input; ?>
 	                            	<br />
 	                            	<small class="muted"><?php echo JText::_($field->description); ?></small>
-	                            
+
 
 	                            </div>
 	                        </div>
@@ -55,14 +55,14 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 	                    ?>
 	                </div>
 	            </div>
-	           
+
 	            <?php
 	            echo JHtml::_('bootstrap.endTab');
 	            $tab_count++;
 
         }
         ?>
-       
+
  </form>
 </div>
 <?php $zone_id = Axisubs::config()->get('zone_id',''); ?>
@@ -76,7 +76,7 @@ jQuery(document).ready(function(){
 			dataType: 'json',
 			async	: false,
 			success: function(json) {
-				
+
 				html = '<option value=""><?php echo JText::_('JSELECT'); ?></option>';
 
 				jQuery.each(json, function(k, v) {

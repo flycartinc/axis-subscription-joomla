@@ -23,7 +23,7 @@ class Apps extends DataController
 
 		$app = JFactory::getApplication();
 		$appTask = $app->input->getCmd('appTask', '');
-		$values = $app->input->getArray($_POST);
+		$values = $app->input->post->getArray();
 		$returnView = $app->input->getCmd('return', '');
 
 		// Check if we are in a report method view. If it is so,

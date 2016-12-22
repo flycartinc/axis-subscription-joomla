@@ -2,17 +2,19 @@
 <form
 	type="browse"
 	show_header="1"
-	show_header_html="1"
+	show_header_html="0"
 	show_filters="1"
 	show_pagination="1"
 	norows_placeholder="COM_AXISUBS_NORECORDS"
 >
 	<headerset>
-		<header name="axisubs_emailtemplate_id" type="RowSelect" sortable="false" tdwidth="16px" />
+		<header name="filter_search" type="Searchable" sortable="false"
+				label="COM_AXISUBS_EMAIL_TEMPLATE_SEARCH_FILTER" class="filter-field"/>
+		<!--<header name="axisubs_emailtemplate_id" type="RowSelect" sortable="false" tdwidth="16px" />
 		<header name="emailtemplate_id" type="Text" sortable="false" filterclass="input-small" />
 		<header name="event" type="Text" sortable="false" filterclass="input-small" />
 		<header name="recipients" type="Text" sortable="false" filterclass="input-small" />
-		<header name="enabled" type="Text" sortable="true" filterclass="input-small" />
+		<header name="enabled" type="Text" sortable="true" filterclass="input-small" />-->
 	</headerset>
 
 	<fieldset name="items">

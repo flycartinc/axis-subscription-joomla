@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>Axis Subscriptions Plan</name>
+	<creationDate>September 2016</creationDate>
+    <author>Ashlin</author>
+    <authorEmail>support@flycart.org</authorEmail>
+    <copyright>Copyright (c)2016-2020 Flycart Technologies</copyright>
+    <license>GNU GPL v3 or later</license>
+    <version>1.0.0</version>
+    <description>MOD_AXISUBS_PLAN_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_axisubs_plan">mod_axisubs_plan.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<media destination="mod_axisubs_plan" folder="media/mod_axisubs_plan">
+		<folder>css</folder>
+	</media>
+	<languages>
+		<language tag="en-GB">languages/en-GB.mod_axisubs_plan.ini</language>
+		<language tag="en-GB">languages/en-GB.mod_axisubs_plan.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="plan" type="sql" default="" label="MOD_AXISUBS_PLAN_PLANS" query="SELECT axisubs_plan_id, name FROM #__axisubs_plans" key_field="axisubs_plan_id" value_field="name">
+					<option value="">MOD_AXISUBS_PLAN_SELECT_A_PLAN</option>
+				</field>
+				<field name="show_plan_title"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						label="MOD_AXISUBS_PLAN_SHOW_TITLE_LABEL"
+						default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_plan_description"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_AXISUBS_PLAN_SHOW_DESCRIPTION_LABEL"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_plan_price"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_AXISUBS_PLAN_SHOW_PRICE_LABEL"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_plan_tax"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_AXISUBS_PLAN_SHOW_TAX_LABEL"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_plan_setup_cost"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_AXISUBS_PLAN_SHOW_SETUP_COST_LABEL"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="show_plan_setup_duration"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_AXISUBS_PLAN_SHOW_DURATION_LABEL"
+					   default="1">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

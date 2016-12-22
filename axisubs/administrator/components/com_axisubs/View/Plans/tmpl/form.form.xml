@@ -8,28 +8,39 @@
         <field name="name" type="Text" label="COM_AXISUBS_PLAN_NAME" id="plantitle" description="COM_AXISUBS_PLAN_NAME_DESC"/>
         <field name="enabled" type="Published" label="COM_AXISUBS_PLAN_ENABLED" description="COM_AXISUBS_PLAN_ENABLED_DESC" class="btn btn-group" />
         <field name="slug" type="Text" label="COM_AXISUBS_PLAN_SLUG" id="slug" description="COM_AXISUBS_PLAN_SLUG_DESC"/>
-        <field name="description" type="Textarea" label="COM_AXISUBS_PLAN_DESCRIPTION" description="COM_AXISUBS_PLAN_DESCRIPTION_DESC"/>
-    </fieldset>    
+        <field name="image" type="media" label="COM_AXISUBS_PLAN_IMAGE" description="COM_AXISUBS_PLAN_IMAGE_DESC"/>
+        <field name="description" type="editor" label="COM_AXISUBS_PLAN_DESCRIPTION" description="COM_AXISUBS_PLAN_DESCRIPTION_DESC"/>
+        <field name="plan_type" type="radio" class="btn-group" label="COM_AXISUBS_PLAN_TYPE" description="COM_AXISUBS_PLAN_TYPE_DESC" default="1" >
+            <option value="0" onclick="planRadio(this.value)">COM_AXISUBS_PLAN_TYPE_FREE</option>
+            <option value="1" onclick="planRadio(this.value)">COM_AXISUBS_PLAN_TYPE_PAID</option>
+        </field>
+    </fieldset>
     <fieldset
         name="period"
         label="COM_AXISUBS_PLAN_PERIOD_TITLE"
         class="form-subheading"
-    >    
-        <field name="period" type="Period" label="COM_AXISUBS_PLAN_PRIOD" description="COM_AXISUBS_PLAN_PRIOD_DESC"
-            append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
+    >
+        <field name="period" type="Period" label="COM_AXISUBS_PLAN_PRIOD" description="COM_AXISUBS_PLAN_PRIOD_DESC" />
+        <field name="period_unit" type="list" class="btn-group" label="COM_AXISUBS_PLAN_UNIT" description="COM_AXISUBS_PLAN_UNIT_DESC" default="D" >
+            <option value="D">COM_AXISUBS_PLAN_UNIT_DAY</option>
+            <option value="W">COM_AXISUBS_PLAN_UNIT_WEEK</option>
+            <option value="M">COM_AXISUBS_PLAN_UNIT_MONTH</option>
+            <option value="Y">COM_AXISUBS_PLAN_UNIT_YEAR</option>
+        </field>
+
         <field name="charge_model" type="List" label="COM_AXISUBS_PLAN_CHARGING_MODEL" description="COM_AXISUBS_PLAN_CHARGING_MODEL_DESC" class="hide">
             <option value="flatfee">COM_AXISUBS_PLAN_CHARGING_MODEL_FLAT_FEE</option>
-            <option value="perunit">COM_AXISUBS_PLAN_CHARGING_MODEL_PER_UNIT</option>
+            <!--<option value="perunit">COM_AXISUBS_PLAN_CHARGING_MODEL_PER_UNIT</option>-->
         </field>
         <field name="price" type="Price" label="COM_AXISUBS_PLAN_PRICE" description="COM_AXISUBS_PLAN_PRICE_DESC"/>
         <field name="setup_cost" type="Price" label="COM_AXISUBS_PLAN_SETUP_COST" description="COM_AXISUBS_PLAN_SETUP_DESC"/>
         <field name="only_once" type="radio" class="btn-group" label="COM_AXISUBS_PLAN_ONLY_ONCE" description="COM_AXISUBS_PLAN_ONLY_ONCE_DESC" default="0" >
-            <option value="0">JYES</option>
-            <option value="1">JNO</option>
+            <option value="0" onclick="onlyOnceRadio(this.value)">JYES</option>
+            <option value="1" onclick="onlyOnceRadio(this.value)">JNO</option>
         </field>
         <field name="recurring" type="radio" class="btn-group" label="COM_AXISUBS_PLAN_RECURRING" description="COM_AXISUBS_PLAN_RECURRING_DESC" default="0" >
-            <option value="1">JYES</option>
-            <option value="0">JNO</option>
+            <option value="0" onclick="recurringRadio(this.value)">COM_AXISUBS_PLAN_RECURRING_UNLIMIT</option>
+            <option value="1" onclick="recurringRadio(this.value)">JYES</option>
         </field>
         <field name="billing_cycles" type="text" class="btn-group" label="COM_AXISUBS_PLAN_BILLING_CYCLES" description="COM_AXISUBS_PLAN_BILLING_CYCLES_DESC" default="0" />
         <field name="access" type="AccessLevel" label="COM_AXISUBS_PLAN_ACCESS" description="COM_AXISUBS_PLAN_ACCESS_DESC"/>
@@ -45,9 +56,17 @@
         name="trail"
         label="COM_AXISUBS_PLAN_TRAIL_TITLE"
         class="form-subheading"
-    > 
+    >
         <field name="trial_period" type="Period" label="COM_AXISUBS_TRIAL_PERIOD" description="COM_AXISUBS_TRIAL_PERIOD_DESC"
-            append_text="COM_AXISUBS_TRIAL_PERIOD_IN_DAYS" />
+            append_text="" />
+
+        <field name="trial_period_unit" type="list" class="btn-group" label="COM_AXISUBS_TRIAL_PERIOD_UNIT" description="COM_AXISUBS_TRIAL_PERIOD_UNIT_DESC" default="D" >
+            <option value="D">COM_AXISUBS_PLAN_UNIT_DAY</option>
+            <option value="W">COM_AXISUBS_PLAN_UNIT_WEEK</option>
+            <option value="M">COM_AXISUBS_PLAN_UNIT_MONTH</option>
+            <option value="Y">COM_AXISUBS_PLAN_UNIT_YEAR</option>
+        </field>
+        
         <field name="trial_start_condition" type="list" label="COM_AXISUBS_TRIAL_STARTS_CONDITION" description="COM_AXISUBS_TRIAL_STARTS_CONDITION_DESC" default="signup">
             <!-- <option value="authourize">COM_AXISUBS_TRIAL_STARTS_CONDITION_CARD_VALIDATION</option> -->
             <option value="sale">COM_AXISUBS_TRIAL_STARTS_CONDITION_PAYMENT</option>

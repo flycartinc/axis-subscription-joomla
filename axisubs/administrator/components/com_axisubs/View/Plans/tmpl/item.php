@@ -13,6 +13,7 @@ use Flycart\Axisubs\Admin\Helper\Axisubs;
 
 $curr = Axisubs::currency();
 $status_helper = Axisubs::status();
+$duration = Axisubs::duration();
 ?>
 
 <!--PLan -->
@@ -50,11 +51,11 @@ $status_helper = Axisubs::status();
                                         <td>
                                             <?php if($this->item->enabled==1) :?>                                           
                                                 <span class="pactive" original-title=""> 
-                                                <?php echo JText::_('AXISUBS_STATUS_CONFIRMED');?>
+                                                <?php echo JText::_('JPUBLISHED');?>
                                                 </span>
                                            <?php else : ?>
                                                 <span class="pdeactive" original-title=""> 
-                                                <?php echo JText::_('AXISUBS_STATUS_EXPIRED');?>
+                                                <?php echo JText::_('JUNPUBLISHED');?>
                                                 </span>
                                             <?php endif; ?>
                                         </td>
@@ -110,7 +111,9 @@ $status_helper = Axisubs::status();
                                     <td class="text-right">
                                     <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_PERIOD');?>
                                     </td>
-                                    <td><?php echo $this->item->period."Days"; ?></td>
+                                    <td>
+                                        <?php echo $duration->getDurationInFormat($this->item->period, $this->item->period_unit); ?>
+                                    </td>
                                 </tr>
                             </table>
                         </div> 
@@ -132,15 +135,10 @@ $status_helper = Axisubs::status();
                                         <td class="text-right">
                                         <?php echo JText::_('COM_AXISUBS_TRIAL_PERIOD');?>
                                         </td>
-                                        <td><?php echo $this->item->trial_period."Days"; ?></td> 
+                                        <td>
+                                            <?php echo $duration->getDurationInFormat($this->item->trial_period, $this->item->trial_period_unit); ?> 
+                                        </td> 
                                     </div>
-                                </tr>
-                                <tr>            
-                                    <td class="text-right">
-                                    <?php echo JText::_('COM_AXISUBS_SUBSCRIBE_FREE_QUANTITY');?>
-                                    </td>
-                                    <td>0
-                                    </td>
                                 </tr>
                             </table>
                         </div> 

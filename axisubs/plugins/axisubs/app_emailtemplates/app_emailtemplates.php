@@ -114,7 +114,7 @@ class plgAxisubsApp_Emailtemplates extends App
     }
 
     function onAxisubsCustomerSignUp($user_id, $customer){
-        $this->_sendNotificationEmails ( $event = 'CustomerSignUp', $customer );
+        $this->_sendNotificationEmails ( $event = 'CustomerSignUp',  array( 'customer' => $customer ) );
     }
     
     function onAxisubsSubscriptionRenewalAttempted($subscription){

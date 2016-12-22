@@ -91,6 +91,7 @@ class Mail{
 
 		$mail_templates = array();
 		$mail_templates = $this->getMailTemplates( $event_name , $objects );
+
 		if ( count($mail_templates) > 0 ) {
 			foreach ($mail_templates as $template) {
 				// prepare the mail template
@@ -195,7 +196,7 @@ class Mail{
 					unset( $mail_templates[$k] ); continue;
 				}
 
-				if ( !isset($template->body_html) || !isset($template->body_plain) ) {
+				if ( !isset($template->body_html) && !isset($template->body_plain) ) {
 					unset( $mail_templates[$k] ); continue;
 				}
 
@@ -253,9 +254,9 @@ class Mail{
 		if (isset( $objects['subscription'] ) ) {
 			$shortcodes->bindSubscription( $objects['subscription'] );
 		}elseif (isset($objects['customer']) ) {
-			$shortcodes->bindSubscription( $objects['customer'] );
+			$shortcodes->bindCustomer( $objects['customer'] );
 		}elseif (isset($objects['plan']) ) {
-			$shortcodes->bindSubscription( $objects['plan'] );
+			$shortcodes->bindPlan( $objects['plan'] );
 		}		
 
 		$template->subject 		= $shortcodes->processContent( $template->subject , $objects );

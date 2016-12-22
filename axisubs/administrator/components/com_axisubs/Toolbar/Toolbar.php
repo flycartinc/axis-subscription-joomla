@@ -210,7 +210,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onConfigurationsAdd(){
 		$option = $this->container->componentName;
 	 	$subtitle_key = $option . '_TITLE_CONFIGURATIONS_EDIT';
-	 	JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+	 	JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 	 	str_replace('com_', '', $option));
 	 	JToolbarHelper::apply('apply', 'JTOOLBAR_APPLY');
 		JToolbarHelper::save('save', 'JTOOLBAR_SAVE');
@@ -220,7 +220,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onDashboards(){
 	 	$option = $this->container->componentName;
 	 	$subtitle_key = $option . '_DASHBOARD';
-	 	JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+	 	JToolbarHelper::title(JText::_($option) . " - <small>" . JText::_($subtitle_key) . '</small>',
 	 	str_replace('com_', '', $option));
 	 	$this->hideToolbar();
 	}
@@ -228,7 +228,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onPlansBrowse(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_PLANS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		JToolbarHelper::addNew('add', "JTOOLBAR_NEW", false);
 		JToolbarHelper::editList('edit', 'JTOOLBAR_EDIT');
@@ -240,7 +240,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onPlansRead(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_PLANS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		$this->addCustomBtn('listsubs',array( 'class'=>'list-view ','a.href'=>'index.php?option=com_axisubs&view=Plans', 'text'=>'List'));
 	}
@@ -248,7 +248,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onSubscriptionsRead(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_SUBSCRIPTIONS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		$this->addCustomBtn('listsubs',array( 'class'=>'list-view ','a.href'=>'index.php?option=com_axisubs&view=Subscriptions', 'text'=>'List'));
 	}
@@ -256,7 +256,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onSubscriptionInfosEdit(){
 		$option = $this->container->componentName;
 	 	$subtitle_key = $option . '_TITLE_SUBSCRIPTIONINFOS_EDIT';
-	 	JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+	 	JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 	 	str_replace('com_', '', $option));
 		JToolbarHelper::save('save', 'JTOOLBAR_SAVE');
 		JToolbarHelper::cancel('cancel', 'JTOOLBAR_CANCEL');
@@ -265,14 +265,14 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onApps(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_APPS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 	}
 
 	public function onReports(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_REPORTS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		$this->hideToolbar();
 	}
@@ -280,7 +280,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onSetups(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_SETUP';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		$this->hideToolbar();
 	}
@@ -288,7 +288,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onPayments(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_PAYMENTS';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 		str_replace('com_', '', $option));
 		$this->hideToolbar();
 	}
@@ -296,7 +296,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onTaxes(){
 		$option = $this->container->componentName;
 		$subtitle_key = $option . '_TITLE_TAXES_HEADER';
-		JToolbarHelper::title(JText::_($option) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>',
+		JToolbarHelper::title(JText::_($option) . ' - <small>' . JText::_($subtitle_key) . '</small>',
 			str_replace('com_', '', $option));
 		$this->hideToolbar();
 	}

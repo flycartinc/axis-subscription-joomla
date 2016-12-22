@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="axisubs" method="upgrade">
+    <name>EU Vat for Axis Subscriptions</name>
+    <version>1.0.0</version>
+    <creationDate>December 2016</creationDate>
+    <author>Ashlin</author>
+    <authorEmail>ashlin@flycart.org</authorEmail>
+    <authorUrl>http://flycart.org</authorUrl>
+    <copyright>2016 Flycart Technologies LLP</copyright>
+    <license>GNU General Public License v3 or later versions</license>
+    <description>For handling EU Vat in Axis Subscription.</description>
+    <!-- Installation / uninstallation PHP scripts -->
+    <scriptfile>script.app_eu_vat.php</scriptfile>
+    <files>
+        <filename plugin="app_eu_vat">app_eu_vat.php</filename>
+        <filename>index.html</filename>
+        <folder>app_eu_vat</folder>  
+        <folder>images</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_axisubs_app_eu_vat.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_axisubs_app_eu_vat.sys.ini</language>   
+    </languages>
+    <config>
+		<fields name="params">
+		  <fieldset name="basic" label="PLG_AXISUBS_APP_EU_VAT_BASIC_OPTIONS">
+              <field name="no_tax_for_non_eu" type="radio" default="1" class="btn-group" label="PLG_AXISUBS_APP_EU_VAT_APPLY_NO_TAX_FOR_NON_EU_LABEL" description="PLG_AXISUBS_APP_EU_VAT_APPLY_NO_TAX_FOR_NON_EU_DESC">
+                  <option value="0">PLG_AXISUBS_APP_EU_VAT_APPLY_CHARGE_NON_EU</option>
+                  <option value="1">PLG_AXISUBS_APP_EU_VAT_APPLY_DONT_CHARGE_NON_EU</option>
+              </field>
+              <field name="apply_digital_rules" type="radio" default="0" class="btn-group" label="PLG_AXISUBS_APP_EU_VAT_APPLY_DIGITAL_RULES_LABEL" description="PLG_AXISUBS_APP_EU_VAT_APPLY_DIGITAL_RULES_DESC">
+                  <option value="0">axisubs_no</option>
+                  <option value="1">axisubs_yes</option>
+              </field>
+              <field name="validate_vat_number" type="radio" default="0" class="btn-group" label="PLG_AXISUBS_APP_EU_VAT_VALIDATE_VAT_FIELD_LABEL" description="PLG_AXISUBS_APP_EU_VAT_VALIDATE_VAT_FIELD_DESC">
+                  <option value="0">axisubs_no</option>
+                  <option value="1">axisubs_yes</option>
+              </field>
+          </fieldset>
+		</fields>
+	</config>
+</extension>

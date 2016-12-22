@@ -43,7 +43,7 @@ class Taxes extends Controller
 
 	 function updateTax(){
 		$app = JFactory::getApplication();
-		$data = $app->input->getArray($_POST);
+		$data = $app->input->post->getArray();
 		//echo "<pre>";print_r($data);exit;
 		 $model = $this->getModel('Taxes');
 		 $task = $this->getTask();
